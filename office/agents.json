@@ -77,7 +77,7 @@
     {
      "name": "script-writer",
      "role": "head",
-     "description": "Runs the Scripts team and writes short-form video scripts (15 to 60 seconds) in the owner's voice: hook, three beats, a close. Delegates hooks to hook-writer and titles/descriptions to seo-specialist. Use for any new video idea, and to rewrite a weak script.",
+     "description": "Runs the Scripts team and writes short-form video scripts (15 to 60 seconds) in the owner's voice: hook, three beats, a close. Delegates hooks to hook-writer, titles/descriptions to seo-specialist and fact checks to fact-checker. Use for any new video idea, and to rewrite a weak script.",
      "tools": "Read, Write, Agent, mcp__memory__open_nodes, mcp__memory__search_nodes",
      "model": "opus"
     },
@@ -93,6 +93,13 @@
      "role": "worker",
      "description": "Keyword research, search-intent analysis, page and video titles, descriptions, and blog outlines that can rank. Use for anything that should be found through search.",
      "tools": "Read, Write, Bash, WebSearch, WebFetch, mcp__memory__open_nodes, mcp__memory__search_nodes",
+     "model": "sonnet"
+    },
+    {
+     "name": "fact-checker",
+     "role": "worker",
+     "description": "Checks every factual claim in a script, post or caption against reliable sources and marks each one true, misleading, false or unverified, with a fix. Use before any facts content (a \"Bilarmidingiz\" Short, a Telegram post) reaches the owner.",
+     "tools": "Read, Write, WebSearch, WebFetch, mcp__memory__open_nodes, mcp__memory__search_nodes",
      "model": "sonnet"
     }
    ]
@@ -270,5 +277,5 @@
    ]
   }
  ],
- "count": 32
+ "count": 33
 }

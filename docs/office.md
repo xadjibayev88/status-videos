@@ -1,6 +1,6 @@
 # Org chart
 
-31 agents in 8 teams around the Brain, led by the chief of staff (the Claude Code session itself, with its instructions in `CLAUDE.md`). Each of the 31 agents is a sub-agent file in `.claude/agents/`. Team heads run on Opus and orchestrate; workers run on Sonnet and do one job each.
+32 agents in 8 teams around the Brain, led by the chief of staff (the Claude Code session itself, with its instructions in `CLAUDE.md`). Each of the 32 agents is a sub-agent file in `.claude/agents/`. Team heads run on Opus and orchestrate; workers run on Sonnet and do one job each.
 
 | # | Agent | Team | Job |
 |---|---|---|---|
@@ -36,6 +36,7 @@
 | 29 | `analytics-lead` | Analytics | The weekly report: what the numbers mean, what to change |
 | 30 | `data-analyst` | Analytics | Cleans exports, computes metrics and trends, shows the work |
 | 31 | `strategist` | Analytics | Goal to options, recommendation, first three steps |
+| 32 | `fact-checker` | Scripts | Checks every claim in facts content against sources; PASS or FIX |
 
 ## How a request moves
 
