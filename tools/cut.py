@@ -1,6 +1,6 @@
 """Rough cut: drop every pause, keep the talking, cap the length and reframe to vertical 1080x1920.
 
-usage: python3 tools/cut.py <raw clip> <out.mp4> [--max 45] [--pause 0.45] [--frame crop|blur] [--keep-fillers]
+usage: python3 tools/cut.py <raw clip> <out.mp4> [--max 60] [--pause 0.45] [--frame crop|blur] [--keep-fillers]
 Phrases that are only filler words ("um", "uh") are dropped unless --keep-fillers is given.
 """
 import argparse, os, sys
@@ -9,7 +9,7 @@ from media import STT, audio, only_fillers, probe, report, run, speech_segments
 
 ap = argparse.ArgumentParser()
 ap.add_argument("src"); ap.add_argument("out")
-ap.add_argument("--max", type=float, default=45, help="longest allowed edit in seconds")
+ap.add_argument("--max", type=float, default=60, help="longest allowed edit in seconds")
 ap.add_argument("--pause", type=float, default=0.45, help="cut pauses longer than this (s)")
 ap.add_argument("--pad", type=float, default=0.12, help="breathing room kept around each phrase (s)")
 ap.add_argument("--frame", choices=["crop", "blur"], default="crop", help="how a wide clip becomes vertical")

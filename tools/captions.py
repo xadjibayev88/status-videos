@@ -1,6 +1,6 @@
 """Transcribe a clip, write an .srt and burn word-by-word captions into the video.
 
-usage: python3 tools/captions.py <in.mp4> <out.mp4> [--srt captions.srt] [--color #FFD400] [--words 3] [--y 0.70] [--replace "wrong=right" ...]
+usage: python3 tools/captions.py <in.mp4> <out.mp4> [--srt captions.srt] [--color #FFFFFF] [--words 3] [--y 0.70] [--replace "wrong=right" ...]
 
 Speech-to-text runs locally: faster-whisper if it is installed (word timestamps), otherwise sherpa-onnx Whisper
 (model folder in $WHISPER_ONNX_DIR or tools/models/sherpa-onnx-whisper-tiny.en, see tools/setup.sh).
@@ -14,7 +14,7 @@ from media import FFMPEG, STT, audio, probe, report, speech_segments
 ap = argparse.ArgumentParser()
 ap.add_argument("src"); ap.add_argument("out")
 ap.add_argument("--srt", default=None)
-ap.add_argument("--color", default="#FFD400", help="highlight color of the word being spoken")
+ap.add_argument("--color", default="#FFFFFF", help="highlight color of the word being spoken")
 ap.add_argument("--words", type=int, default=3, help="words per caption")
 ap.add_argument("--y", type=float, default=0.70, help="vertical position (0 top .. 1 bottom)")
 ap.add_argument("--size", type=int, default=92)
