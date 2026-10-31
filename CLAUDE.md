@@ -26,6 +26,8 @@ Full org chart with each agent's job: `docs/office.md`.
 
 **Skills: HyperFrames** (`.claude/skills/hyperframes` + `hyperframes-cli`, `hyperframes-registry`, `media-use`, `reverse-any-video`, `remotion-to-hyperframes`, `slideshow`, `figma`; from [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), Apache-2.0): HTML rendered to video, frame-exact. Motion graphics, kinetic titles, explainers, launch films, captions and about 450 ready blocks. Start with the `hyperframes` skill; the CLI runs as `npx hyperframes <command>` (Node 22+, Chrome and FFmpeg on the machine). Good for apex_wealths and Bilarmidingiz intros, animated covers and text-led Shorts.
 
+**OpenMontage** ([calesthio/OpenMontage](https://github.com/calesthio/OpenMontage), AGPL-3.0): a full video production system (12 pipelines, 52 tools, 500+ skills: research, script, assets, edit, final render). It is a separate project, installed on the owner's computer with `bash tools/openmontage/install.sh` (clones the reviewed version to `~/OpenMontage`, applies `tools/openmontage/config.free.yaml`: budget hard-capped at $0, vertical 1080x1920, then `make setup`). Open `~/OpenMontage` in Claude Code to use it. Never raise its budget: paid providers stay off.
+
 **DaVinci Resolve MCP** ([samuelgursky/davinci-resolve-mcp](https://github.com/samuelgursky/davinci-resolve-mcp), MIT) runs only on the owner's computer next to DaVinci Resolve (Studio, or free 21.0.x via its in-app bridge). Install there once with `npx davinci-resolve-mcp setup` (it registers itself in Claude Code and Claude Desktop) and set Resolve: Preferences > General > External scripting using > Local. Then Claude can edit timelines, grade colour and render in Resolve.
 
 ## How work flows
