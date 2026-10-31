@@ -22,6 +22,10 @@ Full org chart with each agent's job: `docs/office.md`.
 
 **Skill: ghost-editor** (`.claude/skills/ghost-editor`, from [kurbaitaev/ghost-editor](https://github.com/kurbaitaev/ghost-editor), MIT): turns a raw talking-head recording into a finished vertical reel (best takes, pause trimming, captions that avoid the face, motion scenes, SFX, checked B-roll, 19 named styles). Use it when the owner hands over a clip of someone talking to camera; one fresh `reel-helper` agent per reel. Heavy renders run on the owner's computer (needs ffmpeg, node 18+, whisper, numpy, opencv; run `scripts/doctor.sh` and `scripts/library_restore.py` once there, see its `docs/INSTALL.md`).
 
+**Skill: ffmpeg-skill** (`.claude/skills/ffmpeg-skill`, from [kajisho5/ffmpeg-skill](https://github.com/kajisho5/ffmpeg-skill), MIT): local FFmpeg editing from plain requests: cut, trim, join, reframe to 9:16, captions (SRT/ASS, karaoke), overlays, silence removal, loudness, LUTs, music with ducking, platform exports. FFmpeg 6.1+ and Python 3.10+, stdlib only, no API keys. Use it for any quick video or audio job; use ghost-editor for full talking-head reels.
+
+**DaVinci Resolve MCP** ([samuelgursky/davinci-resolve-mcp](https://github.com/samuelgursky/davinci-resolve-mcp), MIT) runs only on the owner's computer next to DaVinci Resolve (Studio, or free 21.0.x via its in-app bridge). Install there once with `npx davinci-resolve-mcp setup` (it registers itself in Claude Code and Claude Desktop) and set Resolve: Preferences > General > External scripting using > Local. Then Claude can edit timelines, grade colour and render in Resolve.
+
 ## How work flows
 1. **Route.** Read the request, decide which team(s) own it. Small, single-skill tasks go straight to the worker; anything with several steps goes to the team head, who splits it and runs its workers.
 2. **Parallel.** Independent pieces of work start in the same message so they run at the same time (one `clip-editor` per clip, one `market-analyst` per market, and so on).
