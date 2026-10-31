@@ -53,5 +53,12 @@
     "SubagentStart":    [{ "hooks": [{ "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR\"/office/hook.sh" }] }],
     "SubagentStop":     [{ "hooks": [{ "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR\"/office/hook.sh" }] }],
     "Stop":             [{ "hooks": [{ "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR\"/office/hook.sh" }] }]
+  },
+  "extraKnownMarketplaces": {
+    "ecc": { "source": { "source": "github", "repo": "affaan-m/ECC" } }
+  },
+  "enabledPlugins": { "ecc@ecc": true },
+  "pluginConfigs": {
+    "ecc@ecc": { "options": { "hooks_enabled": true, "hook_profile": "standard" } }
   }
 }

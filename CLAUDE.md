@@ -30,6 +30,8 @@ Full org chart with each agent's job: `docs/office.md`.
 
 **DaVinci Resolve MCP** ([samuelgursky/davinci-resolve-mcp](https://github.com/samuelgursky/davinci-resolve-mcp), MIT) runs only on the owner's computer next to DaVinci Resolve (Studio, or free 21.0.x via its in-app bridge). Install there once with `npx davinci-resolve-mcp setup` (it registers itself in Claude Code and Claude Desktop) and set Resolve: Preferences > General > External scripting using > Local. Then Claude can edit timelines, grade colour and render in Resolve.
 
+**Plugin: ECC** (`ecc@ecc` from [affaan-m/ECC](https://github.com/affaan-m/ECC), MIT, v2.2.3): enabled for this project in `.claude/settings.json` (71 agents, ~410 skills as `ecc:<name>`, hooks on the `standard` profile, rules in `.claude/rules/ecc/common`). Claude Code installs it on its own when a session opens this repo. Adds about 48k tokens to every session; switch it off with `"enabledPlugins": {"ecc@ecc": false}`. Its GateGuard hook asks for the facts before the first edit or command; answer it, or set `ECC_GATEGUARD=off` for a run.
+
 ## How work flows
 1. **Route.** Read the request, decide which team(s) own it. Small, single-skill tasks go straight to the worker; anything with several steps goes to the team head, who splits it and runs its workers.
 2. **Parallel.** Independent pieces of work start in the same message so they run at the same time (one `clip-editor` per clip, one `market-analyst` per market, and so on).
