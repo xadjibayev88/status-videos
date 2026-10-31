@@ -1,6 +1,6 @@
 """Thumbnail / cover: pick the sharpest, best-lit frame and put a short bold text on it.
 
-usage: python3 tools/thumbnail.py <video> <out.jpg> --text "THREE WORD TEXT" [--color #FFD400] [--accent 2] [--at SECONDS] [--pos top|middle|bottom]
+usage: python3 tools/thumbnail.py <video> <out.jpg> --text "THREE WORD TEXT" [--color #FFFFFF] [--accent 2] [--at SECONDS] [--pos top|middle|bottom]
 --accent N colors the Nth word (1-based) in --color; the rest are white.
 """
 import argparse, os, subprocess, sys
@@ -12,7 +12,7 @@ from media import FFMPEG, probe, report
 ap = argparse.ArgumentParser()
 ap.add_argument("src"); ap.add_argument("out")
 ap.add_argument("--text", required=True)
-ap.add_argument("--color", default="#FFD400")
+ap.add_argument("--color", default="#FFFFFF")
 ap.add_argument("--accent", type=int, default=0, help="which word gets the color (0 = last word)")
 ap.add_argument("--at", type=float, default=None, help="use the frame at this second instead of the automatic pick")
 ap.add_argument("--pos", choices=["top", "middle", "bottom"], default="top", help="where the text goes")
