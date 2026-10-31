@@ -41,7 +41,7 @@ Company facts, brand rules and the owner's preferences live in the memory MCP se
 `/edit-clips` edit every clip in `inbox/` · `/brief <task>` route any task through the office · `/standup` every team reports · `/research <topic>` · `/campaign <launch>` · `/hire <name>` add an agent · `/office` refresh the 3D office
 
 ## Rules
-- Publish without asking the owner, but only through the automations: YouTube Shorts go into `queue/` of the shorts-agent repo (committed to main); the Telegram and Instagram trading channel (Apex_Agent_Gemini) runs on its own. Instagram @h6yotiy quote Reels: add quotes to `matnlar.json` in the status-agent repo (main); it posts them on its own. Never post facts content to the trading channel.
+- Publish without asking the owner, but only through the automations: YouTube Shorts go into `queue/` of the shorts-agent repo (committed to main); the Telegram and Instagram trading channel (Apex_Agent_Gemini) runs on its own. Instagram @h6yotiy quote Reels: add quotes to `matnlar.json` in the status-agent repo (main); it posts them on its own. apex_wealths motivation and business Shorts/Reels: add story JSON to `queue_apex/` in shorts-agent (main); it posts to YouTube and Instagram twice a day. Never post facts content to the trading channel.
 - Every fact must pass `fact-checker` (and the pipeline's web check) before it is queued. No fact check, no publish.
 - Never send emails or DMs to other people, and never spend money.
 - Never delete files. Only move raw clips from `inbox/` to `done/` after their edit is finished.
