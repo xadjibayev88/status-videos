@@ -1,0 +1,8 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [{ "hooks": [{ "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR\"/office/hook.sh" }] }],
+    "SubagentStart":    [{ "hooks": [{ "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR\"/office/hook.sh" }] }],
+    "SubagentStop":     [{ "hooks": [{ "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR\"/office/hook.sh" }] }],
+    "Stop":             [{ "hooks": [{ "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR\"/office/hook.sh" }] }]
+  }
+}
