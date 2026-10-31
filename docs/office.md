@@ -1,6 +1,6 @@
 # Org chart
 
-32 agents in 8 teams around the Brain, led by the chief of staff (the Claude Code session itself, with its instructions in `CLAUDE.md`). Each of the 32 agents is a sub-agent file in `.claude/agents/`. Team heads run on Opus and orchestrate; workers run on Sonnet and do one job each.
+19 agents in 6 teams around the Brain, led by the chief of staff (the Claude Code session itself, with its instructions in `CLAUDE.md`). Each worker is a file in `.claude/agents/`; 14 agents with no work for this business are kept in `.claude/agents-archive/`.
 
 | # | Agent | Team | Job |
 |---|---|---|---|
@@ -9,34 +9,20 @@
 | 2 | `market-analyst` | Research | Market size, customers, pricing benchmarks |
 | 3 | `competitor-analyst` | Research | Competitor profiles and the gap we can own |
 | 4 | `trend-scout` | Research | What changed in the last 30 to 90 days |
-| 5 | `inbox-manager` | Inbox | Triages email, DMs and requests; routes and drafts |
-| 6 | `customer-support` | Inbox | Replies to customer messages, escalates money and legal |
-| 7 | `proposal-writer` | Inbox | Proposals and quotes with scope, price, next step |
-| 8 | `script-writer` | Scripts | Short-form video scripts: hook, three beats, close; runs the Scripts team |
-| 9 | `hook-writer` | Scripts | Ten ranked opening lines for any piece |
-| 10 | `seo-specialist` | Scripts | Keywords, titles, descriptions, outlines |
-| 11 | `engineering-lead` | Dev | Spec, delegates to devs, runs QA and review |
-| 12 | `frontend-dev` | Dev | UI code following the project's patterns |
-| 13 | `backend-dev` | Dev | Server, API, data and tooling code |
-| 14 | `qa-tester` | Dev | Tests per acceptance criterion, reproduces bugs |
-| 15 | `code-reviewer` | Dev | Ranked findings on the diff; PASS or FIX |
-| 16 | `shop-manager` | TBX Shop | Product drops and launches: plan, delegate, review |
-| 17 | `copywriter` | TBX Shop | Product listings, landing page and bio copy |
-| 18 | `ads-specialist` | TBX Shop | Paid ad variants, audiences, test plan |
-| 19 | `finance-analyst` | TBX Shop | Pricing, margin, budgets with assumptions |
-| 20 | `project-manager` | TBX Shop | Launch timeline: milestones, tasks, owners, dates |
-| 21 | `social-media-manager` | Social | Posts and calendar; runs the Social team |
-| 22 | `community-manager` | Social | Replies to comments and DMs, flags what needs the owner |
-| 23 | `email-marketer` | Social | Newsletters and sequences with subject lines |
-| 24 | `outreach-writer` | Social | Personalised outreach to partners, sponsors, collabs |
-| 25 | `creative-director` | Creative | Splits video jobs, runs the workers, sends work to brand-checker |
-| 26 | `clip-editor` | Creative | One raw clip to a captioned vertical edit, cover and notes (`tools/`) |
-| 27 | `brand-checker` | Creative | Reviews every creative deliverable against the brand rules; PASS or FIX |
-| 28 | `thumbnail-designer` | Creative | Picks the frame, text and placement for covers |
-| 29 | `analytics-lead` | Analytics | The weekly report: what the numbers mean, what to change |
-| 30 | `data-analyst` | Analytics | Cleans exports, computes metrics and trends, shows the work |
-| 31 | `strategist` | Analytics | Goal to options, recommendation, first three steps |
-| 32 | `fact-checker` | Scripts | Checks every claim in facts content against sources; PASS or FIX |
+| 5 | `script-writer` | Scripts | Short-form video scripts: hook, three beats, close; runs the Scripts team |
+| 6 | `hook-writer` | Scripts | Ten ranked opening lines for any piece |
+| 7 | `seo-specialist` | Scripts | Keywords, titles, descriptions, outlines |
+| 8 | `fact-checker` | Scripts | Checks every claim in facts content against sources; PASS or FIX |
+| 9 | `brand-checker` | Scripts | Reviews every creative deliverable against the brand rules; PASS or FIX |
+| 10 | `engineering-lead` | Dev | Spec, delegates to devs, runs QA and review |
+| 11 | `backend-dev` | Dev | Server, API, data and tooling code |
+| 12 | `qa-tester` | Dev | Tests per acceptance criterion, reproduces bugs |
+| 13 | `code-reviewer` | Dev | Ranked findings on the diff; PASS or FIX |
+| 14 | `social-media-manager` | Social | Posts and calendar; runs the Social team |
+| 15 | `community-manager` | Social | Replies to comments and DMs, flags what needs the owner |
+| 16 | `analytics-lead` | Analytics | The weekly report: what the numbers mean, what to change |
+| 17 | `data-analyst` | Analytics | Cleans exports, computes metrics and trends, shows the work |
+| 18 | `strategist` | Analytics | Goal to options, recommendation, first three steps |
 
 ## How a request moves
 
