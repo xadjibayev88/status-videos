@@ -1,0 +1,81 @@
+{
+ "schedule": [
+  {
+   "time": "07:41",
+   "agent": "chief-of-staff",
+   "text": "Ertalabki reja: xatolarni tekshirish, navbatlarni to'ldirish"
+  },
+  {
+   "time": "07:41",
+   "agent": "trend-scout",
+   "text": "Har kanal uchun 10 ta yangi trend mavzu"
+  },
+  {
+   "time": "08:00",
+   "agent": "community-manager",
+   "text": "@h6yotiy iqtibos Reels (kuniga 9 marta)"
+  },
+  {
+   "time": "09:11",
+   "agent": "social-media-manager",
+   "text": "Telegram: bozor yangiligi (har soat 20:59 gacha)"
+  },
+  {
+   "time": "12:43",
+   "agent": "social-publishing-publisher",
+   "text": "apex_wealths Instagram Reels"
+  },
+  {
+   "time": "14:53",
+   "agent": "social-publishing-publisher",
+   "text": "apex_wealths YouTube + Instagram"
+  },
+  {
+   "time": "15:47",
+   "agent": "social-publishing-publisher",
+   "text": "Bilarmidingiz YouTube Short"
+  },
+  {
+   "time": "16:57",
+   "agent": "social-publishing-publisher",
+   "text": "apex_wealths Instagram Reels"
+  },
+  {
+   "time": "18:47",
+   "agent": "social-publishing-publisher",
+   "text": "apex_wealths YouTube + Instagram"
+  },
+  {
+   "time": "21:37",
+   "agent": "data-analyst",
+   "text": "Kanal statistikasi"
+  },
+  {
+   "time": "21:41",
+   "agent": "analytics-lead",
+   "text": "Kechki tahlil, o'sish tavsiyalari"
+  },
+  {
+   "time": "21:41",
+   "agent": "marketing-video-optimization-specialist",
+   "text": "Sarlavha va hook bo'yicha 3 ta o'zgarish"
+  }
+ ],
+ "queue": [
+  {
+   "agent": "script-writer",
+   "text": "Bilarmidingiz navbati: 0 ta ssenariy (maqsad 6+)",
+   "ok": false
+  },
+  {
+   "agent": "script-writer",
+   "text": "apex_wealths navbati: 2 ta ssenariy (maqsad 8+)",
+   "ok": false
+  },
+  {
+   "agent": "fact-checker",
+   "text": "Har bir ssenariy internet orqali tekshiriladi",
+   "ok": true
+  }
+ ]
+}

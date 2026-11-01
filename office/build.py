@@ -131,3 +131,40 @@ def write_activity():
 
 if __name__ == "__main__":
     write_activity()
+
+
+def write_tasks():
+    """Office task board: today's schedule, queue sizes and what is waiting on whom."""
+    import subprocess
+    def count(repo, path):
+        out = subprocess.run(["git", "-C", os.path.join(ROOT, "..", repo), "ls-tree", "--name-only", "origin/main", path + "/"],
+                             capture_output=True, text=True).stdout.split()
+        return len([o for o in out if o.endswith(".json")])
+    q, qa = count("shorts-agent", "queue"), count("shorts-agent", "queue_apex")
+    schedule = [
+        ("07:41", "chief-of-staff", "Ertalabki reja: xatolarni tekshirish, navbatlarni to'ldirish"),
+        ("07:41", "trend-scout", "Har kanal uchun 10 ta yangi trend mavzu"),
+        ("08:00", "community-manager", "@h6yotiy iqtibos Reels (kuniga 9 marta)"),
+        ("09:11", "social-media-manager", "Telegram: bozor yangiligi (har soat 20:59 gacha)"),
+        ("12:43", "social-publishing-publisher", "apex_wealths Instagram Reels"),
+        ("14:53", "social-publishing-publisher", "apex_wealths YouTube + Instagram"),
+        ("15:47", "social-publishing-publisher", "Bilarmidingiz YouTube Short"),
+        ("16:57", "social-publishing-publisher", "apex_wealths Instagram Reels"),
+        ("18:47", "social-publishing-publisher", "apex_wealths YouTube + Instagram"),
+        ("21:37", "data-analyst", "Kanal statistikasi"),
+        ("21:41", "analytics-lead", "Kechki tahlil, o'sish tavsiyalari"),
+        ("21:41", "marketing-video-optimization-specialist", "Sarlavha va hook bo'yicha 3 ta o'zgarish"),
+    ]
+    tasks = [{"time": t, "agent": a, "text": x} for t, a, x in schedule]
+    queue = [
+        {"agent": "script-writer", "text": f"Bilarmidingiz navbati: {q} ta ssenariy (maqsad 6+)", "ok": q >= 6},
+        {"agent": "script-writer", "text": f"apex_wealths navbati: {qa} ta ssenariy (maqsad 8+)", "ok": qa >= 8},
+        {"agent": "fact-checker", "text": "Har bir ssenariy internet orqali tekshiriladi", "ok": True},
+    ]
+    with open(os.path.join(ROOT, "office", "tasks.json"), "w", encoding="utf-8") as f:
+        json.dump({"schedule": tasks, "queue": queue}, f, ensure_ascii=False, indent=1)
+    print(json.dumps({"tasks": len(tasks), "queue": [q, qa]}))
+
+
+if __name__ == "__main__":
+    write_tasks()

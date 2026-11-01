@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="uz">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agent HQ</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+  /* Layout: one isometric open-plan floor, team zones as desk clusters, wall screens with channel numbers; HUD bar on top, status bar at the bottom. Single dark "night office" look on purpose. */
+  :root {
+    --bg: #0d0f14;          /* night floor around the building */
+    --panel: rgba(21, 24, 32, .94);
+    --line: #2a2f3d;
+    --text: #edf0f6;
+    --muted: #9198a8;
+    --neon: #ffd23f;        /* the building's outline and key numbers */
+    --ok: #3ddc84;
+    --display: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+    --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box }
+  html, body { height: 100%; margin: 0; overflow: hidden }
+  body { background: var(--bg); color: var(--text); font: 14px/1.45 var(--body) }
+  #scene { position: fixed; inset: 0; display: block; width: 100%; height: 100%; touch-action: none }
+  .hud { position: fixed; left: 0; right: 0; padding-left: max(12px, env(safe-area-inset-left, 0px)); padding-right: max(12px, env(safe-area-inset-right, 0px)); pointer-events: none; z-index: 2 }
+  .hud > * { pointer-events: auto }
+  #top { top: 0; padding-block: calc(10px + env(safe-area-inset-top, 0px)) 0 }
+  .bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; backdrop-filter: blur(6px) }
+  .brand { display: flex; align-items: center; gap: 10px; min-width: 0 }
+  .logo { width: 30px; height: 30px; border: 2px solid var(--neon); border-radius: 8px; display: grid; place-items: center; font: 700 12px var(--display); color: var(--neon); box-shadow: 0 0 10px rgba(255, 210, 63, .35) }
+  .brand h1 { margin: 0; font: 700 16px/1.1 var(--display); letter-spacing: .02em }
+  .brand small { display: block; color: var(--muted); font-size: 11px; letter-spacing: .06em; text-transform: uppercase }
+  .kpis { display: flex; gap: 18px; flex-wrap: wrap; margin-left: auto }
+  .kpi { min-width: 0 }
+  .kpi span { display: block; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
+  .kpi b { font: 700 18px/1.15 var(--display); color: var(--neon); font-variant-numeric: tabular-nums }
+  .kpi i { font-style: normal; color: var(--muted); font-size: 12px; margin-left: 4px }
+  #tabs { display: flex; gap: 4px; background: #11141b; border: 1px solid var(--line); border-radius: 9px; padding: 3px }
+  #tabs button, .btn { background: transparent; color: var(--muted); border: 0; border-radius: 7px; padding: 6px 12px; font: 500 13px var(--body); cursor: pointer }
+  #tabs button[aria-selected="true"] { background: #232836; color: var(--text) }
+  .btn { border: 1px solid var(--line); color: var(--text); background: #11141b }
+  button:focus-visible { outline: 2px solid var(--neon); outline-offset: 2px }
+  #side { position: fixed; top: calc(88px + env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); width: 300px; max-height: calc(100% - 170px); overflow: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; z-index: 2 }
+  #side h2 { font: 600 11px var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px }
+  .team { display: flex; align-items: center; gap: 8px; width: 100%; padding: 6px 4px; border: 0; border-bottom: 1px solid var(--line); background: none; color: var(--text); font: inherit; text-align: left; cursor: pointer }
+  .team:last-child { border-bottom: 0 }
+  .team .sw { width: 10px; height: 10px; border-radius: 3px; flex: none }
+  .team .n { flex: 1; min-width: 0 }
+  .team .c { color: var(--muted); font: 12px var(--mono); font-variant-numeric: tabular-nums }
+  .team.on .c { color: var(--ok) }
+  #card { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line) }
+  #card h3 { margin: 0; font: 600 15px var(--display) }
+  #card .role { color: var(--muted); font-size: 12px; margin: 2px 0 6px }
+  #card p { margin: 0 0 6px; font-size: 13px }
+  #card .kv { color: var(--muted); font: 11px/1.5 var(--mono); word-break: break-word }
+  #side ul { margin: 0; padding-left: 18px } #side li { margin: 3px 0; font-size: 13px }
+  #log div { font-size: 12px; color: var(--muted); padding: 2px 0 }
+  #bottom { bottom: 0; padding-block: 0 calc(10px + env(safe-area-inset-bottom, 0px)) }
+  #bottom .bar { padding: 8px 14px; gap: 8px 16px; font-size: 12px; color: var(--muted) }
+  .live { display: flex; align-items: center; gap: 8px }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: #4a5060 }
+  .live.on .dot { background: var(--ok); box-shadow: 0 0 8px var(--ok) }
+  .live b { color: var(--text); font: 600 14px var(--display); font-variant-numeric: tabular-nums }
+  #hint { margin-left: auto }
+  @media (max-width: 760px) {
+    #side { left: max(12px, env(safe-area-inset-left, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); width: auto; top: auto; bottom: calc(64px + env(safe-area-inset-bottom, 0px)); max-height: 28% }
+    .kpis { margin-left: 0; gap: 12px } .kpi b { font-size: 15px } #hint { display: none }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+</style>
+
+<canvas id="scene" aria-label="Agent HQ isometric office with every team and agent"></canvas>
+
+<div class="hud" id="top">
+  <div class="bar">
+    <div class="brand"><div class="logo">HQ</div><div><h1>Agent HQ</h1><small>AI ofis · xadjibayev88</small></div></div>
+    <div id="tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="office">Ofis</button>
+      <button role="tab" aria-selected="false" data-tab="tasks">Ishlar</button>
+      <button role="tab" aria-selected="false" data-tab="brain">Xotira</button>
+    </div>
+    <div class="kpis" id="kpis"></div>
+  </div>
+</div>
+
+<aside id="side">
+  <section data-view="office">
+    <h2>Jamoalar</h2><div id="teams"></div>
+    <div id="card" hidden><h3></h3><div class="role"></div><p></p><div class="kv tools"></div><div class="kv model"></div></div>
+  </section>
+  <section data-view="tasks" hidden><h2>Hozir ishlayapti</h2><ul id="runlist"><li style="color:var(--muted)">hech kim</li></ul><h2 style="margin-top:12px">Jurnal</h2><div id="log"></div></section>
+  <section data-view="brain" hidden><h2>Umumiy xotira</h2><p id="brainsum" style="color:var(--muted); margin:0 0 8px; font-size:13px">Kompyuterda <b>python3 office/serve.py</b> ishga tushsa, brain/memory.jsonl shu yerda ko'rinadi.</p><div id="brainlist"></div></section>
+</aside>
+
+<div class="hud" id="bottom">
+  <div class="bar">
+    <div class="live" id="live"><span class="dot"></span><span><b id="running">0</b> / <b id="count">0</b> agent ishlayapti</span></div>
+    <button class="btn" id="demo" type="button">Namoyish</button>
+    <button class="btn" id="fit" type="button">Butun ofis</button>
+    <span id="hint">sudrab aylantiring · g'ildirak bilan yaqinlashtiring · agent yoki jamoani bosing</span>
+  </div>
+</div>
+
+<script src="vendor/three.min.js"></script>
+<script>
+(async function () {
+  const data = await fetch('agents.json').then(r => r.json()).catch(() => ({ departments: [] }));
+  const stats = await fetch('stats.json').then(r => r.ok ? r.json() : null).catch(() => null);
+  const COLORS = { 'Research': 0x4f8cff, 'Inbox': 0xb26bff, 'Scripts': 0xffa53d, 'Dev': 0x3ddc84, 'TBX Shop': 0xff5d6c, 'Social': 0xff5fc8, 'Creative': 0x29d3e0, 'Analytics': 0x8be04e };
+  const UZ = { 'Research': 'Tadqiqot', 'Inbox': 'Pochta', 'Scripts': 'Ssenariy', 'Dev': 'Dasturlash', 'TBX Shop': 'Do\'kon', 'Social': 'Ijtimoiy tarmoq', 'Creative': 'Montaj va dizayn', 'Analytics': 'Analitika', 'The Brain (lobby)': 'Bosh ofis' };
+  const hex = c => '#' + c.toString(16).padStart(6, '0');
+  const fmt = n => (n ?? 0).toLocaleString('uz-UZ').replace(/,/g, ' ');
+
+  // ---------- KPIs (channel stats baked in by office/build.py) ----------
+  const kp = document.getElementById('kpis');
+  const ch = stats?.channels || {};
+  const kpiList = [['Bilarmidingiz', ch.bilarmidingiz], ['apex_wealths', ch.apex_wealths]].filter(x => x[1]);
+  kp.innerHTML = kpiList.map(([n, c]) => `<div class="kpi"><span>${n} · ko'rishlar</span><b>${fmt(c.views)}</b><i>${fmt(c.subscribers)} obunachi · ${fmt(c.videos)} video</i></div>`).join('')
+    || `<div class="kpi"><span>Kanallar</span><b>4</b><i>YouTube · Instagram · Telegram</i></div>`;
+
+  // ---------- scene ----------
+  const canvas = document.getElementById('scene');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  const scene = new THREE.Scene(); scene.background = new THREE.Color(0x0d0f14);
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -200, 400);
+  scene.add(new THREE.HemisphereLight(0xdfe6ff, 0x20232c, .75));
+  const sun = new THREE.DirectionalLight(0xffffff, .75); sun.position.set(-30, 50, 25); sun.castShadow = true;
+  sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, { left: -45, right: 45, top: 45, bottom: -45 }); scene.add(sun);
+  const M = c => new THREE.MeshLambertMaterial({ color: c });
+  const box = (w, h, d, c, x, y, z, parent = scene) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), M(c)); m.position.set(x, y, z); m.castShadow = m.receiveShadow = true; parent.add(m); return m; };
+
+  function label(lines, { size = 28, color = '#edf0f6', bg = 'rgba(15,17,23,.88)', stripe = null, scale = .012 } = {}) {
+    const cv = document.createElement('canvas'), ctx = cv.getContext('2d');
+    const tex = new THREE.CanvasTexture(cv); tex.minFilter = THREE.LinearFilter;
+    const spr = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true })); spr.renderOrder = 10;
+    function draw(ls) {
+      const f0 = `700 ${size}px "Chakra Petch", system-ui, sans-serif`, f1 = `500 ${Math.round(size * .72)}px "IBM Plex Sans", system-ui, sans-serif`;
+      ctx.font = f0; let w = ctx.measureText(ls[0]).width; ctx.font = f1; ls.slice(1).forEach(l => w = Math.max(w, ctx.measureText(l).width));
+      const pad = size * .55, lh = size * 1.18, h = pad * 2 + lh + (ls.length - 1) * lh * .8;
+      cv.width = Math.ceil(w + pad * 2 + (stripe ? 10 : 0)); cv.height = Math.ceil(h);
+      ctx.fillStyle = bg; ctx.beginPath(); ctx.roundRect(0, 0, cv.width, cv.height, size * .35); ctx.fill();
+      if (stripe) { ctx.fillStyle = stripe; ctx.fillRect(0, 0, 8, cv.height); }
+      ctx.textBaseline = 'top'; const x0 = pad + (stripe ? 8 : 0);
+      ctx.font = f0; ctx.fillStyle = color; ctx.fillText(ls[0], x0, pad);
+      ctx.font = f1; ctx.fillStyle = '#9198a8'; ls.slice(1).forEach((l, i) => ctx.fillText(l, x0, pad + lh + i * lh * .8));
+      tex.needsUpdate = true; spr.scale.set(cv.width * scale, cv.height * scale, 1);
+    }
+    draw(lines); spr.userData.update = draw; return spr;
+  }
+
+  // ---------- building ----------
+  const depts = data.departments.filter(d => !d.name.startsWith('The Brain'));
+  const lobby = data.departments.find(d => d.name.startsWith('The Brain'));
+  const COLS = 4, ZW = 13, ZD = 11, GAP = 2;
+  const rows = Math.ceil(depts.length / COLS);
+  const W = COLS * ZW + (COLS + 1) * GAP, D = rows * ZD + (rows + 1) * GAP + 9;   // +9: front strip for the Brain desk
+  box(W, .4, D, 0x2b2a2e, 0, -.2, 0);
+  // neon outline on the floor edge and the top of the low front wall
+  const neon = new THREE.LineBasicMaterial({ color: 0xffd23f });
+  const outline = (y) => { const g = new THREE.BufferGeometry().setFromPoints([[-W/2, y, -D/2], [W/2, y, -D/2], [W/2, y, D/2], [-W/2, y, D/2], [-W/2, y, -D/2]].map(p => new THREE.Vector3(...p))); scene.add(new THREE.Line(g, neon)); };
+  outline(.02); outline(1.2); outline(9);
+  // walls: tall back and left, low glass-like front and right
+  box(W, 9, .5, 0x23252c, 0, 4.5, -D / 2 - .25);
+  box(.5, 9, D, 0x1e2026, -W / 2 - .25, 4.5, 0);
+  box(W, 1.2, .25, 0x3a3420, 0, .6, D / 2 + .1);
+  box(.25, 1.2, D, 0x3a3420, W / 2 + .1, .6, 0);
+
+  // wall screens with channel numbers (from stats.json) and a clock
+  function screen(lines, x, w, accent) {
+    const cv = document.createElement('canvas'); cv.width = w * 64; cv.height = 5 * 64; const c = cv.getContext('2d');
+    c.fillStyle = '#07090d'; c.fillRect(0, 0, cv.width, cv.height);
+    c.strokeStyle = accent; c.lineWidth = 6; c.strokeRect(3, 3, cv.width - 6, cv.height - 6);
+    c.fillStyle = '#9198a8'; c.font = '600 30px "Chakra Petch", sans-serif'; c.fillText(lines[0], 24, 52);
+    c.fillStyle = accent; c.font = '700 88px "Chakra Petch", sans-serif'; c.fillText(lines[1], 24, 150);
+    c.fillStyle = '#edf0f6'; c.font = '500 28px "IBM Plex Sans", sans-serif'; lines.slice(2).forEach((l, i) => c.fillText(l, 24, 205 + i * 40));
+    if (lines.spark) { c.strokeStyle = accent; c.lineWidth = 4; c.beginPath(); lines.spark.forEach((v, i, a) => { const px = cv.width - 330 + i * (300 / (a.length - 1)), py = 290 - v * 140; i ? c.lineTo(px, py) : c.moveTo(px, py); }); c.stroke(); }
+    const tex = new THREE.CanvasTexture(cv);
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(w, 5), new THREE.MeshBasicMaterial({ map: tex })); m.position.set(x, 5, -D / 2 + .02); scene.add(m);
+  }
+  const recentViews = c => { const r = (c?.recent || []).slice(0, 8).map(v => v.views || 0).reverse(); const mx = Math.max(1, ...r); return r.length > 1 ? r.map(v => v / mx) : null; };
+  const scr = [];
+  if (ch.bilarmidingiz) { const s = ['BILARMIDINGIZ · YouTube', fmt(ch.bilarmidingiz.views), `${fmt(ch.bilarmidingiz.subscribers)} obunachi · ${fmt(ch.bilarmidingiz.videos)} video`]; s.spark = recentViews(ch.bilarmidingiz); scr.push([s, '#ffd23f']); }
+  if (ch.apex_wealths) { const s = ['APEX_WEALTHS · YouTube + IG', fmt(ch.apex_wealths.views), `${fmt(ch.apex_wealths.subscribers)} obunachi · ${fmt(ch.apex_wealths.videos)} video`]; s.spark = recentViews(ch.apex_wealths); scr.push([s, '#3ddc84']); }
+  scr.push([['JADVAL · Toshkent', '4 kanal', 'YouTube · Instagram · Telegram', 'kunlik ish 07:41 va 21:41'], '#29d3e0']);
+  const sw = Math.min(16, (W - 8) / scr.length - 2);
+  scr.forEach(([l, a], i) => screen(l, -W / 2 + 4 + sw / 2 + i * (sw + 2), sw, a));
+  if (stats?.fetched_at) { const t = label([`Raqamlar: ${stats.fetched_at.slice(0, 10)}`], { size: 22, scale: .02 }); t.position.set(W / 2 - 6, 8.3, -D / 2 + .5); scene.add(t); }
+
+  // ---------- desks and voxel people ----------
+  const agents = [], byName = new Map(), clickable = [], zones = [];
+  function person(color, head) {
+    const g = new THREE.Group();
+    box(.9, .9, .6, color, 0, .85, 0, g);                       // body
+    box(.7, .7, .7, 0xf1c9a5, 0, 1.65, 0, g);                   // head
+    box(.75, .2, .75, head ? 0xffd23f : 0x2a2a2a, 0, 2.05, 0, g); // hair, gold for team heads
+    const legL = box(.3, .45, .3, 0x2b2f3a, -.22, .22, 0, g), legR = box(.3, .45, .3, 0x2b2f3a, .22, .22, 0, g);
+    const armL = box(.22, .7, .22, color, -.58, .95, 0, g), armR = box(.22, .7, .22, color, .58, .95, 0, g);
+    g.userData.limbs = { legL, legR, armL, armR };
+    const glow = new THREE.Mesh(new THREE.RingGeometry(.65, .9, 24), new THREE.MeshBasicMaterial({ color: 0x3ddc84, side: THREE.DoubleSide })); glow.rotation.x = -Math.PI / 2; glow.position.y = .03; glow.visible = false; g.add(glow);
+    g.userData.glow = glow; return g;
+  }
+  function desk(x, z, color, parent) {
+    box(2.2, .12, 1.1, 0x5a4a3a, x, .95, z, parent);
+    box(.12, .9, 1, 0x3a3029, x - 1, .45, z, parent); box(.12, .9, 1, 0x3a3029, x + 1, .45, z, parent);
+    box(1.1, .7, .08, 0x15171d, x, 1.5, z - .35, parent);
+    const s = new THREE.Mesh(new THREE.PlaneGeometry(1, .6), new THREE.MeshBasicMaterial({ color })); s.position.set(x, 1.5, z - .3); parent.add(s);
+    return s;
+  }
+  function addAgent(a, team, color, x, z, parent) {
+    const scrn = desk(x, z, color, parent);
+    const home = new THREE.Vector3(parent.position.x + x, 0, parent.position.z + z + 1);
+    const p = person(color, a.role === 'head'); p.position.copy(home); p.rotation.y = Math.PI; scene.add(p);
+    const tag = label([a.name.replace(/^marketing-/, '')], { size: 26, scale: .019, stripe: hex(color) }); tag.position.set(0, 3.3, 0); p.add(tag);
+    const rec = { ...a, team, color, mesh: p, screen: scrn, tag, working: false, home, mode: 'sit', path: [], wait: 0, phase: Math.random() * 6 };
+    p.traverse(o => { o.userData.agent = rec; clickable.push(o); });
+    agents.push(rec); byName.set(a.name, rec);
+  }
+  const startX = -W / 2 + GAP + ZW / 2, startZ = -D / 2 + GAP + ZD / 2 + 1;
+  depts.forEach((d, i) => {
+    const color = COLORS[d.name] || 0x9aa3b5, cx = startX + (i % COLS) * (ZW + GAP), cz = startZ + Math.floor(i / COLS) * (ZD + GAP);
+    const g = new THREE.Group(); g.position.set(cx, 0, cz); scene.add(g);
+    const rug = new THREE.Mesh(new THREE.PlaneGeometry(ZW, ZD), new THREE.MeshLambertMaterial({ color, transparent: true, opacity: .16 })); rug.rotation.x = -Math.PI / 2; rug.position.y = .01; rug.receiveShadow = true; g.add(rug);
+    const edge = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(ZW, .01, ZD)), new THREE.LineBasicMaterial({ color })); edge.position.y = .02; g.add(edge);
+    const n = d.agents.length, perRow = n > 6 ? 4 : 3, step = 3;
+    d.agents.forEach((a, j) => {
+      const r = Math.floor(j / perRow), k = j % perRow, inRow = Math.min(perRow, n - r * perRow);
+      addAgent(a, d.name, color, (k - (inRow - 1) / 2) * step, -ZD / 2 + 2.2 + r * 3.4, g);
+    });
+    const sign = label([UZ[d.name] || d.name, `${n} agent · 0 ishlayapti`], { size: 36, scale: .03, stripe: hex(color) });
+    sign.position.set(0, 6.2, -ZD / 2 + 1); g.add(sign);
+    rug.userData.zone = d.name; clickable.push(rug);
+    zones.push({ d, g, cx, cz, color, sign, lastN: -1 });
+  });
+  // the Brain: chief of staff's desk at the front, with a glowing core
+  const bz = D / 2 - 4.5, core = new THREE.Mesh(new THREE.SphereGeometry(1, 24, 16), new THREE.MeshBasicMaterial({ color: 0xffd23f })); core.position.set(4, 2.4, bz); scene.add(core);
+  const coreLight = new THREE.PointLight(0xffd23f, 1.2, 14); coreLight.position.copy(core.position); scene.add(coreLight);
+  const brainSign = label(['BOSH OFIS · XOTIRA', 'umumiy xotira: brain/memory.jsonl'], { size: 32, scale: .028, stripe: '#ffd23f' }); brainSign.position.set(4, 4.6, bz); scene.add(brainSign);
+  if (lobby) lobby.agents.forEach((a, i) => addAgent(a, 'The Brain (lobby)', 0xffd23f, -2 - i * 3, bz - 1, scene));
+
+  // ---------- camera: isometric, drag to rotate, wheel or pinch to zoom ----------
+  let yaw = Math.PI / 4, zoom = 1; const HOME = new THREE.Vector3(0, 2, -3), target = HOME.clone(), pitch = Math.atan(1 / Math.SQRT2);
+  function fitSize() { return Math.max(W, D) * (innerWidth < 760 ? .62 : .44); }
+  function place() {
+    const a = innerWidth / innerHeight, s = fitSize() / zoom;
+    Object.assign(camera, { left: -s * a, right: s * a, top: s, bottom: -s }); camera.updateProjectionMatrix();
+    const r = 100; camera.position.set(target.x + r * Math.cos(pitch) * Math.sin(yaw), r * Math.sin(pitch), target.z + r * Math.cos(pitch) * Math.cos(yaw)); camera.lookAt(target);
+  }
+  function resize() { renderer.setSize(innerWidth, innerHeight, false); place(); }
+  addEventListener('resize', resize); resize();
+  let drag = null, moved = 0;
+  canvas.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY }; moved = 0; canvas.setPointerCapture(e.pointerId); });
+  canvas.addEventListener('pointermove', e => { if (!drag) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; moved += Math.abs(dx) + Math.abs(dy); drag = { x: e.clientX, y: e.clientY };
+    if (e.shiftKey || e.buttons === 2) { const s = fitSize() / zoom / innerHeight * 2; target.x -= (dx * Math.cos(yaw) + dy * Math.sin(yaw)) * s; target.z -= (-dx * Math.sin(yaw) + dy * Math.cos(yaw)) * s; } else yaw -= dx * .006; place(); });
+  canvas.addEventListener('pointerup', e => { drag = null; if (moved < 6) pick(e); });
+  canvas.addEventListener('wheel', e => { e.preventDefault(); zoom = Math.min(4, Math.max(.6, zoom * (e.deltaY < 0 ? 1.12 : 1 / 1.12))); place(); }, { passive: false });
+  canvas.addEventListener('contextmenu', e => e.preventDefault());
+  document.getElementById('fit').onclick = () => { yaw = Math.PI / 4; zoom = 1; target.copy(HOME); place(); };
+  function focusZone(z) { target.set(z.cx, 0, z.cz); zoom = 2.2; place(); }
+
+  // ---------- picking and side panel ----------
+  const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+  const card = document.getElementById('card');
+  function pick(e) {
+    ptr.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); ray.setFromCamera(ptr, camera);
+    const hit = ray.intersectObjects(clickable, false)[0]; if (!hit) return;
+    if (hit.object.userData.agent) showCard(hit.object.userData.agent);
+    else if (hit.object.userData.zone) { const z = zones.find(z => z.d.name === hit.object.userData.zone); focusZone(z); }
+  }
+  function showCard(a) {
+    showTab('office'); card.hidden = false;
+    card.querySelector('h3').textContent = a.name;
+    card.querySelector('.role').textContent = `${UZ[a.team] || a.team} · ${a.role === 'head' ? 'jamoa boshlig\'i' : 'xodim'} · ${a.working ? 'ishlayapti' : 'bo\'sh'}`;
+    card.querySelector('p').textContent = a.description || '';
+    card.querySelector('.tools').textContent = 'vositalar: ' + (a.tools || '—');
+    card.querySelector('.model').textContent = 'model: ' + (a.model || '—');
+  }
+  const teamsEl = document.getElementById('teams');
+  teamsEl.innerHTML = [...zones.map(z => [z.d.name, z.color, z.d.agents.length]), ...(lobby ? [[lobby.name, 0xffd23f, lobby.agents.length]] : [])]
+    .map(([n, c, k]) => `<button class="team" type="button" data-zone="${n}"><span class="sw" style="background:${hex(c)}"></span><span class="n">${UZ[n] || n}</span><span class="c" data-c="${n}">0/${k}</span></button>`).join('');
+  teamsEl.addEventListener('click', e => { const b = e.target.closest('.team'); if (!b) return; const z = zones.find(z => z.d.name === b.dataset.zone); if (z) focusZone(z); else { target.set(0, 0, bz); zoom = 2; place(); } });
+  function showTab(name) {
+    document.querySelectorAll('#tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === name));
+    document.querySelectorAll('#side [data-view]').forEach(v => v.hidden = v.dataset.view !== name);
+  }
+  document.getElementById('tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) showTab(b.dataset.tab); });
+
+  // ---------- live status (office/serve.py) and demo ----------
+  document.getElementById('count').textContent = agents.length;
+  const logEl = document.getElementById('log'), runlist = document.getElementById('runlist');
+  const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  function log(msg) { const d = document.createElement('div'); d.innerHTML = msg; logEl.prepend(d); while (logEl.children.length > 60) logEl.lastChild.remove(); }
+  function refresh() {
+    const run = agents.filter(a => a.working); document.getElementById('running').textContent = run.length;
+    runlist.innerHTML = run.length ? run.map(a => `<li><b>${esc(a.name)}</b> <span style="color:var(--muted)">${esc(UZ[a.team] || a.team)}</span></li>`).join('') : '<li style="color:var(--muted)">hech kim</li>';
+    zones.forEach(z => { const n = z.d.agents.filter(a => byName.get(a.name)?.working).length; if (z.lastN !== n) { z.lastN = n; z.sign.userData.update([UZ[z.d.name] || z.d.name, `${z.d.agents.length} agent · ${n} ishlayapti`]); } });
+    document.querySelectorAll('.team').forEach(b => { const name = b.dataset.zone; const dep = data.departments.find(d => d.name === name); const n = dep.agents.filter(a => byName.get(a.name)?.working).length; b.querySelector('.c').textContent = `${n}/${dep.agents.length}`; b.classList.toggle('on', n > 0); });
+  }
+  function setWorking(name, on, why) {
+    const a = byName.get(name); if (!a || a.working === on) return;
+    log(`<b style="color:var(--text)">${esc(name)}</b> ${on ? 'boshladi' : 'tugatdi'}${why ? ' · ' + esc(why) : ''}`);
+    a.working = on; a.mesh.userData.glow.visible = on; a.screen.material.color.setHex(on ? 0xffffff : a.color); refresh();
+  }
+  function handle(ev) { const t = ev.event || '';
+    if (t === 'UserPromptSubmit') setWorking('chief-of-staff', true, 'yangi topshiriq');
+    else if (t === 'SubagentStart') setWorking(ev.agent, true);
+    else if (t === 'SubagentStop') setWorking(ev.agent, false);
+    else if (t === 'Stop') agents.forEach(a => setWorking(a.name, false)); }
+  let since = 0, live = false, demo = null;
+  async function loadBrain() {
+    try { const j = await fetch('/brain', { cache: 'no-store' }).then(r => r.json());
+      document.getElementById('brainsum').textContent = `${j.notes} ta yozuv · brain/memory.jsonl`;
+      document.getElementById('brainlist').innerHTML = j.entities.map(e => `<h2 style="margin-top:10px">${esc(e.name)}</h2><ul>${e.observations.map(o => `<li>${esc(o)}</li>`).join('')}</ul>`).join('');
+    } catch (e) { /* static copy: no server */ }
+  }
+  async function poll() {
+    try { const r = await fetch(`/events?since=${since}`, { cache: 'no-store' }); if (!r.ok) throw 0; const j = await r.json();
+      if (!live) { live = true; document.getElementById('live').classList.add('on'); loadBrain(); }
+      if (since === 0 && j.total > 200) since = j.total - 200;
+      j.events.slice(Math.max(0, since - (j.total - j.events.length))).forEach(handle); since = j.total;
+      setTimeout(poll, 1500);
+    } catch (e) { /* static copy: stop polling */ }
+  }
+  poll(); refresh();
+  document.getElementById('demo').onclick = function () {
+    if (demo) { clearInterval(demo); demo = null; this.textContent = 'Namoyish'; agents.forEach(a => setWorking(a.name, false)); return; }
+    this.textContent = 'To\'xtatish'; setWorking('chief-of-staff', true, 'namoyish');
+    demo = setInterval(() => { const a = agents[Math.floor(Math.random() * agents.length)]; setWorking(a.name, !a.working, 'namoyish'); }, 700);
+  };
+
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // ---------- office life: people walk to the Brain or a colleague, then back to their desk ----------
+  const brainSpot = new THREE.Vector3(4, 0, bz + 1.6);
+  function sendWalk(a, to, stay = 2.5) {
+    if (!a || a.mode !== 'sit') return;
+    const off = new THREE.Vector3((Math.random() - .5) * 2.4, 0, (Math.random() - .5) * 1.2);
+    a.path = [to.clone().add(off), a.home.clone()]; a.mode = 'walk'; a.stay = stay;
+  }
+  function randomTrip() {
+    const idle = agents.filter(a => a.mode === 'sit'); if (!idle.length || agents.filter(a => a.mode !== 'sit').length > 7) return;
+    const a = idle[Math.floor(Math.random() * idle.length)];
+    const mate = agents[Math.floor(Math.random() * agents.length)];
+    sendWalk(a, Math.random() < .35 ? brainSpot : mate.home.clone().add(new THREE.Vector3(0, 0, 1.4)));
+  }
+  function stepPeople(dt, t) {
+    agents.forEach((a, i) => {
+      const m = a.mesh, L = m.userData.limbs;
+      if (a.mode === 'walk') {
+        const tgt = a.path[0], dir = tgt.clone().sub(m.position); dir.y = 0; const dist = dir.length();
+        if (dist < .15) { a.path.shift(); if (a.path.length) { a.mode = 'talk'; a.wait = a.stay; } else { a.mode = 'sit'; m.rotation.y = Math.PI; } }
+        else { dir.normalize(); m.position.addScaledVector(dir, Math.min(dist, dt * 3.2)); m.rotation.y = Math.atan2(dir.x, dir.z);
+          const s = Math.sin(t / 110 + i); L.legL.rotation.x = s * .6; L.legR.rotation.x = -s * .6; L.armL.rotation.x = -s * .5; L.armR.rotation.x = s * .5; m.position.y = Math.abs(s) * .08; }
+      } else if (a.mode === 'talk') {
+        a.wait -= dt; L.armR.rotation.x = Math.sin(t / 160 + i) * .4 - .3; L.legL.rotation.x = L.legR.rotation.x = 0; m.position.y = 0;
+        if (a.wait <= 0) a.mode = 'walk';
+      } else {   // at the desk: typing
+        L.legL.rotation.x = L.legR.rotation.x = 0;
+        const k = a.working ? 70 : 140; L.armL.rotation.x = -1.1 + Math.sin(t / k + a.phase) * .15; L.armR.rotation.x = -1.1 + Math.cos(t / k + a.phase) * .15;
+        m.position.y = a.working ? Math.abs(Math.sin(t / 220 + i)) * .18 : 0;
+      }
+    });
+  }
+  setInterval(() => { if (!document.hidden && !reduceMotion) randomTrip(); }, 1400);
+
+  // ---------- today's real work (activity.json, built from the repos' git history) ----------
+  const activity = await fetch('activity.json').then(r => r.ok ? r.json() : []).catch(() => []);
+  activity.slice().reverse().forEach(e => log(`<b style="color:var(--text)">${esc(e.agent)}</b> · ${esc(e.text)} <span style="opacity:.7">${esc(e.when)}</span>`));
+  const toastEl = document.createElement('div');
+  toastEl.style.cssText = 'position:fixed;left:max(12px,env(safe-area-inset-left,0px));top:calc(92px + env(safe-area-inset-top,0px));max-width:min(360px,calc(100% - 24px));background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;z-index:2;transition:opacity .4s;opacity:0';
+  document.body.appendChild(toastEl);
+  let ai = 0;
+  function replay() {
+    if (!activity.length || live) return;
+    const e = activity[ai++ % activity.length], a = byName.get(e.agent);
+    toastEl.innerHTML = `<b>${esc(UZ[a?.team] || a?.team || '')}</b> · ${esc(e.agent)}<br><span style="color:var(--muted)">${esc(e.text)} · ${esc(e.when)}</span>`;
+    toastEl.style.opacity = 1; setTimeout(() => toastEl.style.opacity = 0, 4200);
+    if (a) { setWorking(a.name, true); sendWalk(a, brainSpot, 2); setTimeout(() => setWorking(a.name, false), 6000); }
+  }
+  setInterval(replay, 5000); setTimeout(replay, 1200);
+
+  // ---------- loop ----------
+  let last = 0;
+  (function frame(t) {
+    const dt = Math.min(.05, (t - last) / 1000 || 0); last = t;
+    if (!reduceMotion) { core.scale.setScalar(1 + Math.sin(t / 600) * .06); stepPeople(dt, t); }
+    renderer.render(scene, camera); requestAnimationFrame(frame);
+  })(0);
+})();
+</script>
