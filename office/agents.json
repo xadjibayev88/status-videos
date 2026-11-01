@@ -9,6 +9,83 @@
      "description": "Routes work, runs departments in parallel, reviews, reports.",
      "tools": "everything",
      "model": "the session"
+    },
+    {
+     "name": "content-marketer",
+     "role": "worker",
+     "description": "Elite content marketing strategist specializing in AI-powered content creation, omnichannel distribution, SEO optimization, and data-driven performance marketing. Masters modern content tools, social media automation, and conversion optimization with 2024/2025 best practices. Use PROACTIVELY for comprehensive content marketing.",
+     "tools": "",
+     "model": "haiku"
+    },
+    {
+     "name": "marketing-growth-hacker",
+     "role": "worker",
+     "description": "Expert growth strategist specializing in rapid user acquisition through data-driven experimentation. Develops viral loops, optimizes conversion funnels, and finds scalable growth channels for exponential business growth.",
+     "tools": "WebFetch, WebSearch, Read, Write, Edit",
+     "model": "inherit"
+    },
+    {
+     "name": "marketing-instagram-curator",
+     "role": "worker",
+     "description": "Expert Instagram marketing specialist focused on visual storytelling, community building, and multi-format content optimization. Masters aesthetic development and drives meaningful engagement.",
+     "tools": "",
+     "model": "inherit"
+    },
+    {
+     "name": "marketing-short-video-editing-coach",
+     "role": "worker",
+     "description": "Hands-on short-video editing coach covering the full post-production pipeline, with mastery of CapCut Pro, Premiere Pro, DaVinci Resolve, and Final Cut Pro across composition and camera language, color grading, audio engineering, motion graphics and VFX, subtitle design, multi-platform export optimization, editing workflow efficiency, and AI-assisted editing.",
+     "tools": "",
+     "model": "inherit"
+    },
+    {
+     "name": "marketing-social-media-strategist",
+     "role": "worker",
+     "description": "Expert social media strategist for LinkedIn, Twitter, and professional platforms. Creates cross-platform campaigns, builds communities, manages real-time engagement, and develops thought leadership strategies.",
+     "tools": "WebFetch, WebSearch, Read, Write, Edit",
+     "model": "inherit"
+    },
+    {
+     "name": "marketing-tiktok-strategist",
+     "role": "worker",
+     "description": "Expert TikTok marketing specialist focused on viral content creation, algorithm optimization, and community building. Masters TikTok's unique culture and features for brand growth.",
+     "tools": "",
+     "model": "inherit"
+    },
+    {
+     "name": "marketing-video-optimization-specialist",
+     "role": "worker",
+     "description": "Video marketing strategist specializing in YouTube algorithm optimization, audience retention, chaptering, thumbnail concepts, and cross-platform video syndication.",
+     "tools": "",
+     "model": "inherit"
+    },
+    {
+     "name": "reel-helper",
+     "role": "worker",
+     "description": "One step of one ghost-editor reel from a brief file (build one reel to its preview, or finish one reel after the user's OK). Lean context: shell and files only, no MCP tools. Give it \"Read <brief path> and follow it exactly.\" Installed from ~/.claude/skills/ghost-editor/templates/agents/reel-helper.md.",
+     "tools": "Bash, Read, Write, Edit",
+     "model": "inherit"
+    },
+    {
+     "name": "seo-keyword-strategist",
+     "role": "worker",
+     "description": "Analyzes keyword usage in provided content, calculates density, suggests semantic variations and LSI keywords based on the topic. Prevents over-optimization. Use PROACTIVELY for content optimization.",
+     "tools": "",
+     "model": "haiku"
+    },
+    {
+     "name": "seo-meta-optimizer",
+     "role": "worker",
+     "description": "Creates optimized meta titles, descriptions, and URL suggestions based on character limits and best practices. Generates compelling, keyword-rich metadata. Use PROACTIVELY for new content.",
+     "tools": "",
+     "model": "haiku"
+    },
+    {
+     "name": "social-publishing-publisher",
+     "role": "worker",
+     "description": ">",
+     "tools": "Read, Write, Bash, WebFetch",
+     "model": "haiku"
     }
    ]
   },
@@ -277,5 +354,5 @@
    ]
   }
  ],
- "count": 33
+ "count": 44
 }
