@@ -49,16 +49,72 @@
   },
   "enableAllProjectMcpServers": true,
   "hooks": {
-    "UserPromptSubmit": [{ "hooks": [{ "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR\"/office/hook.sh" }] }],
-    "SubagentStart":    [{ "hooks": [{ "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR\"/office/hook.sh" }] }],
-    "SubagentStop":     [{ "hooks": [{ "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR\"/office/hook.sh" }] }],
-    "Stop":             [{ "hooks": [{ "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR\"/office/hook.sh" }] }]
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/office/hook.sh"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/office/hook.sh"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/office/hook.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/office/hook.sh"
+          }
+        ]
+      }
+    ]
   },
   "extraKnownMarketplaces": {
-    "ecc": { "source": { "source": "github", "repo": "affaan-m/ECC" } }
+    "ecc": {
+      "source": {
+        "source": "github",
+        "repo": "affaan-m/ECC"
+      }
+    },
+    "ruflo": {
+      "source": {
+        "source": "github",
+        "repo": "ruvnet/ruflo"
+      }
+    }
   },
-  "enabledPlugins": { "ecc@ecc": true },
+  "enabledPlugins": {
+    "ecc@ecc": true,
+    "ruflo-core@ruflo": false,
+    "ruflo-swarm@ruflo": false
+  },
   "pluginConfigs": {
-    "ecc@ecc": { "options": { "hooks_enabled": true, "hook_profile": "minimal" } }
+    "ecc@ecc": {
+      "options": {
+        "hooks_enabled": true,
+        "hook_profile": "minimal"
+      }
+    }
   }
 }
