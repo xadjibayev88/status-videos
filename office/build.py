@@ -68,3 +68,20 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def write_stats():
+    """Copy the newest channel numbers from a sibling shorts-agent checkout into office/stats.json (wall screens)."""
+    import glob
+    files = sorted(glob.glob(os.path.join(ROOT, "..", "shorts-agent", "data", "stats", "*.json")))
+    if not files:
+        return
+    with open(files[-1], encoding="utf-8") as f:
+        data = json.load(f)
+    with open(os.path.join(ROOT, "office", "stats.json"), "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=1)
+    print(json.dumps({"stats": os.path.basename(files[-1])}))
+
+
+if __name__ == "__main__":
+    write_stats()
