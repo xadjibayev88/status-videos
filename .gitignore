@@ -11,3 +11,9 @@ __pycache__/
 .env
 .env.*
 office/events.jsonl
+
+# Ruflo runtime state (local, per machine)
+.claude-flow/
+.swarm/
+.claude/proven-config.json
+.claude/.proven-config-version
