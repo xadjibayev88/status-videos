@@ -85,3 +85,49 @@ def write_stats():
 
 if __name__ == "__main__":
     write_stats()
+
+
+def write_activity():
+    """Recent real work for the office feed: commit subjects from the sibling repos (last 3 days)."""
+    import subprocess
+    rules = [  # (repo, subject prefix or word, agent, Uzbek text)
+        ("shorts-agent", "history:", "social-publishing-publisher", "YouTube/Instagram'ga video joyladi"),
+        ("Apex_Agent_Gemini", "update history", "social-media-manager", "Telegram kanaliga post joyladi"),
+        ("status-agent", None, "community-manager", "@h6yotiy Reels yangilandi"),
+        ("shorts-agent", "stats:", "data-analyst", "kanal statistikasini yig'di"),
+        ("status-videos", "brain", "chief-of-staff", "xotiraga yangi qoida yozdi"),
+        ("status-videos", "office", "frontend-dev", "3D ofisni yangiladi"),
+        (None, "fix", "backend-dev", "xatoni tuzatdi"),
+        (None, "feat", "engineering-lead", "yangi imkoniyat qo'shdi"),
+        (None, "docs", "project-manager", "qo'llanma yozdi"),
+    ]
+    out = []
+    for repo in ["shorts-agent", "Apex_Agent_Gemini", "status-agent", "status-videos"]:
+        path = os.path.join(ROOT, "..", repo) if repo != "status-videos" else ROOT
+        if not os.path.isdir(os.path.join(path, ".git")):
+            continue
+        try:
+            log = subprocess.run(["git", "-C", path, "log", "--since=3.days", "--format=%ct|%s", "-n", "40"],
+                                 capture_output=True, text=True, timeout=20).stdout
+        except Exception:
+            continue
+        for line in log.splitlines():
+            ts, _, subj = line.partition("|")
+            for r_repo, key, agent, text in rules:
+                if r_repo not in (None, repo):
+                    continue
+                if key is None or subj.lower().startswith(key) or (key in ("brain", "office") and subj.lower().startswith(key)):
+                    detail = subj.split(":", 1)[1].strip() if ":" in subj and key in ("fix", "feat", "docs") else ""
+                    out.append({"ts": int(ts), "agent": agent, "text": text + ""})
+                    break
+    out.sort(key=lambda e: -e["ts"])
+    import time
+    for e in out:
+        e["when"] = time.strftime("%d.%m %H:%M", time.gmtime(e.pop("ts") + 5 * 3600))
+    with open(os.path.join(ROOT, "office", "activity.json"), "w", encoding="utf-8") as f:
+        json.dump(out[:30], f, ensure_ascii=False, indent=1)
+    print(json.dumps({"activity": len(out[:30])}))
+
+
+if __name__ == "__main__":
+    write_activity()

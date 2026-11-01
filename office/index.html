@@ -195,7 +195,9 @@
     box(.9, .9, .6, color, 0, .85, 0, g);                       // body
     box(.7, .7, .7, 0xf1c9a5, 0, 1.65, 0, g);                   // head
     box(.75, .2, .75, head ? 0xffd23f : 0x2a2a2a, 0, 2.05, 0, g); // hair, gold for team heads
-    box(.3, .45, .3, 0x2b2f3a, -.22, .22, 0, g); box(.3, .45, .3, 0x2b2f3a, .22, .22, 0, g);
+    const legL = box(.3, .45, .3, 0x2b2f3a, -.22, .22, 0, g), legR = box(.3, .45, .3, 0x2b2f3a, .22, .22, 0, g);
+    const armL = box(.22, .7, .22, color, -.58, .95, 0, g), armR = box(.22, .7, .22, color, .58, .95, 0, g);
+    g.userData.limbs = { legL, legR, armL, armR };
     const glow = new THREE.Mesh(new THREE.RingGeometry(.65, .9, 24), new THREE.MeshBasicMaterial({ color: 0x3ddc84, side: THREE.DoubleSide })); glow.rotation.x = -Math.PI / 2; glow.position.y = .03; glow.visible = false; g.add(glow);
     g.userData.glow = glow; return g;
   }
@@ -208,9 +210,10 @@
   }
   function addAgent(a, team, color, x, z, parent) {
     const scrn = desk(x, z, color, parent);
-    const p = person(color, a.role === 'head'); p.position.set(x, 0, z + 1); p.rotation.y = Math.PI; parent.add(p);
-    const tag = label([a.name.replace(/^marketing-/, '')], { size: 26, scale: .019, stripe: hex(color) }); tag.position.set(x, 3.3, z + 1); parent.add(tag);
-    const rec = { ...a, team, color, mesh: p, screen: scrn, tag, working: false, baseY: 0 };
+    const home = new THREE.Vector3(parent.position.x + x, 0, parent.position.z + z + 1);
+    const p = person(color, a.role === 'head'); p.position.copy(home); p.rotation.y = Math.PI; scene.add(p);
+    const tag = label([a.name.replace(/^marketing-/, '')], { size: 26, scale: .019, stripe: hex(color) }); tag.position.set(0, 3.3, 0); p.add(tag);
+    const rec = { ...a, team, color, mesh: p, screen: scrn, tag, working: false, home, mode: 'sit', path: [], wait: 0, phase: Math.random() * 6 };
     p.traverse(o => { o.userData.agent = rec; clickable.push(o); });
     agents.push(rec); byName.set(a.name, rec);
   }
@@ -326,13 +329,61 @@
     demo = setInterval(() => { const a = agents[Math.floor(Math.random() * agents.length)]; setWorking(a.name, !a.working, 'namoyish'); }, 700);
   };
 
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // ---------- office life: people walk to the Brain or a colleague, then back to their desk ----------
+  const brainSpot = new THREE.Vector3(4, 0, bz + 1.6);
+  function sendWalk(a, to, stay = 2.5) {
+    if (!a || a.mode !== 'sit') return;
+    const off = new THREE.Vector3((Math.random() - .5) * 2.4, 0, (Math.random() - .5) * 1.2);
+    a.path = [to.clone().add(off), a.home.clone()]; a.mode = 'walk'; a.stay = stay;
+  }
+  function randomTrip() {
+    const idle = agents.filter(a => a.mode === 'sit'); if (!idle.length || agents.filter(a => a.mode !== 'sit').length > 7) return;
+    const a = idle[Math.floor(Math.random() * idle.length)];
+    const mate = agents[Math.floor(Math.random() * agents.length)];
+    sendWalk(a, Math.random() < .35 ? brainSpot : mate.home.clone().add(new THREE.Vector3(0, 0, 1.4)));
+  }
+  function stepPeople(dt, t) {
+    agents.forEach((a, i) => {
+      const m = a.mesh, L = m.userData.limbs;
+      if (a.mode === 'walk') {
+        const tgt = a.path[0], dir = tgt.clone().sub(m.position); dir.y = 0; const dist = dir.length();
+        if (dist < .15) { a.path.shift(); if (a.path.length) { a.mode = 'talk'; a.wait = a.stay; } else { a.mode = 'sit'; m.rotation.y = Math.PI; } }
+        else { dir.normalize(); m.position.addScaledVector(dir, Math.min(dist, dt * 3.2)); m.rotation.y = Math.atan2(dir.x, dir.z);
+          const s = Math.sin(t / 110 + i); L.legL.rotation.x = s * .6; L.legR.rotation.x = -s * .6; L.armL.rotation.x = -s * .5; L.armR.rotation.x = s * .5; m.position.y = Math.abs(s) * .08; }
+      } else if (a.mode === 'talk') {
+        a.wait -= dt; L.armR.rotation.x = Math.sin(t / 160 + i) * .4 - .3; L.legL.rotation.x = L.legR.rotation.x = 0; m.position.y = 0;
+        if (a.wait <= 0) a.mode = 'walk';
+      } else {   // at the desk: typing
+        L.legL.rotation.x = L.legR.rotation.x = 0;
+        const k = a.working ? 70 : 140; L.armL.rotation.x = -1.1 + Math.sin(t / k + a.phase) * .15; L.armR.rotation.x = -1.1 + Math.cos(t / k + a.phase) * .15;
+        m.position.y = a.working ? Math.abs(Math.sin(t / 220 + i)) * .18 : 0;
+      }
+    });
+  }
+  setInterval(() => { if (!document.hidden && !reduceMotion) randomTrip(); }, 1400);
+
+  // ---------- today's real work (activity.json, built from the repos' git history) ----------
+  const activity = await fetch('activity.json').then(r => r.ok ? r.json() : []).catch(() => []);
+  activity.slice().reverse().forEach(e => log(`<b style="color:var(--text)">${esc(e.agent)}</b> · ${esc(e.text)} <span style="opacity:.7">${esc(e.when)}</span>`));
+  const toastEl = document.createElement('div');
+  toastEl.style.cssText = 'position:fixed;left:max(12px,env(safe-area-inset-left,0px));top:calc(92px + env(safe-area-inset-top,0px));max-width:min(360px,calc(100% - 24px));background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;z-index:2;transition:opacity .4s;opacity:0';
+  document.body.appendChild(toastEl);
+  let ai = 0;
+  function replay() {
+    if (!activity.length || live) return;
+    const e = activity[ai++ % activity.length], a = byName.get(e.agent);
+    toastEl.innerHTML = `<b>${esc(UZ[a?.team] || a?.team || '')}</b> · ${esc(e.agent)}<br><span style="color:var(--muted)">${esc(e.text)} · ${esc(e.when)}</span>`;
+    toastEl.style.opacity = 1; setTimeout(() => toastEl.style.opacity = 0, 4200);
+    if (a) { setWorking(a.name, true); sendWalk(a, brainSpot, 2); setTimeout(() => setWorking(a.name, false), 6000); }
+  }
+  setInterval(replay, 5000); setTimeout(replay, 1200);
+
   // ---------- loop ----------
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let last = 0;
   (function frame(t) {
-    if (!reduce) {
-      core.scale.setScalar(1 + Math.sin(t / 600) * .06);
-      agents.forEach((a, i) => { if (a.working) a.mesh.position.y = Math.abs(Math.sin(t / 220 + i)) * .25; else a.mesh.position.y = 0; });
-    }
+    const dt = Math.min(.05, (t - last) / 1000 || 0); last = t;
+    if (!reduceMotion) { core.scale.setScalar(1 + Math.sin(t / 600) * .06); stepPeople(dt, t); }
     renderer.render(scene, camera); requestAnimationFrame(frame);
   })(0);
 })();
