@@ -1,5 +1,45 @@
 [
  {
+  "agent": "frontend-dev",
+  "text": "3D ofisni yangiladi",
+  "when": "02.11 01:57"
+ },
+ {
+  "agent": "data-analyst",
+  "text": "kanal statistikasini yig'di",
+  "when": "02.11 01:49"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "02.11 01:19"
+ },
+ {
+  "agent": "social-media-manager",
+  "text": "Telegram kanaliga post joyladi",
+  "when": "02.11 01:11"
+ },
+ {
+  "agent": "social-media-manager",
+  "text": "Telegram kanaliga post joyladi",
+  "when": "02.11 00:05"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "01.11 23:55"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "01.11 23:03"
+ },
+ {
+  "agent": "social-media-manager",
+  "text": "Telegram kanaliga post joyladi",
+  "when": "01.11 22:59"
+ },
+ {
   "agent": "backend-dev",
   "text": "xatoni tuzatdi",
   "when": "01.11 22:58"
@@ -108,45 +148,5 @@
   "agent": "frontend-dev",
   "text": "3D ofisni yangiladi",
   "when": "01.11 15:33"
- },
- {
-  "agent": "frontend-dev",
-  "text": "3D ofisni yangiladi",
-  "when": "01.11 15:29"
- },
- {
-  "agent": "frontend-dev",
-  "text": "3D ofisni yangiladi",
-  "when": "01.11 15:26"
- },
- {
-  "agent": "engineering-lead",
-  "text": "yangi imkoniyat qo'shdi",
-  "when": "01.11 15:23"
- },
- {
-  "agent": "engineering-lead",
-  "text": "yangi imkoniyat qo'shdi",
-  "when": "01.11 15:20"
- },
- {
-  "agent": "chief-of-staff",
-  "text": "xotiraga yangi qoida yozdi",
-  "when": "01.11 15:14"
- },
- {
-  "agent": "project-manager",
-  "text": "qo'llanma yozdi",
-  "when": "01.11 15:13"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "01.11 11:40"
- },
- {
-  "agent": "chief-of-staff",
-  "text": "xotiraga yangi qoida yozdi",
-  "when": "01.11 11:34"
  }
 ]
