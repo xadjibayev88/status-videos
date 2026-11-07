@@ -1,5 +1,40 @@
 [
  {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "07.11 21:47"
+ },
+ {
+  "agent": "chief-of-staff",
+  "text": "xotiraga yangi qoida yozdi",
+  "when": "07.11 21:46"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "07.11 21:19"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "07.11 19:40"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "07.11 09:48"
+ },
+ {
+  "agent": "community-manager",
+  "text": "@h6yotiy Reels yangilandi",
+  "when": "07.11 09:33"
+ },
+ {
+  "agent": "frontend-dev",
+  "text": "3D ofisni yangiladi",
+  "when": "07.11 07:49"
+ },
+ {
   "agent": "backend-dev",
   "text": "xatoni tuzatdi",
   "when": "07.11 07:45"
@@ -65,6 +100,11 @@
   "when": "05.11 17:23"
  },
  {
+  "agent": "community-manager",
+  "text": "@h6yotiy Reels yangilandi",
+  "when": "05.11 14:07"
+ },
+ {
   "agent": "data-analyst",
   "text": "kanal statistikasini yig'di",
   "when": "05.11 03:11"
@@ -78,15 +118,5 @@
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
   "when": "04.11 23:22"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "04.11 21:19"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "04.11 11:06"
  }
 ]

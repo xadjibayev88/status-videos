@@ -64,12 +64,12 @@
  "queue": [
   {
    "agent": "script-writer",
-   "text": "Bilarmidingiz navbati: 8 ta ssenariy (maqsad 6+)",
+   "text": "Bilarmidingiz navbati: 7 ta ssenariy (maqsad 6+)",
    "ok": true
   },
   {
    "agent": "script-writer",
-   "text": "apex_wealths navbati: 8 ta ssenariy (maqsad 8+)",
+   "text": "apex_wealths navbati: 10 ta ssenariy (maqsad 8+)",
    "ok": true
   },
   {
