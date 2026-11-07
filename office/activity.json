@@ -1,152 +1,92 @@
 [
  {
-  "agent": "frontend-dev",
-  "text": "3D ofisni yangiladi",
-  "when": "02.11 01:57"
+  "agent": "backend-dev",
+  "text": "xatoni tuzatdi",
+  "when": "07.11 07:45"
  },
  {
   "agent": "data-analyst",
   "text": "kanal statistikasini yig'di",
-  "when": "02.11 01:49"
+  "when": "07.11 02:44"
  },
  {
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
-  "when": "02.11 01:19"
- },
- {
-  "agent": "social-media-manager",
-  "text": "Telegram kanaliga post joyladi",
-  "when": "02.11 01:11"
- },
- {
-  "agent": "social-media-manager",
-  "text": "Telegram kanaliga post joyladi",
-  "when": "02.11 00:05"
+  "when": "07.11 01:29"
  },
  {
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
-  "when": "01.11 23:55"
+  "when": "06.11 23:50"
  },
  {
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
-  "when": "01.11 23:03"
- },
- {
-  "agent": "social-media-manager",
-  "text": "Telegram kanaliga post joyladi",
-  "when": "01.11 22:59"
- },
- {
-  "agent": "backend-dev",
-  "text": "xatoni tuzatdi",
-  "when": "01.11 22:58"
+  "when": "06.11 22:21"
  },
  {
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
-  "when": "01.11 22:40"
+  "when": "06.11 20:46"
+ },
+ {
+  "agent": "data-analyst",
+  "text": "kanal statistikasini yig'di",
+  "when": "06.11 03:14"
  },
  {
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
-  "when": "01.11 22:31"
+  "when": "06.11 02:09"
  },
  {
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
-  "when": "01.11 22:22"
- },
- {
-  "agent": "chief-of-staff",
-  "text": "xotiraga yangi qoida yozdi",
-  "when": "01.11 22:12"
- },
- {
-  "agent": "engineering-lead",
-  "text": "yangi imkoniyat qo'shdi",
-  "when": "01.11 22:12"
+  "when": "06.11 00:32"
  },
  {
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
-  "when": "01.11 22:03"
+  "when": "05.11 23:29"
  },
  {
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
-  "when": "01.11 21:36"
- },
- {
-  "agent": "social-media-manager",
-  "text": "Telegram kanaliga post joyladi",
-  "when": "01.11 21:29"
- },
- {
-  "agent": "chief-of-staff",
-  "text": "xotiraga yangi qoida yozdi",
-  "when": "01.11 20:12"
+  "when": "05.11 22:59"
  },
  {
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
-  "when": "01.11 19:42"
- },
- {
-  "agent": "social-media-manager",
-  "text": "Telegram kanaliga post joyladi",
-  "when": "01.11 19:37"
- },
- {
-  "agent": "social-media-manager",
-  "text": "Telegram kanaliga post joyladi",
-  "when": "01.11 18:21"
- },
- {
-  "agent": "social-media-manager",
-  "text": "Telegram kanaliga post joyladi",
-  "when": "01.11 17:07"
+  "when": "05.11 21:20"
  },
  {
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
-  "when": "01.11 16:30"
+  "when": "05.11 17:23"
  },
  {
-  "agent": "frontend-dev",
-  "text": "3D ofisni yangiladi",
-  "when": "01.11 16:28"
- },
- {
-  "agent": "backend-dev",
-  "text": "xatoni tuzatdi",
-  "when": "01.11 16:22"
+  "agent": "data-analyst",
+  "text": "kanal statistikasini yig'di",
+  "when": "05.11 03:11"
  },
  {
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
-  "when": "01.11 16:17"
+  "when": "05.11 01:50"
  },
  {
-  "agent": "engineering-lead",
-  "text": "yangi imkoniyat qo'shdi",
-  "when": "01.11 16:10"
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "04.11 23:22"
  },
  {
-  "agent": "project-manager",
-  "text": "qo'llanma yozdi",
-  "when": "01.11 15:44"
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "04.11 21:19"
  },
  {
-  "agent": "project-manager",
-  "text": "qo'llanma yozdi",
-  "when": "01.11 15:36"
- },
- {
-  "agent": "frontend-dev",
-  "text": "3D ofisni yangiladi",
-  "when": "01.11 15:33"
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "04.11 11:06"
  }
 ]
