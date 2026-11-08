@@ -70,7 +70,11 @@ def draw_person(d: ImageDraw.ImageDraw, cx: float, cy: float, s: float, skin, sh
         d.line([cx + bw / 2 - 5, by + 20, cx + bw / 2 + 0.25 * s, by + bh * 0.8], fill=skin, width=aw)
     d.line([cx - bw / 2 + 5, by + 20, cx - bw / 2 - 0.25 * s, by + bh * 0.8], fill=skin, width=aw)
     if label:
-        f = font(int(s * 0.75))
+        size = int(s * 0.75)
+        f = font(size)
+        while d.textlength(label, font=f) > bw * 0.82 and size > 12:  # yozuv ko'ylakdan chiqmasin
+            size -= 4
+            f = font(size)
         tw = d.textlength(label, font=f)
         d.text((cx - tw / 2, by + bh * 0.22), label, font=f, fill=(255, 255, 255) if sum(shirt) < 500 else (20, 20, 20))
     # bosh
@@ -130,7 +134,7 @@ def big_text(d, text, y, size, color=(255, 255, 255), stroke=8):
 def scene_number(img, sc, t, dur, talk):
     d = ImageDraw.Draw(img)
     a, b = sc.get("from", 0), sc["value"]
-    v = int(a + (b - a) * ease_out(t / max(dur * 0.7, 0.1)))
+    v = round(a + (b - a) * ease_out(t / max(dur * 0.7, 0.1)))
     # tablo
     d.rounded_rectangle([190, 640, 890, 1260], radius=40, fill=(18, 22, 45), outline=(255, 200, 40), width=10)
     big_text(d, sc.get("top", ""), 690, 80, (255, 200, 40), 0)
@@ -141,7 +145,7 @@ def scene_number(img, sc, t, dur, talk):
 def scene_year(img, sc, t, dur, talk):
     d = ImageDraw.Draw(img)
     y0, y1 = sc.get("from", sc["value"] - 20), sc["value"]
-    v = int(y0 + (y1 - y0) * ease_out(t / max(dur * 0.6, 0.1)))
+    v = round(y0 + (y1 - y0) * ease_out(t / max(dur * 0.6, 0.1)))
     d.rounded_rectangle([240, 700, 840, 1200], radius=36, fill=(25, 30, 70), outline=(255, 255, 255), width=8)
     big_text(d, sc.get("top", "YIL"), 740, 90, (255, 200, 40), 0)
     big_text(d, str(v), 850, 260)
@@ -297,7 +301,7 @@ def render(board: dict, voice: str, out: str):
     talk_ranges = [(0.0, voice_dur)]
     ff = subprocess.Popen(["ffmpeg", "-loglevel", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
                            "-i", voice, "-filter_complex", "[1:a]apad=pad_dur=0.6,loudnorm=I=-14:TP=-1.5[a]", "-map", "0:v", "-map", "[a]",
-                           "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k", "-shortest", out],
+                           "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p", "-c:a", "aac", "-ar", "44100", "-b:a", "160k", "-shortest", out],
                           stdin=subprocess.PIPE)
     n = int(total * FPS)
     for fi in range(n):
