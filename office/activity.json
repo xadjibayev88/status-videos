@@ -1,8 +1,53 @@
 [
  {
+  "agent": "chief-of-staff",
+  "text": "xotiraga yangi qoida yozdi",
+  "when": "09.11 21:44"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "09.11 19:47"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "09.11 18:41"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "09.11 17:30"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "09.11 14:05"
+ },
+ {
+  "agent": "chief-of-staff",
+  "text": "xotiraga yangi qoida yozdi",
+  "when": "09.11 07:45"
+ },
+ {
   "agent": "community-manager",
   "text": "@h6yotiy Reels yangilandi",
   "when": "09.11 07:42"
+ },
+ {
+  "agent": "data-analyst",
+  "text": "kanal statistikasini yig'di",
+  "when": "09.11 01:44"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "08.11 23:51"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "08.11 22:50"
  },
  {
   "agent": "frontend-dev",
@@ -80,11 +125,6 @@
   "when": "08.11 13:28"
  },
  {
-  "agent": "frontend-dev",
-  "text": "3D ofisni yangiladi",
-  "when": "08.11 07:45"
- },
- {
   "agent": "data-analyst",
   "text": "kanal statistikasini yig'di",
   "when": "08.11 01:29"
@@ -108,40 +148,5 @@
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
   "when": "07.11 09:48"
- },
- {
-  "agent": "community-manager",
-  "text": "@h6yotiy Reels yangilandi",
-  "when": "07.11 09:33"
- },
- {
-  "agent": "backend-dev",
-  "text": "xatoni tuzatdi",
-  "when": "07.11 07:45"
- },
- {
-  "agent": "data-analyst",
-  "text": "kanal statistikasini yig'di",
-  "when": "07.11 02:44"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "07.11 01:29"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "06.11 23:50"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "06.11 22:21"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "06.11 20:46"
  }
 ]
