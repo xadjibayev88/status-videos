@@ -1,5 +1,15 @@
 [
  {
+  "agent": "community-manager",
+  "text": "@h6yotiy Reels yangilandi",
+  "when": "09.11 07:42"
+ },
+ {
+  "agent": "frontend-dev",
+  "text": "3D ofisni yangiladi",
+  "when": "08.11 21:53"
+ },
+ {
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
   "when": "08.11 21:47"
@@ -80,19 +90,9 @@
   "when": "08.11 01:29"
  },
  {
-  "agent": "frontend-dev",
-  "text": "3D ofisni yangiladi",
-  "when": "07.11 21:53"
- },
- {
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
   "when": "07.11 21:47"
- },
- {
-  "agent": "chief-of-staff",
-  "text": "xotiraga yangi qoida yozdi",
-  "when": "07.11 21:46"
  },
  {
   "agent": "social-publishing-publisher",
@@ -143,10 +143,5 @@
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
   "when": "06.11 20:46"
- },
- {
-  "agent": "data-analyst",
-  "text": "kanal statistikasini yig'di",
-  "when": "06.11 03:14"
  }
 ]
