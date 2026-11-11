@@ -48,6 +48,14 @@ Full org chart with each agent's job: `docs/office.md`.
 
 **Plugin: ECC** (`ecc@ecc` from [affaan-m/ECC](https://github.com/affaan-m/ECC), MIT, v2.2.3): enabled for this project in `.claude/settings.json` (71 agents, ~410 skills as `ecc:<name>`, hooks on the `minimal` profile so autonomous runs are not blocked, rules in `.claude/rules/ecc/common`). Claude Code installs it on its own when a session opens this repo. Useful skills here: `ecc:video-editing`, `ecc:remotion-video-creation`, `ecc:manim-video`, `ecc:content-engine`, `ecc:crosspost`, `ecc:seo`, `ecc:deep-research`, `ecc:security-review`. Office agents and skills come first; use ECC only where the office has no match. It adds about 48k tokens to every session; switch it off with `"enabledPlugins": {"ecc@ecc": false}`. For stricter code work set `hook_profile` to `standard` (adds the GateGuard fact check before edits).
 
+## Token tejash (2026-11-11, egasining buyrug'i)
+Har sessiyaga yuklanib token sarflaydigan, lekin kundalik ishda ishlatilmaydigan narsalar o'chirildi (fayllar o'chirilmagan, ko'chirilgan):
+- **Plaginlar o'chiq:** ECC va Ruflo (`.claude/settings.json` → `enabledPlugins` hammasi `false`). ECC qoidalari `.claude/rules-off/ecc` da.
+- **Faol skillar:** `cartoon-reel`, `ffmpeg-skill`, `humanizer`, `last30days`. Qolgan 15 tasi `.claude/skills-library/` da
+  (hyperframes oilasi, ghost-editor, effects, figma, hallmark, impeccable, ui-ux-pro-max, scrapling-official, diagram-design va b.).
+  Kerak bo'lsa: `git mv .claude/skills-library/<nom> .claude/skills/<nom>` (ishlatib bo'lgach qaytarib qo'ying).
+- Yuqoridagi skill/plagin tavsiflari ma'lumot uchun qoldirilgan; ular faqat qayta yoqilganda ishlaydi.
+
 ## How work flows
 1. **Route.** Read the request, decide which team(s) own it. Small, single-skill tasks go straight to the worker; anything with several steps goes to the team head, who splits it and runs its workers.
 2. **Parallel.** Independent pieces of work start in the same message so they run at the same time (one `clip-editor` per clip, one `market-analyst` per market, and so on).

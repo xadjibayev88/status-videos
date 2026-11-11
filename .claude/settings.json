@@ -105,9 +105,9 @@
     }
   },
   "enabledPlugins": {
-    "ecc@ecc": true,
-    "ruflo-core@ruflo": true,
-    "ruflo-swarm@ruflo": true
+    "ecc@ecc": false,
+    "ruflo-core@ruflo": false,
+    "ruflo-swarm@ruflo": false
   },
   "pluginConfigs": {
     "ecc@ecc": {
