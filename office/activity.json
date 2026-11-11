@@ -1,152 +1,152 @@
 [
  {
+  "agent": "engineering-lead",
+  "text": "yangi imkoniyat qo'shdi",
+  "when": "11.11 07:45"
+ },
+ {
+  "agent": "backend-dev",
+  "text": "xatoni tuzatdi",
+  "when": "11.11 07:41"
+ },
+ {
+  "agent": "data-analyst",
+  "text": "kanal statistikasini yig'di",
+  "when": "11.11 02:56"
+ },
+ {
+  "agent": "social-media-manager",
+  "text": "Telegram kanaliga post joyladi",
+  "when": "11.11 01:58"
+ },
+ {
+  "agent": "social-media-manager",
+  "text": "Telegram kanaliga post joyladi",
+  "when": "11.11 00:55"
+ },
+ {
+  "agent": "social-media-manager",
+  "text": "Telegram kanaliga post joyladi",
+  "when": "11.11 00:01"
+ },
+ {
+  "agent": "engineering-lead",
+  "text": "yangi imkoniyat qo'shdi",
+  "when": "10.11 23:21"
+ },
+ {
+  "agent": "engineering-lead",
+  "text": "yangi imkoniyat qo'shdi",
+  "when": "10.11 23:17"
+ },
+ {
+  "agent": "community-manager",
+  "text": "@h6yotiy Reels yangilandi",
+  "when": "10.11 23:15"
+ },
+ {
+  "agent": "social-media-manager",
+  "text": "Telegram kanaliga post joyladi",
+  "when": "10.11 22:20"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "10.11 21:04"
+ },
+ {
+  "agent": "social-media-manager",
+  "text": "Telegram kanaliga post joyladi",
+  "when": "10.11 20:50"
+ },
+ {
+  "agent": "social-media-manager",
+  "text": "Telegram kanaliga post joyladi",
+  "when": "10.11 19:47"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "10.11 19:12"
+ },
+ {
+  "agent": "social-media-manager",
+  "text": "Telegram kanaliga post joyladi",
+  "when": "10.11 18:51"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "10.11 18:18"
+ },
+ {
+  "agent": "backend-dev",
+  "text": "xatoni tuzatdi",
+  "when": "10.11 17:57"
+ },
+ {
+  "agent": "engineering-lead",
+  "text": "yangi imkoniyat qo'shdi",
+  "when": "10.11 17:56"
+ },
+ {
+  "agent": "engineering-lead",
+  "text": "yangi imkoniyat qo'shdi",
+  "when": "10.11 17:47"
+ },
+ {
+  "agent": "engineering-lead",
+  "text": "yangi imkoniyat qo'shdi",
+  "when": "10.11 17:44"
+ },
+ {
+  "agent": "social-media-manager",
+  "text": "Telegram kanaliga post joyladi",
+  "when": "10.11 17:42"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "10.11 17:12"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "10.11 14:13"
+ },
+ {
+  "agent": "frontend-dev",
+  "text": "3D ofisni yangiladi",
+  "when": "10.11 07:46"
+ },
+ {
   "agent": "community-manager",
   "text": "@h6yotiy Reels yangilandi",
   "when": "10.11 07:43"
  },
  {
-  "agent": "frontend-dev",
-  "text": "3D ofisni yangiladi",
-  "when": "09.11 21:51"
- },
- {
-  "agent": "chief-of-staff",
-  "text": "xotiraga yangi qoida yozdi",
-  "when": "09.11 21:44"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "09.11 19:47"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "09.11 18:41"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "09.11 17:30"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "09.11 14:05"
- },
- {
-  "agent": "chief-of-staff",
-  "text": "xotiraga yangi qoida yozdi",
-  "when": "09.11 07:45"
- },
- {
-  "agent": "community-manager",
-  "text": "@h6yotiy Reels yangilandi",
-  "when": "09.11 07:42"
- },
- {
   "agent": "data-analyst",
   "text": "kanal statistikasini yig'di",
-  "when": "09.11 01:44"
+  "when": "10.11 05:25"
  },
  {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "08.11 23:51"
+  "agent": "social-media-manager",
+  "text": "Telegram kanaliga post joyladi",
+  "when": "10.11 04:13"
  },
  {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "08.11 22:50"
+  "agent": "social-media-manager",
+  "text": "Telegram kanaliga post joyladi",
+  "when": "10.11 02:43"
  },
  {
-  "agent": "frontend-dev",
-  "text": "3D ofisni yangiladi",
-  "when": "08.11 21:53"
+  "agent": "social-media-manager",
+  "text": "Telegram kanaliga post joyladi",
+  "when": "10.11 01:10"
  },
  {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "08.11 21:47"
- },
- {
-  "agent": "backend-dev",
-  "text": "xatoni tuzatdi",
-  "when": "08.11 21:46"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "08.11 19:52"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "08.11 19:01"
- },
- {
-  "agent": "engineering-lead",
-  "text": "yangi imkoniyat qo'shdi",
-  "when": "08.11 18:56"
- },
- {
-  "agent": "backend-dev",
-  "text": "xatoni tuzatdi",
-  "when": "08.11 18:36"
- },
- {
-  "agent": "backend-dev",
-  "text": "xatoni tuzatdi",
-  "when": "08.11 18:31"
- },
- {
-  "agent": "engineering-lead",
-  "text": "yangi imkoniyat qo'shdi",
-  "when": "08.11 18:19"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "08.11 17:33"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "08.11 16:45"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "08.11 16:02"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "08.11 15:46"
- },
- {
-  "agent": "backend-dev",
-  "text": "xatoni tuzatdi",
-  "when": "08.11 15:24"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "08.11 13:28"
- },
- {
-  "agent": "data-analyst",
-  "text": "kanal statistikasini yig'di",
-  "when": "08.11 01:29"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "07.11 21:47"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "07.11 21:19"
+  "agent": "social-media-manager",
+  "text": "Telegram kanaliga post joyladi",
+  "when": "09.11 23:53"
  }
 ]
