@@ -3592,6 +3592,7 @@ V.sozlama=()=>`<section class="view"><h2>Sozlamalar</h2>
   <label style="font-size:.85rem;font-weight:600">Model nomi<input class="field" id="set-model" autocomplete="off" value="${esc(kget("hm_model")||"gemini-flash-latest")}" style="width:100%;margin-top:4px"></label>
   <div class="row"><button class="btn" data-set="save">Saqlash</button><button class="btn ghost" data-set="test" ${sampleFn?"":"disabled"}>Tekshirib ko'rish</button><button class="btn ghost" data-set="clear">Kalitni o'chirish</button></div>
   <p class="muted" id="set-out"></p></div>
+ <div class="panel"><h3>Ilova sifatida o'rnatish</h3><p class="muted">${matchMedia("(display-mode: standalone)").matches?"Ilova o'rnatilgan va ilova rejimida ochilgan.":installEv?"Bir tugma bilan telefoningiz bosh ekraniga o'rnatiladi.":"Chrome menyusi (⋮) → «Bosh ekranga qo'shish» yoki «Ilovani o'rnatish»ni tanlang. iPhone'da: Safari → Ulashish → «Bosh ekranga»."}</p>${installEv?`<div class="row"><button class="btn" data-inst>Ilovani o'rnatish</button></div>`:""}</div>
  <div class="panel"><h3>Mikrofon<small>${dict?"brauzerda bor":"bu brauzerda yo'q"}</small></h3><p class="muted">${dict?"Jonli suhbatda birinchi marta mikrofonga ruxsat so'raladi. Ovozni tanish Chrome brauzerida ishlaydi.":"Bu brauzer ovozni tanimaydi. Chrome brauzeridan foydalaning."}</p></div>
 </section>`;
 
@@ -3907,6 +3908,13 @@ function render(keepScroll){
 }
 addEventListener("hashchange",()=>{flip=false;A.err="";if(CALL.on)callEnd();stopGame();if(G.on&&!G.over)G.on="";drawer(false);render()});
 if(SOLO)$("#nav").insertAdjacentHTML("beforeend",'<a href="#sozlama"><i>⚙</i>Sozlamalar</a>');
+let installEv=null;
+if(SOLO){
+  if("serviceWorker" in navigator&&location.protocol==="https:")navigator.serviceWorker.register("sw.js").catch(()=>{});
+  addEventListener("beforeinstallprompt",e=>{e.preventDefault();installEv=e;const f=$(".dfoot");if(f&&!$("#inst"))f.insertAdjacentHTML("afterbegin",'<button class="btn ghost cta" id="inst">Ilovani o\'rnatish</button>');if(route()==="sozlama")render(true)});
+  addEventListener("appinstalled",()=>{installEv=null;const b=$("#inst");if(b)b.remove();toast("Ilova o'rnatildi")});
+  document.addEventListener("click",e=>{if(e.target.closest("#inst,[data-inst]")&&installEv){installEv.prompt();installEv=null}});
+}
 function drawer(o){$("#drawer").hidden=!o;$("#scrim").hidden=!o;$("#burger").setAttribute("aria-expanded",o)}
 addEventListener("keydown",e=>{if(CALL.on&&e.code==="Space"&&!/INPUT|TEXTAREA/.test(e.target.tagName)){e.preventDefault();callOrb()}if(CALL.on&&e.key==="Escape"){callEnd();render(true)}});
 $("#burger").addEventListener("click",()=>drawer(true));$("#dclose").addEventListener("click",()=>drawer(false));$("#scrim").addEventListener("click",()=>drawer(false));
