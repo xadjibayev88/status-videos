@@ -218,6 +218,21 @@ a.brand{text-decoration:none;color:inherit}
 .gcard .bar i{transition:none}
 .gcard .btn.ghost{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:var(--on-night)}
 .lanes button{font-size:.84rem;hyphens:auto}
+.call{align-items:center;text-align:center;gap:14px;padding-block:26px}
+.orb{width:150px;height:150px;border-radius:50%;border:0;background:var(--grad);display:grid;place-items:center;position:relative;box-shadow:0 0 0 0 var(--a2)}
+.orb svg{width:54px;height:54px;fill:#fff}
+.orb.listen{animation:orbL 1.2s ease-in-out infinite}
+.orb.think{animation:orbT 1s linear infinite;opacity:.75}
+.orb.speak{animation:orbS .5s ease-in-out infinite alternate}
+@keyframes orbL{0%{box-shadow:0 0 0 0 rgba(255,90,112,.55)}100%{box-shadow:0 0 0 34px rgba(255,90,112,0)}}
+@keyframes orbT{50%{transform:scale(.93)}}
+@keyframes orbS{from{transform:scale(1)}to{transform:scale(1.09)}}
+.call .k{font-family:var(--f-ko);font-weight:700;font-size:1.4rem;overflow-wrap:anywhere}
+.call .st{font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.8rem;color:var(--on-night-muted)}
+.call .heard{min-height:2.6em;font-family:var(--f-ko);color:var(--on-night)}
+.call .fixn{background:rgba(243,195,85,.16);border-radius:12px;padding:8px 12px;font-size:.9rem;color:var(--on-night)}
+.call .chip{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:var(--on-night)}
+.call .field{background:rgba(255,255,255,.08);color:var(--on-night);border-color:rgba(255,255,255,.2)}
 .lanes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .lanes button{min-height:92px;border-radius:18px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:var(--on-night);font-weight:700;padding:8px;overflow-wrap:anywhere;font-size:.92rem}
 .lanes button:active{transform:scale(.96)}
@@ -3478,6 +3493,7 @@ V.suhbat=()=>{
  const head=`<h2>AI bilan suhbat</h2><p class="lead">Vaziyatni tanlang va koreyscha yozing yoki gapiring. AI javob beradi, o'zbekcha tarjima qiladi va xatoingizni tuzatadi. Mikrofon yonidagi KO/UZ tugmasi bilan o'zbekcha ham gapirishingiz mumkin: AI koreyschasini aytib beradi.</p>`;
  if(!capsReady)return `<section class="view">${head}<p class="muted">Yuklanmoqda…</p></section>`;
  if(!sampleFn)return `<section class="view">${head}<p class="note">AI suhbat bu yerda ishlamayapti. Sahifani Claude hisobingizga kirgan holda oching. Qolgan bo'limlar odatdagidek ishlaydi.</p></section>`;
+ if(CALL.on)return callView();
  return `<section class="view">${head}
  <div class="row">${lvlCtl()}<button class="chip" data-auto aria-pressed="${!!S.auto}">Javobni ovoz chiqarib o'qish</button></div>
  <div class="chips">${SCN.map((s,i)=>`<button class="chip" data-scn="${i}" aria-pressed="${i===C.scn}">${esc(s[0])}</button>`).join("")}</div>
@@ -3486,6 +3502,7 @@ V.suhbat=()=>{
    :`<div class="msg me"><div class="k">${esc(m.text)}</div></div>`).join("")}
    ${C.busy?`<div class="msg ai"><div class="r">AI yozmoqda…</div></div>`:""}</div>
  ${C.err?`<p class="err">${esc(C.err)}</p>`:""}
+ <div class="row"><button class="btn cta" data-call="start">Jonli ovozli suhbat →</button><span class="muted" style="font-size:.85rem">Qo'ng'iroq kabi: gapirasiz, AI ovoz bilan javob beradi.</span></div>
  <form class="send" data-chat>
   ${dict?`<button type="button" class="say" id="mic" data-mic aria-label="Gapirish">${MIC}</button><button type="button" class="chip" data-miclang title="Mikrofon tili">${S.mic==="uz"?"UZ":"KO"}</button>`:""}
   <input id="chat-input" autocomplete="off" placeholder="Javobingizni yozing…" value="${esc(C.draft)}" ${C.busy?"disabled":""} aria-label="Xabar">
@@ -3493,6 +3510,44 @@ V.suhbat=()=>{
  </form>
  <p class="muted" style="font-size:.85rem">Har bir javobingiz uchun 5 XP. AI ham xato qilishi mumkin.</p>
 </section>`};
+/* live voice call */
+let CALL={on:false,state:"idle",heard:"",note:""};let callT=0;
+const callSet=(st,note)=>{CALL.state=st;if(note!==undefined)CALL.note=note;if(route()==="suhbat")render(true)};
+function callListen(gesture){
+  if(!dict){callSet("idle","");return}
+  CALL.heard="";clearTimeout(callT);
+  micSink=(t,fin)=>{const base=CALL.heard;if(fin)CALL.heard=(base?base+" ":"")+t;const e=$("#cheard");if(e)e.textContent=fin?CALL.heard:(base?base+" ":"")+t;
+    clearTimeout(callT);if(fin)callT=setTimeout(callSend,1600)};
+  CALL.state="listen";CALL.note="";
+  dict.start({language:S.mic}).catch(e=>{micSink=null;if(!CALL.on)return;
+    callSet("idle",e&&e.code==="not_granted"?"Mikrofonga ruxsat berilmadi. Pastda yozib javob bering.":gesture?"Mikrofon ishlamadi. Qayta bosing yoki yozib javob bering.":"Gapirish uchun doirani bosing")});
+  if(route()==="suhbat")render(true);
+}
+async function callSend(typed){
+  clearTimeout(callT);const text=(typed||CALL.heard).trim();if(!text||C.busy)return;
+  micSink=null;if(dict){try{await dict.stop()}catch(e){}}
+  C.draft=text;CALL.heard="";CALL.state="think";await chatSend();
+  if(!CALL.on)return;
+  if(C.err){callSet("idle",C.err);return}
+  const m=C.msgs[C.msgs.length-1];callSet("speak","");
+  try{if(ttsNs)await ttsNs.speak([{text:m.ko,language:"ko",rate:S.lvl<3?.85:1}].concat(m.uz?[{text:m.uz,language:"uz"}]:[]));
+      else{speakLocal(m.ko);await new Promise(r=>setTimeout(r,Math.min(9000,1500+m.ko.length*220)))}}catch(e){}
+  if(CALL.on&&CALL.state==="speak")callListen(false);
+}
+function callEnd(){CALL.on=false;CALL.state="idle";clearTimeout(callT);micSink=null;try{dict&&dict.stop().catch(()=>{})}catch(e){}try{ttsNs&&ttsNs.stop&&ttsNs.stop()}catch(e){}try{speechSynthesis.cancel()}catch(e){}}
+function callView(){
+  const m=[...C.msgs].reverse().find(x=>x.who==="ai"),st=CALL.state;
+  const label={idle:dict?"Gapirish uchun doirani bosing":"Yozib javob bering",listen:"Tinglayapman… gapirib bo'lgach kuting yoki doirani bosing",think:"O'ylayapman…",speak:"Gapiryapman… to'xtatish uchun bosing"}[st];
+  return `<section class="view"><div class="gcard call">
+   <div class="st">${esc(SCN[C.scn][0])} · TOPIK ${S.lvl}</div>
+   <button class="orb ${st}" data-call="orb" aria-label="${esc(label)}">${st==="speak"?ICON:MIC}</button>
+   <div class="st">${esc(CALL.note||label)}</div>
+   <div class="heard" id="cheard">${esc(CALL.heard)}</div>
+   ${m?`<div class="k">${esc(m.ko)}</div><p>${esc(m.rom||"")}</p><p style="color:var(--on-night)">${esc(m.uz||"")}</p>${m.fix?`<div class="fixn">${esc(m.fix)}</div>`:""}`:""}
+   <div class="row" style="justify-content:center">${dict?`<button class="chip" data-miclang title="Qaysi tilda gapirasiz">Men ${S.mic==="uz"?"o'zbekcha":"koreyscha"} gapiraman</button>`:""}<button class="chip" data-say="${esc(m?m.ko:"")}">Qayta eshitish</button></div>
+   <form class="send" data-calltext style="width:100%"><input class="field" id="call-input" autocomplete="off" placeholder="Yoki yozing…" aria-label="Yozma javob" ${C.busy?"disabled":""}><button class="btn" ${C.busy?"disabled":""}>→</button></form>
+   <div class="row"><button class="btn ghost" data-call="end">Suhbatni tugatish</button></div>
+  </div></section>`}
 async function chatSend(){
   const text=C.draft.trim();if(!text||C.busy||!sampleFn)return;
   if(dict){try{dict.stop().catch(()=>{})}catch(e){}}
@@ -3512,7 +3567,7 @@ ${log}`;
   try{
     const r=await sampleFn.json(prompt,{cache:false});
     if(!r||typeof r.ko!=="string"||!r.ko.trim())throw {code:"bad"};
-    C.msgs.push({who:"ai",ko:r.ko,rom:String(r.rom||""),uz:String(r.uz||""),fix:String(r.fix||"")});gain(5);if(S.auto)speakBoth(r.ko,String(r.uz||""));
+    C.msgs.push({who:"ai",ko:r.ko,rom:String(r.rom||""),uz:String(r.uz||""),fix:String(r.fix||"")});gain(5);if(S.auto&&!CALL.on)speakBoth(r.ko,String(r.uz||""));
   }catch(e){
     const last=C.msgs.pop();C.draft=last.text;
     C.err=e&&e.code==="not_granted"?"AI'dan foydalanishga ruxsat berilmadi. Sahifani qayta ochib, ruxsat bering."
@@ -3720,7 +3775,7 @@ function render(keepScroll){
   document.querySelectorAll("#nav a").forEach(a=>{if(a.getAttribute("href")==="#"+r)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
   if(!keepScroll){window.scrollTo(0,0);const v=$("#app").firstElementChild;if(v)v.classList.add("enter");const c=$('#nav a[aria-current]');if(c&&c.scrollIntoView)c.scrollIntoView({block:"nearest",inline:"center"})}
 }
-addEventListener("hashchange",()=>{flip=false;A.err="";stopGame();if(G.on&&!G.over)G.on="";drawer(false);render()});
+addEventListener("hashchange",()=>{flip=false;A.err="";if(CALL.on)callEnd();stopGame();if(G.on&&!G.over)G.on="";drawer(false);render()});
 function drawer(o){$("#drawer").hidden=!o;$("#scrim").hidden=!o;$("#burger").setAttribute("aria-expanded",o)}
 $("#burger").addEventListener("click",()=>drawer(true));$("#dclose").addEventListener("click",()=>drawer(false));$("#scrim").addEventListener("click",()=>drawer(false));
 $("#drawer").addEventListener("click",e=>{if(e.target.closest("a"))drawer(false)});
@@ -3730,6 +3785,9 @@ $("#app").addEventListener("click",e=>{
   if("play" in d){playP(d.play||"listen");return}
   if(d.show){PZ[d.show].show=!PZ[d.show].show;render(true);return}
   if(d.pm){const st=PZ[d.pm];if(st.pick[d.pq]===undefined){st.pick[d.pq]=d.po;if(d.po===st.p.qs[d.pq].ans)gain(10);render(true)}return}
+  if(d.call==="start"){CALL.on=true;CALL.note="";if(!C.msgs.some(m=>m.who==="me"))chatReset(3);window.scrollTo(0,0);callListen(true);if(!dict)render(true);return}
+  if(d.call==="end"){callEnd();render(true);return}
+  if(d.call==="orb"){if(CALL.state==="listen")callSend();else if(CALL.state==="speak"){try{ttsNs&&ttsNs.stop&&ttsNs.stop()}catch(e){}try{speechSynthesis.cancel()}catch(e){}callListen(true)}else if(CALL.state==="idle")callListen(true);return}
   if(d.peek!==undefined){peek=+d.peek;render(true);return}
   if("peekgo" in d){const e=$("#peek");if(e)e.scrollIntoView({behavior:"smooth",block:"start"});return}
   if(d.ob){const [k,v]=d.ob.split(":");
@@ -3758,7 +3816,7 @@ $("#app").addEventListener("click",e=>{
   if(d.lvl){S.lvl=+d.lvl;save();TL.topic=TL.wt=null;TL.fb=null;if(Q&&Q.kind==="vocab")newQuiz("vocab");render(true);return}
   if(d.sayuz){speakUz(d.sayuz);return}
   if("auto" in d){S.auto=!S.auto;save();render(true);return}
-  if("miclang" in d){S.mic=S.mic==="uz"?"ko":"uz";save();b.textContent=S.mic==="uz"?"UZ":"KO";return}
+  if("miclang" in d){S.mic=S.mic==="uz"?"ko":"uz";save();if(CALL.on){if(CALL.state==="listen"){micSink=null;clearTimeout(callT);dict.stop().catch(()=>{}).then(()=>{if(CALL.on)callSet("idle","Til o'zgardi. Gapirish uchun doirani bosing")})}else render(true)}else b.textContent=S.mic==="uz"?"UZ":"KO";return}
   if(d.ai==="words"){aiWords();return}
   if(d.ai==="gram"){aiGram();return}
   if(d.ai==="add"&&A.dict){if(ALL.some(w=>w[0]===A.dict.ko))toast("Bu so'z kartochkalarda bor");else{addDeck("Mening so'zlarim",[[A.dict.ko,A.dict.rom,A.dict.uz]]);toast("Qo'shildi: Mening so'zlarim")}render(true);return}
@@ -3775,7 +3833,7 @@ $("#app").addEventListener("click",e=>{
     render(true)}
   else if(d.restart){newQuiz(d.restart);render(true)}
 });
-$("#app").addEventListener("submit",e=>{if(e.target.matches("[data-chat]")){e.preventDefault();chatSend()}if(e.target.matches("[data-dict]")){e.preventDefault();aiDict()}});
+$("#app").addEventListener("submit",e=>{if(e.target.matches("[data-chat]")){e.preventDefault();chatSend()}if(e.target.matches("[data-calltext]")){e.preventDefault();const v=$("#call-input").value;if(v.trim())callSend(v)}if(e.target.matches("[data-dict]")){e.preventDefault();aiDict()}});
 $("#app").addEventListener("input",e=>{if(e.target.id==="chat-input")C.draft=e.target.value;if(e.target.id==="ai-q")A.q=e.target.value;if(e.target.id==="wr-text")$("#wr-n").textContent=wrCount()+" belgi";if(/^calc-/.test(e.target.id))$("#calc-out").innerHTML=topikLevel();if(e.target.id==="dict-q"){DQ.q=e.target.value;$("#dres").innerHTML=dictRows()}});
 try{speechSynthesis.getVoices()}catch(e){}
 drawXp();render();
