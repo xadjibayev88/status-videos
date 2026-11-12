@@ -3533,7 +3533,7 @@ V.suhbat=()=>{
    :`<div class="msg me"><div class="k">${esc(m.text)}</div></div>`).join("")}
    ${C.busy?`<div class="msg ai"><div class="r">AI yozmoqda…</div></div>`:""}</div>
  ${C.err?`<p class="err">${esc(C.err)}</p>`:""}
- <div class="row"><button class="btn cta" data-call="start">Jonli ovozli suhbat →</button><span class="muted" style="font-size:.85rem">Bir marta bosasiz, keyin AI o'zi tinglab, ovoz bilan javob beradi.</span></div>
+ <div class="row"><button class="btn cta" data-call="start">Jonli ovozli suhbat →</button><span class="muted" style="font-size:.85rem">${dict?"Bir marta bosasiz, keyin AI o'zi tinglab, ovoz bilan javob beradi.":MICHELP}</span></div>
  <form class="send" data-chat>
   ${dict?`<button type="button" class="say" id="mic" data-mic aria-label="Gapirish">${MIC}</button><button type="button" class="chip" data-miclang title="Mikrofon tili">${S.mic==="uz"?"UZ":"KO"}</button>`:""}
   <input id="chat-input" autocomplete="off" placeholder="Javobingizni yozing…" value="${esc(C.draft)}" ${C.busy?"disabled":""} aria-label="Xabar">
@@ -3542,7 +3542,17 @@ V.suhbat=()=>{
  <p class="muted" style="font-size:.85rem">Har bir javobingiz uchun 5 XP. AI ham xato qilishi mumkin.</p>
 </section>`};
 /* live voice call */
-let CALL={on:false,state:"idle",heard:"",note:"",hf:false,gate:false,t0:0};let callT=0,callTick=0;
+let CALL={on:false,state:"idle",heard:"",note:"",hf:false,gate:false,t0:0};
+let noLang=false;const micOpts=()=>noLang?{}:{language:S.mic};
+const MICHELP="Bu oynada mikrofon berilmagan. Sahifani Chrome brauzerida alohida oching (Claude ilovasi ichida yoki chat yonidagi oynada emas) va Claude hisobingizga kiring.";
+function micWhy(e,gesture){const c=e&&e.code;
+  if(c==="unavailable"&&!noLang){noLang=true;return "Bu tilda ovozni tanish berilmadi. Yuzni yana bir marta bosing: qurilmangiz tilida tinglayman."}
+  return c==="not_granted"?"Mikrofonga ruxsat yo'q. Chrome'da manzil qatoridagi qulf belgisi → Ruxsatlar → Mikrofon → Ruxsat berish, keyin sahifani yangilang."
+   :c==="unavailable"?"Bu hisob yoki brauzer uchun ovozni tanish berilmagan. Yozib javob bering."
+   :c==="rate_limited"?"Hozir so'rovlar ko'p. Bir daqiqadan keyin yuzni bosing."
+   :c==="dismissed"?"Ruxsat so'rovi yopildi. Yuzni bosib, «Ruxsat berish»ni tanlang."
+   :c==="no_gesture"||!gesture?"Davom etish uchun yuzni bosing yoki probelni bosing"
+   :"Mikrofon ishlamadi ("+(c||"noma'lum xato")+"). Yuzni qayta bosing yoki yozing."}let callT=0,callTick=0;
 const voices=()=>{try{return speechSynthesis.getVoices()}catch(e){return []}};
 const hasVoice=l=>voices().some(v=>v.lang.toLowerCase().startsWith(l));
 function sayLocal(text,lang){return new Promise(res=>{
@@ -3560,8 +3570,8 @@ function callSink(t,fin){
 function callListen(gesture){
   if(!dict){callSet("idle","");return}
   CALL.heard="";CALL.gate=false;clearTimeout(callT);micSink=callSink;CALL.state="listen";CALL.note="";
-  dict.start({language:S.mic}).catch(e=>{if(!CALL.on)return;micSink=null;
-    callSet("idle",e&&e.code==="not_granted"?"Mikrofonga ruxsat berilmadi. Pastda yozib javob bering.":e&&e.code==="unavailable"?"Bu tilda ovozni tanish ishlamadi. Tilni almashtirib ko'ring yoki yozing.":gesture?"Mikrofon ishlamadi. Yuzni qayta bosing yoki yozing.":"Davom etish uchun yuzni bosing yoki probelni bosing")});
+  dict.start(micOpts()).catch(e=>{if(!CALL.on)return;micSink=null;
+    callSet("idle",micWhy(e,gesture))});
   if(route()==="suhbat")render(true);
 }
 async function callSend(typed){
@@ -3599,7 +3609,7 @@ function callOrb(){
 function callEnd(){CALL.on=false;CALL.state="idle";clearTimeout(callT);clearInterval(callTick);micSink=null;try{dict&&dict.stop().catch(()=>{})}catch(e){}try{ttsNs&&ttsNs.stop&&ttsNs.stop()}catch(e){}try{speechSynthesis.cancel()}catch(e){}}
 function callView(){
   const m=[...C.msgs].reverse().find(x=>x.who==="ai"),st=CALL.state;
-  const label={idle:dict?"Gapirish uchun yuzni bosing":"Yozib javob bering",listen:CALL.hf?"Tinglayapman… bemalol gapiring":"Tinglayapman… gapirib bo'lgach biroz kuting",think:"O'ylayapman…",speak:"AI gapiryapti… to'xtatish uchun bosing"}[st];
+  const label={idle:dict?"Gapirish uchun yuzni bosing":MICHELP,listen:CALL.hf?"Tinglayapman… bemalol gapiring":"Tinglayapman… gapirib bo'lgach biroz kuting",think:"O'ylayapman…",speak:"AI gapiryapti… to'xtatish uchun bosing"}[st];
   return `<section class="view"><div class="cs" role="dialog" aria-label="Jonli suhbat">
    <div class="bar2"><span><span id="ctime">00:00</span> · ${esc(SCN[C.scn][0])} · TOPIK ${S.lvl}</span><button class="x" data-call="end" aria-label="Suhbatni tugatish">✕</button></div>
    <div class="mid">
@@ -3876,12 +3886,12 @@ $("#app").addEventListener("click",e=>{
   if(d.say)speak(d.say);
   if("mic" in d&&dict){
     if(micOn){dict.stop().catch(()=>{})}
-    else dict.start({language:S.mic}).catch(e=>{if(e&&e.code==="not_granted"){dict=null;b.hidden=true;toast("Mikrofonga ruxsat berilmadi. Yozib javob bering.")}else if(!e||e.code!=="dismissed")toast("Ovozni tanib bo'lmadi. Yozib javob bering.")});
+    else dict.start(micOpts()).catch(e=>{if(e&&e.code==="not_granted"){dict=null;b.hidden=true;toast("Mikrofonga ruxsat berilmadi. Yozib javob bering.")}else if(!e||e.code!=="dismissed")toast("Ovozni tanib bo'lmadi. Yozib javob bering.")});
     return}
   if(d.lvl){S.lvl=+d.lvl;save();TL.topic=TL.wt=null;TL.fb=null;if(Q&&Q.kind==="vocab")newQuiz("vocab");render(true);return}
   if(d.sayuz){speakUz(d.sayuz);return}
   if("auto" in d){S.auto=!S.auto;save();render(true);return}
-  if("miclang" in d){S.mic=S.mic==="uz"?"ko":"uz";save();if(CALL.on){clearTimeout(callT);CALL.heard="";if(dict&&CALL.state!=="think"&&CALL.state!=="speak"){micSink=callSink;CALL.gate=false;CALL.state="listen";CALL.note="";const pr=dict.active&&dict.active()?dict.stop().catch(()=>{}):null;dict.start({language:S.mic}).catch(()=>{if(CALL.on)callSet("idle","Davom etish uchun yuzni bosing")});}render(true)}else b.textContent=S.mic==="uz"?"UZ":"KO";return}
+  if("miclang" in d){S.mic=S.mic==="uz"?"ko":"uz";save();if(CALL.on){clearTimeout(callT);CALL.heard="";if(dict&&CALL.state!=="think"&&CALL.state!=="speak"){micSink=callSink;CALL.gate=false;CALL.state="listen";CALL.note="";const pr=dict.active&&dict.active()?dict.stop().catch(()=>{}):null;dict.start(micOpts()).catch(()=>{if(CALL.on)callSet("idle","Davom etish uchun yuzni bosing")});}render(true)}else b.textContent=S.mic==="uz"?"UZ":"KO";return}
   if(d.ai==="words"){aiWords();return}
   if(d.ai==="gram"){aiGram();return}
   if(d.ai==="add"&&A.dict){if(ALL.some(w=>w[0]===A.dict.ko))toast("Bu so'z kartochkalarda bor");else{addDeck("Mening so'zlarim",[[A.dict.ko,A.dict.rom,A.dict.uz]]);toast("Qo'shildi: Mening so'zlarim")}render(true);return}
