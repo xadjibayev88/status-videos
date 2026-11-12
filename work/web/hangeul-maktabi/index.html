@@ -233,6 +233,37 @@ a.brand{text-decoration:none;color:inherit}
 .call .fixn{background:rgba(243,195,85,.16);border-radius:12px;padding:8px 12px;font-size:.9rem;color:var(--on-night)}
 .call .chip{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:var(--on-night)}
 .call .field{background:rgba(255,255,255,.08);color:var(--on-night);border-color:rgba(255,255,255,.2)}
+.cs{position:fixed;inset:0;z-index:40;background:radial-gradient(80% 60% at 50% 30%,var(--night2),var(--night));color:var(--on-night);display:flex;flex-direction:column;align-items:center;gap:14px;overflow-y:auto;
+ padding:calc(14px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+body.incall header.top,body.incall footer{display:none}
+.cs .bar2{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:560px;font-weight:700;font-variant-numeric:tabular-nums}
+.cs .x{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:var(--on-night);font-size:1.1rem}
+.cs .mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;width:100%;max-width:560px;text-align:center}
+.face{width:176px;height:176px;border-radius:44%;border:8px solid transparent;background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;position:relative;flex:none;transition:transform .2s}
+.face i,.face u,.face em{position:absolute;display:block}
+.face i{top:66px;width:18px;height:26px;border-radius:50%;background:#12152b;transition:all .18s}
+.face i.l{left:46px}.face i.r{right:46px}
+.face u{left:50%;top:104px;width:26px;height:10px;margin-left:-13px;border-radius:0 0 20px 20px;background:#12152b;transition:all .18s}
+.face em{top:98px;width:20px;height:10px;border-radius:50%;background:rgba(226,58,82,.35)}
+.face em.l{left:22px}.face em.r{right:22px}
+.face.listen{animation:fl 1.6s ease-in-out infinite}
+.face.listen i{animation:blink 3.4s infinite}
+.face.think i{height:16px;top:60px;transform:translateX(5px)}
+.face.think u{width:14px;height:6px;margin-left:-7px;border-radius:6px}
+.face.speak u{animation:talk .28s ease-in-out infinite alternate}
+.face.idle i{height:4px;top:78px;border-radius:4px;width:22px}
+.face.idle u{width:12px;height:5px;margin-left:-6px;border-radius:6px}
+@keyframes fl{0%,100%{box-shadow:0 0 0 0 rgba(91,130,255,.5)}50%{box-shadow:0 0 0 22px rgba(91,130,255,0)}}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes talk{from{height:6px;width:22px;margin-left:-11px}to{height:24px;width:30px;margin-left:-15px;border-radius:40%}}
+.cs .st{font-weight:600;font-size:.85rem;color:var(--on-night-muted)}
+.cs .heard{min-height:1.6em;font-family:var(--f-ko);font-size:1.05rem}
+.cs .k{font-family:var(--f-ko);font-weight:700;font-size:1.35rem;overflow-wrap:anywhere}
+.cs .sub{color:var(--on-night-muted);font-size:.9rem}
+.cs .fixn{background:rgba(243,195,85,.16);border-radius:12px;padding:8px 12px;font-size:.9rem}
+.cs .chip{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:var(--on-night)}
+.cs .field{background:rgba(255,255,255,.08);color:var(--on-night);border-color:rgba(255,255,255,.2)}
+.cs .send{width:100%;max-width:560px}
 .lanes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .lanes button{min-height:92px;border-radius:18px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:var(--on-night);font-weight:700;padding:8px;overflow-wrap:anywhere;font-size:.92rem}
 .lanes button:active{transform:scale(.96)}
@@ -3502,7 +3533,7 @@ V.suhbat=()=>{
    :`<div class="msg me"><div class="k">${esc(m.text)}</div></div>`).join("")}
    ${C.busy?`<div class="msg ai"><div class="r">AI yozmoqda…</div></div>`:""}</div>
  ${C.err?`<p class="err">${esc(C.err)}</p>`:""}
- <div class="row"><button class="btn cta" data-call="start">Jonli ovozli suhbat →</button><span class="muted" style="font-size:.85rem">Qo'ng'iroq kabi: gapirasiz, AI ovoz bilan javob beradi.</span></div>
+ <div class="row"><button class="btn cta" data-call="start">Jonli ovozli suhbat →</button><span class="muted" style="font-size:.85rem">Bir marta bosasiz, keyin AI o'zi tinglab, ovoz bilan javob beradi.</span></div>
  <form class="send" data-chat>
   ${dict?`<button type="button" class="say" id="mic" data-mic aria-label="Gapirish">${MIC}</button><button type="button" class="chip" data-miclang title="Mikrofon tili">${S.mic==="uz"?"UZ":"KO"}</button>`:""}
   <input id="chat-input" autocomplete="off" placeholder="Javobingizni yozing…" value="${esc(C.draft)}" ${C.busy?"disabled":""} aria-label="Xabar">
@@ -3511,46 +3542,78 @@ V.suhbat=()=>{
  <p class="muted" style="font-size:.85rem">Har bir javobingiz uchun 5 XP. AI ham xato qilishi mumkin.</p>
 </section>`};
 /* live voice call */
-let CALL={on:false,state:"idle",heard:"",note:""};let callT=0;
+let CALL={on:false,state:"idle",heard:"",note:"",hf:false,gate:false,t0:0};let callT=0,callTick=0;
+const voices=()=>{try{return speechSynthesis.getVoices()}catch(e){return []}};
+const hasVoice=l=>voices().some(v=>v.lang.toLowerCase().startsWith(l));
+function sayLocal(text,lang){return new Promise(res=>{
+  try{const u=new SpeechSynthesisUtterance(text);u.lang=lang==="ko"?"ko-KR":"uz-UZ";u.rate=lang==="ko"&&S.lvl<3?.88:1;
+    const v=voices().find(v=>v.lang.toLowerCase().startsWith(lang));if(v)u.voice=v;
+    let done=false;const fin=()=>{if(!done){done=true;res()}};u.onend=fin;u.onerror=fin;setTimeout(fin,2500+text.length*260);
+    speechSynthesis.speak(u)}catch(e){res()}})}
 const callSet=(st,note)=>{CALL.state=st;if(note!==undefined)CALL.note=note;if(route()==="suhbat")render(true)};
+function callSink(t,fin){
+  if(CALL.gate||!CALL.on)return;
+  const base=CALL.heard;if(fin)CALL.heard=(base+t).replace(/^\s+/,"");
+  const e=$("#cheard");if(e)e.textContent=fin?CALL.heard:(base+" "+t).trim();
+  clearTimeout(callT);if(fin&&CALL.heard.trim())callT=setTimeout(callSend,1400);
+}
 function callListen(gesture){
   if(!dict){callSet("idle","");return}
-  CALL.heard="";clearTimeout(callT);
-  micSink=(t,fin)=>{const base=CALL.heard;if(fin)CALL.heard=(base?base+" ":"")+t;const e=$("#cheard");if(e)e.textContent=fin?CALL.heard:(base?base+" ":"")+t;
-    clearTimeout(callT);if(fin)callT=setTimeout(callSend,1600)};
-  CALL.state="listen";CALL.note="";
-  dict.start({language:S.mic}).catch(e=>{micSink=null;if(!CALL.on)return;
-    callSet("idle",e&&e.code==="not_granted"?"Mikrofonga ruxsat berilmadi. Pastda yozib javob bering.":gesture?"Mikrofon ishlamadi. Qayta bosing yoki yozib javob bering.":"Gapirish uchun doirani bosing")});
+  CALL.heard="";CALL.gate=false;clearTimeout(callT);micSink=callSink;CALL.state="listen";CALL.note="";
+  dict.start({language:S.mic}).catch(e=>{if(!CALL.on)return;micSink=null;
+    callSet("idle",e&&e.code==="not_granted"?"Mikrofonga ruxsat berilmadi. Pastda yozib javob bering.":e&&e.code==="unavailable"?"Bu tilda ovozni tanish ishlamadi. Tilni almashtirib ko'ring yoki yozing.":gesture?"Mikrofon ishlamadi. Yuzni qayta bosing yoki yozing.":"Davom etish uchun yuzni bosing yoki probelni bosing")});
   if(route()==="suhbat")render(true);
 }
 async function callSend(typed){
-  clearTimeout(callT);const text=(typed||CALL.heard).trim();if(!text||C.busy)return;
-  micSink=null;if(dict){try{await dict.stop()}catch(e){}}
+  clearTimeout(callT);const text=(typeof typed==="string"?typed:CALL.heard).trim();if(!text||C.busy)return;
+  CALL.gate=true;
+  if(!CALL.hf){micSink=null;if(dict){try{await dict.stop()}catch(e){}}}
   C.draft=text;CALL.heard="";CALL.state="think";await chatSend();
   if(!CALL.on)return;
-  if(C.err){callSet("idle",C.err);return}
+  if(C.err){CALL.gate=false;callSet(CALL.hf&&dict&&dict.active&&dict.active()?"listen":"idle",C.err);return}
   const m=C.msgs[C.msgs.length-1];callSet("speak","");
-  try{if(ttsNs)await ttsNs.speak([{text:m.ko,language:"ko",rate:S.lvl<3?.85:1}].concat(m.uz?[{text:m.uz,language:"uz"}]:[]));
-      else{speakLocal(m.ko);await new Promise(r=>setTimeout(r,Math.min(9000,1500+m.ko.length*220)))}}catch(e){}
-  if(CALL.on&&CALL.state==="speak")callListen(false);
+  if(CALL.hf){
+    await sayLocal(m.ko,"ko");
+    if(CALL.on&&CALL.state==="speak"&&m.uz&&hasVoice("uz"))await sayLocal(m.uz,"uz");
+    await new Promise(r=>setTimeout(r,450));
+    if(!CALL.on||CALL.state!=="speak")return;
+    CALL.heard="";CALL.gate=false;
+    if(dict&&dict.active&&dict.active())callSet("listen","");else callSet("idle","Davom etish uchun yuzni bosing yoki probelni bosing");
+  }else{
+    try{if(ttsNs)await ttsNs.speak([{text:m.ko,language:"ko",rate:S.lvl<3?.85:1}].concat(m.uz?[{text:m.uz,language:"uz"}]:[]));else await sayLocal(m.ko,"ko")}catch(e){}
+    if(CALL.on&&CALL.state==="speak")callListen(false);
+  }
 }
-function callEnd(){CALL.on=false;CALL.state="idle";clearTimeout(callT);micSink=null;try{dict&&dict.stop().catch(()=>{})}catch(e){}try{ttsNs&&ttsNs.stop&&ttsNs.stop()}catch(e){}try{speechSynthesis.cancel()}catch(e){}}
+function callStart(){
+  if(!C.msgs.some(m=>m.who==="me"))chatReset(3);
+  const v=voices();
+  CALL={on:true,state:"idle",heard:"",note:"",gate:false,t0:Date.now(),hf:!!dict&&("speechSynthesis" in window)&&(!v.length||hasVoice("ko"))};
+  clearInterval(callTick);callTick=setInterval(()=>{const e=$("#ctime");if(e){const t=Math.floor((Date.now()-CALL.t0)/1000);e.textContent=String(Math.floor(t/60)).padStart(2,"0")+":"+String(t%60).padStart(2,"0")}},1000);
+  window.scrollTo(0,0);callListen(true);if(!dict)render(true);
+}
+function callOrb(){
+  if(CALL.state==="listen"){if(CALL.heard.trim())callSend()}
+  else if(CALL.state==="speak"){try{ttsNs&&ttsNs.stop&&ttsNs.stop()}catch(e){}try{speechSynthesis.cancel()}catch(e){}callListen(true)}
+  else if(CALL.state==="idle")callListen(true);
+}
+function callEnd(){CALL.on=false;CALL.state="idle";clearTimeout(callT);clearInterval(callTick);micSink=null;try{dict&&dict.stop().catch(()=>{})}catch(e){}try{ttsNs&&ttsNs.stop&&ttsNs.stop()}catch(e){}try{speechSynthesis.cancel()}catch(e){}}
 function callView(){
   const m=[...C.msgs].reverse().find(x=>x.who==="ai"),st=CALL.state;
-  const label={idle:dict?"Gapirish uchun doirani bosing":"Yozib javob bering",listen:"Tinglayapman… gapirib bo'lgach kuting yoki doirani bosing",think:"O'ylayapman…",speak:"Gapiryapman… to'xtatish uchun bosing"}[st];
-  return `<section class="view"><div class="gcard call">
-   <div class="st">${esc(SCN[C.scn][0])} · TOPIK ${S.lvl}</div>
-   <button class="orb ${st}" data-call="orb" aria-label="${esc(label)}">${st==="speak"?ICON:MIC}</button>
-   <div class="st">${esc(CALL.note||label)}</div>
-   <div class="heard" id="cheard">${esc(CALL.heard)}</div>
-   ${m?`<div class="k">${esc(m.ko)}</div><p>${esc(m.rom||"")}</p><p style="color:var(--on-night)">${esc(m.uz||"")}</p>${m.fix?`<div class="fixn">${esc(m.fix)}</div>`:""}`:""}
-   <div class="row" style="justify-content:center">${dict?`<button class="chip" data-miclang title="Qaysi tilda gapirasiz">Men ${S.mic==="uz"?"o'zbekcha":"koreyscha"} gapiraman</button>`:""}<button class="chip" data-say="${esc(m?m.ko:"")}">Qayta eshitish</button></div>
-   <form class="send" data-calltext style="width:100%"><input class="field" id="call-input" autocomplete="off" placeholder="Yoki yozing…" aria-label="Yozma javob" ${C.busy?"disabled":""}><button class="btn" ${C.busy?"disabled":""}>→</button></form>
-   <div class="row"><button class="btn ghost" data-call="end">Suhbatni tugatish</button></div>
+  const label={idle:dict?"Gapirish uchun yuzni bosing":"Yozib javob bering",listen:CALL.hf?"Tinglayapman… bemalol gapiring":"Tinglayapman… gapirib bo'lgach biroz kuting",think:"O'ylayapman…",speak:"AI gapiryapti… to'xtatish uchun bosing"}[st];
+  return `<section class="view"><div class="cs" role="dialog" aria-label="Jonli suhbat">
+   <div class="bar2"><span><span id="ctime">00:00</span> · ${esc(SCN[C.scn][0])} · TOPIK ${S.lvl}</span><button class="x" data-call="end" aria-label="Suhbatni tugatish">✕</button></div>
+   <div class="mid">
+    <button class="face ${st}" data-call="orb" aria-label="${esc(label)}"><i class="l"></i><i class="r"></i><em class="l"></em><em class="r"></em><u></u></button>
+    <div class="st">${esc(CALL.note||label)}</div>
+    <div class="heard" id="cheard">${esc(CALL.heard)}</div>
+    ${m?`<div class="k">${esc(m.ko)}</div><div class="sub">${esc(m.rom||"")}</div><div>${esc(m.uz||"")}</div>${m.fix?`<div class="fixn">${esc(m.fix)}</div>`:""}`:""}
+   </div>
+   <div class="row" style="justify-content:center">${dict?`<button class="chip" data-miclang>Men ${S.mic==="uz"?"o'zbekcha":"koreyscha"} gapiraman</button>`:""}<button class="chip" data-say="${esc(m?m.ko:"")}">Qayta eshitish</button></div>
+   <form class="send" data-calltext><input class="field" id="call-input" autocomplete="off" placeholder="Yoki yozing…" aria-label="Yozma javob" ${C.busy?"disabled":""}><button class="btn" ${C.busy?"disabled":""}>→</button></form>
   </div></section>`}
 async function chatSend(){
   const text=C.draft.trim();if(!text||C.busy||!sampleFn)return;
-  if(dict){try{dict.stop().catch(()=>{})}catch(e){}}
+  if(dict&&!(CALL.on&&CALL.hf)){try{dict.stop().catch(()=>{})}catch(e){}}
   C.msgs.push({who:"me",text});C.draft="";C.busy=true;C.err="";render(true);scrollChat();
   const log=C.msgs.slice(-12).map(m=>m.who==="ai"?"Partner: "+m.ko:"Learner: "+m.text).join("\n");
   const prompt=`You are a Korean conversation partner for an Uzbek-speaking learner at TOPIK level ${S.lvl}. Role: ${SCN[C.scn][1]}
@@ -3584,7 +3647,7 @@ function scrollChat(){const c=$("#chat");if(c&&c.lastElementChild)c.lastElementC
       if(dict){
         dict.onPartial(({text})=>{if(micSink){micSink(text,0);return}const i=$("#chat-input");if(i)i.value=(C.draft?C.draft+" ":"")+text});
         dict.onFinal(({text})=>{if(micSink){micSink(text,1);return}C.draft=(C.draft?C.draft+" ":"")+text;const i=$("#chat-input");if(i)i.value=C.draft});
-        dict.onState(({state})=>{const m=$("#mic");if(m)m.classList.toggle("on",state==="listening"||state==="starting");micOn=state!=="idle"});
+        dict.onState(({state})=>{const m=$("#mic");if(m)m.classList.toggle("on",state==="listening"||state==="starting");micOn=state!=="idle";if(state==="idle"&&CALL.on&&CALL.hf&&(CALL.state==="listen"||CALL.state==="speak")){if(CALL.state==="listen")callSet("idle","Mikrofon to'xtadi. Davom etish uchun yuzni bosing");else CALL.hf=false}});
       }
     }
   }catch(e){}
@@ -3771,12 +3834,14 @@ V.grammatika=()=>quizView("gram","Grammatika mashqi",GRAM.length+" savol, TOPIK 
 function route(){const h=(location.hash||"#bosh").slice(1);return V[h]?h:"bosh"}
 function render(keepScroll){
   const r=route();
+  document.body.classList.toggle("incall",CALL.on&&r==="suhbat");
   $("#app").innerHTML=V[r]();
   document.querySelectorAll("#nav a").forEach(a=>{if(a.getAttribute("href")==="#"+r)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
   if(!keepScroll){window.scrollTo(0,0);const v=$("#app").firstElementChild;if(v)v.classList.add("enter");const c=$('#nav a[aria-current]');if(c&&c.scrollIntoView)c.scrollIntoView({block:"nearest",inline:"center"})}
 }
 addEventListener("hashchange",()=>{flip=false;A.err="";if(CALL.on)callEnd();stopGame();if(G.on&&!G.over)G.on="";drawer(false);render()});
 function drawer(o){$("#drawer").hidden=!o;$("#scrim").hidden=!o;$("#burger").setAttribute("aria-expanded",o)}
+addEventListener("keydown",e=>{if(CALL.on&&e.code==="Space"&&!/INPUT|TEXTAREA/.test(e.target.tagName)){e.preventDefault();callOrb()}if(CALL.on&&e.key==="Escape"){callEnd();render(true)}});
 $("#burger").addEventListener("click",()=>drawer(true));$("#dclose").addEventListener("click",()=>drawer(false));$("#scrim").addEventListener("click",()=>drawer(false));
 $("#drawer").addEventListener("click",e=>{if(e.target.closest("a"))drawer(false)});
 $("#app").addEventListener("click",e=>{
@@ -3785,9 +3850,9 @@ $("#app").addEventListener("click",e=>{
   if("play" in d){playP(d.play||"listen");return}
   if(d.show){PZ[d.show].show=!PZ[d.show].show;render(true);return}
   if(d.pm){const st=PZ[d.pm];if(st.pick[d.pq]===undefined){st.pick[d.pq]=d.po;if(d.po===st.p.qs[d.pq].ans)gain(10);render(true)}return}
-  if(d.call==="start"){CALL.on=true;CALL.note="";if(!C.msgs.some(m=>m.who==="me"))chatReset(3);window.scrollTo(0,0);callListen(true);if(!dict)render(true);return}
+  if(d.call==="start"){callStart();return}
   if(d.call==="end"){callEnd();render(true);return}
-  if(d.call==="orb"){if(CALL.state==="listen")callSend();else if(CALL.state==="speak"){try{ttsNs&&ttsNs.stop&&ttsNs.stop()}catch(e){}try{speechSynthesis.cancel()}catch(e){}callListen(true)}else if(CALL.state==="idle")callListen(true);return}
+  if(d.call==="orb"){callOrb();return}
   if(d.peek!==undefined){peek=+d.peek;render(true);return}
   if("peekgo" in d){const e=$("#peek");if(e)e.scrollIntoView({behavior:"smooth",block:"start"});return}
   if(d.ob){const [k,v]=d.ob.split(":");
@@ -3816,7 +3881,7 @@ $("#app").addEventListener("click",e=>{
   if(d.lvl){S.lvl=+d.lvl;save();TL.topic=TL.wt=null;TL.fb=null;if(Q&&Q.kind==="vocab")newQuiz("vocab");render(true);return}
   if(d.sayuz){speakUz(d.sayuz);return}
   if("auto" in d){S.auto=!S.auto;save();render(true);return}
-  if("miclang" in d){S.mic=S.mic==="uz"?"ko":"uz";save();if(CALL.on){if(CALL.state==="listen"){micSink=null;clearTimeout(callT);dict.stop().catch(()=>{}).then(()=>{if(CALL.on)callSet("idle","Til o'zgardi. Gapirish uchun doirani bosing")})}else render(true)}else b.textContent=S.mic==="uz"?"UZ":"KO";return}
+  if("miclang" in d){S.mic=S.mic==="uz"?"ko":"uz";save();if(CALL.on){clearTimeout(callT);CALL.heard="";if(dict&&CALL.state!=="think"&&CALL.state!=="speak"){micSink=callSink;CALL.gate=false;CALL.state="listen";CALL.note="";const pr=dict.active&&dict.active()?dict.stop().catch(()=>{}):null;dict.start({language:S.mic}).catch(()=>{if(CALL.on)callSet("idle","Davom etish uchun yuzni bosing")});}render(true)}else b.textContent=S.mic==="uz"?"UZ":"KO";return}
   if(d.ai==="words"){aiWords();return}
   if(d.ai==="gram"){aiGram();return}
   if(d.ai==="add"&&A.dict){if(ALL.some(w=>w[0]===A.dict.ko))toast("Bu so'z kartochkalarda bor");else{addDeck("Mening so'zlarim",[[A.dict.ko,A.dict.rom,A.dict.uz]]);toast("Qo'shildi: Mening so'zlarim")}render(true);return}
