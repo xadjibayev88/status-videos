@@ -3382,7 +3382,7 @@ function speakBoth(ko,uz){
 const lvlCtl=()=>`<div class="lvl"><span>TOPIK darajasi</span><div class="seg" role="group" aria-label="TOPIK darajasi">${[1,2,3,4,5].map(n=>`<button data-lvl="${n}" aria-pressed="${n===S.lvl}">${n}</button>`).join("")}</div></div>`;
 const HANGUL=/[\uAC00-\uD7A3]/;
 let A={busy:"",err:"",q:"",dict:null};
-function aiErr(e){return e&&e.code==="not_granted"?"AI'dan foydalanishga ruxsat berilmadi. Sahifani qayta ochib, ruxsat bering.":e&&e.code==="rate_limited"?"So'rovlar ko'payib ketdi. Bir daqiqadan keyin urinib ko'ring.":"AI javob bera olmadi. Qayta urinib ko'ring."}
+function aiErr(e){return e&&e.code==="bad_key"?"Kalit qabul qilinmadi. Sozlamalarda kalitni tekshiring.":e&&e.code==="bad_model"?"Model topilmadi. Sozlamalarda model nomini tekshiring.":e&&e.code==="network"?"Internetga ulanib bo'lmadi.":e&&e.code==="not_granted"?"AI'dan foydalanishga ruxsat berilmadi. Sahifani qayta ochib, ruxsat bering.":e&&e.code==="rate_limited"?"So'rovlar ko'payib ketdi. Bir daqiqadan keyin urinib ko'ring.":"AI javob bera olmadi. Qayta urinib ko'ring."}
 async function aiRun(kind,fn){
   if(A.busy||!sampleFn)return;A.busy=kind;A.err="";render(true);
   try{await fn()}catch(e){A.err=aiErr(e)}
@@ -3523,7 +3523,7 @@ chatReset(0);
 V.suhbat=()=>{
  const head=`<h2>AI bilan suhbat</h2><p class="lead">Vaziyatni tanlang va koreyscha yozing yoki gapiring. AI javob beradi, o'zbekcha tarjima qiladi va xatoingizni tuzatadi. Mikrofon yonidagi KO/UZ tugmasi bilan o'zbekcha ham gapirishingiz mumkin: AI koreyschasini aytib beradi.</p>`;
  if(!capsReady)return `<section class="view">${head}<p class="muted">Yuklanmoqda…</p></section>`;
- if(!sampleFn)return `<section class="view">${head}<p class="note">AI suhbat bu yerda ishlamayapti. Sahifani Claude hisobingizga kirgan holda oching. Qolgan bo'limlar odatdagidek ishlaydi.</p></section>`;
+ if(!sampleFn)return `<section class="view">${head}<p class="note">${SOLO?"AI suhbat uchun kalit kerak. Menyudagi «Sozlamalar» bo'limida Gemini kalitingizni kiriting.":"AI suhbat bu yerda ishlamayapti. Sahifani Claude hisobingizga kirgan holda oching."} Qolgan bo'limlar odatdagidek ishlaydi.</p>${SOLO?`<div class="row"><a class="btn" href="#sozlama">Sozlamalarni ochish →</a></div>`:""}</section>`;
  if(CALL.on)return callView();
  return `<section class="view">${head}
  <div class="row">${lvlCtl()}<button class="chip" data-auto aria-pressed="${!!S.auto}">Javobni ovoz chiqarib o'qish</button></div>
@@ -3541,10 +3541,64 @@ V.suhbat=()=>{
  </form>
  <p class="muted" style="font-size:.85rem">Har bir javobingiz uchun 5 XP. AI ham xato qilishi mumkin.</p>
 </section>`};
+/* standalone mode (own hosting): browser speech recognition + the viewer's own AI key */
+const SOLO=!(window.claude&&window.claude.use);
+const kget=k=>{try{return localStorage.getItem(k)||""}catch(e){return ""}};
+function makeAI(){
+  const key=kget("hm_key");if(!key)return null;
+  const fn=()=>{};
+  fn.json=async prompt=>{
+    const model=kget("hm_model")||"gemini-flash-latest";let r;
+    try{r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+encodeURIComponent(model)+":generateContent",{method:"POST",headers:{"content-type":"application/json","x-goog-api-key":key},
+      body:JSON.stringify({contents:[{role:"user",parts:[{text:prompt}]}],generationConfig:{responseMimeType:"application/json",temperature:.7}})})}catch(e){throw {code:"network"}}
+    if(r.status===429)throw {code:"rate_limited"};
+    if(r.status===400||r.status===401||r.status===403)throw {code:"bad_key"};
+    if(r.status===404)throw {code:"bad_model"};
+    if(!r.ok)throw {code:"upstream"};
+    const j=await r.json(),t=(((j.candidates||[])[0]||{}).content||{}).parts;
+    return JSON.parse((t||[]).map(x=>x.text||"").join("").replace(/^```(?:json)?|```$/g,"").trim());
+  };
+  return fn;
+}
+function makeRec(){
+  const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R)return null;
+  let rec=null,want=false,state="idle";const hp=[],hf=[],hs=[];
+  const set=(st,reason)=>{state=st;hs.forEach(f=>f({state:st,reason}))};
+  const api={native:true,onPartial(f){hp.push(f)},onFinal(f){hf.push(f)},onState(f){hs.push(f)},active:()=>state!=="idle",
+   start(o){return new Promise((res,rej)=>{
+     if(want&&rec){res();return}
+     want=true;let settled=false;
+     const boot=()=>{
+       rec=new R();rec.lang=o&&o.language==="uz"?"uz-UZ":o&&o.language==="ko"?"ko-KR":(navigator.language||"en-US");
+       rec.interimResults=true;rec.continuous=!/Android/i.test(navigator.userAgent);
+       rec.onstart=()=>{set("listening");if(!settled){settled=true;res()}};
+       rec.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++){const t=e.results[i][0].transcript;if(e.results[i].isFinal){hp.forEach(f=>f({text:""}));hf.forEach(f=>f({text:" "+t.trim()}))}else hp.forEach(f=>f({text:t}))}};
+       rec.onerror=e=>{const c=e.error;if(c==="no-speech"||c==="aborted")return;
+         want=false;const code=c==="not-allowed"||c==="service-not-allowed"?"not_granted":c==="language-not-supported"?"unavailable":"upstream_error";
+         if(!settled){settled=true;rej({code})}set("idle",code)};
+       rec.onend=()=>{if(want)setTimeout(()=>{if(want)try{boot()}catch(e){want=false;set("idle","upstream_error")}},250);else set("idle","stopped")};
+       rec.start();
+     };
+     set("starting");try{boot()}catch(e){want=false;set("idle","upstream_error");rej({code:"upstream_error"})}
+   })},
+   stop(){want=false;return new Promise(res=>{if(!rec||state==="idle"){res();return}const r=rec;const done=()=>res();r.addEventListener("end",done,{once:true});try{r.stop()}catch(e){res()}setTimeout(done,1200)})}};
+  return api;
+}
+V.sozlama=()=>`<section class="view"><h2>Sozlamalar</h2>
+ <p class="lead">AI bo'limlari (suhbat, AI lug'at, AI mashqlar) ishlashi uchun o'zingizning Google Gemini kalitingiz kerak. Kalit faqat shu qurilmada saqlanadi va faqat Google'ga yuboriladi.</p>
+ <div class="panel"><h3>Gemini API kaliti<small>${kget("hm_key")?"saqlangan":"kiritilmagan"}</small></h3>
+  <p class="muted">Kalitni Google AI Studio saytida olasiz: <span style="user-select:all">aistudio.google.com/apikey</span>. Bepul tarifda kunlik chegara bor.</p>
+  <input class="field" id="set-key" type="password" autocomplete="off" placeholder="Kalitni shu yerga qo'ying" aria-label="Gemini API kaliti">
+  <label style="font-size:.85rem;font-weight:600">Model nomi<input class="field" id="set-model" autocomplete="off" value="${esc(kget("hm_model")||"gemini-flash-latest")}" style="width:100%;margin-top:4px"></label>
+  <div class="row"><button class="btn" data-set="save">Saqlash</button><button class="btn ghost" data-set="test" ${sampleFn?"":"disabled"}>Tekshirib ko'rish</button><button class="btn ghost" data-set="clear">Kalitni o'chirish</button></div>
+  <p class="muted" id="set-out"></p></div>
+ <div class="panel"><h3>Mikrofon<small>${dict?"brauzerda bor":"bu brauzerda yo'q"}</small></h3><p class="muted">${dict?"Jonli suhbatda birinchi marta mikrofonga ruxsat so'raladi. Ovozni tanish Chrome brauzerida ishlaydi.":"Bu brauzer ovozni tanimaydi. Chrome brauzeridan foydalaning."}</p></div>
+</section>`;
+
 /* live voice call */
 let CALL={on:false,state:"idle",heard:"",note:"",hf:false,gate:false,t0:0};
 let noLang=false;const micOpts=()=>noLang?{}:{language:S.mic};
-const MICHELP="Bu oynada mikrofon berilmagan. Sahifani Chrome brauzerida alohida oching (Claude ilovasi ichida yoki chat yonidagi oynada emas) va Claude hisobingizga kiring.";
+const MICHELP=SOLO?"Bu brauzer ovozni tanimaydi. Chrome brauzerida oching.":"Bu oynada mikrofon berilmagan. Sahifani Chrome brauzerida alohida oching (Claude ilovasi ichida yoki chat yonidagi oynada emas) va Claude hisobingizga kiring.";
 function micWhy(e,gesture){const c=e&&e.code;
   if(c==="unavailable"&&!noLang){noLang=true;return "Bu tilda ovozni tanish berilmadi. Yuzni yana bir marta bosing: qurilmangiz tilida tinglayman."}
   return c==="not_granted"?"Mikrofonga ruxsat yo'q. Chrome'da manzil qatoridagi qulf belgisi → Ruxsatlar → Mikrofon → Ruxsat berish, keyin sahifani yangilang."
@@ -3576,18 +3630,21 @@ function callListen(gesture){
 }
 async function callSend(typed){
   clearTimeout(callT);const text=(typeof typed==="string"?typed:CALL.heard).trim();if(!text||C.busy)return;
-  CALL.gate=true;
+  CALL.gate=true;CALL.state="think";
   if(!CALL.hf){micSink=null;if(dict){try{await dict.stop()}catch(e){}}}
+  else if(dict&&dict.native){try{await dict.stop()}catch(e){}}
   C.draft=text;CALL.heard="";CALL.state="think";await chatSend();
   if(!CALL.on)return;
   if(C.err){CALL.gate=false;callSet(CALL.hf&&dict&&dict.active&&dict.active()?"listen":"idle",C.err);return}
   const m=C.msgs[C.msgs.length-1];callSet("speak","");
   if(CALL.hf){
+    if(dict&&dict.native){try{await dict.stop()}catch(e){}}
     await sayLocal(m.ko,"ko");
     if(CALL.on&&CALL.state==="speak"&&m.uz&&hasVoice("uz"))await sayLocal(m.uz,"uz");
     await new Promise(r=>setTimeout(r,450));
     if(!CALL.on||CALL.state!=="speak")return;
     CALL.heard="";CALL.gate=false;
+    if(dict&&dict.native){callListen(false);return}
     if(dict&&dict.active&&dict.active())callSet("listen","");else callSet("idle","Davom etish uchun yuzni bosing yoki probelni bosing");
   }else{
     try{if(ttsNs)await ttsNs.speak([{text:m.ko,language:"ko",rate:S.lvl<3?.85:1}].concat(m.uz?[{text:m.uz,language:"uz"}]:[]));else await sayLocal(m.ko,"ko")}catch(e){}
@@ -3643,21 +3700,20 @@ ${log}`;
     C.msgs.push({who:"ai",ko:r.ko,rom:String(r.rom||""),uz:String(r.uz||""),fix:String(r.fix||"")});gain(5);if(S.auto&&!CALL.on)speakBoth(r.ko,String(r.uz||""));
   }catch(e){
     const last=C.msgs.pop();C.draft=last.text;
-    C.err=e&&e.code==="not_granted"?"AI'dan foydalanishga ruxsat berilmadi. Sahifani qayta ochib, ruxsat bering."
-        :e&&e.code==="rate_limited"?"So'rovlar ko'payib ketdi. Bir daqiqadan keyin qayta yuboring."
-        :"AI javob bera olmadi. Qayta yuborib ko'ring.";
+    C.err=aiErr(e);
   }
   C.busy=false;if(route()==="suhbat"){render(true);scrollChat()}
 }
 function scrollChat(){const c=$("#chat");if(c&&c.lastElementChild)c.lastElementChild.scrollIntoView({block:"nearest"})}
 (async()=>{
   try{
-    if(window.claude&&window.claude.use){
-      [sampleFn,ttsNs,dict]=await Promise.all([claude.use("sample"),claude.use("tts"),claude.use("dictation")]);
+    {
+      if(!SOLO)[sampleFn,ttsNs,dict]=await Promise.all([claude.use("sample"),claude.use("tts"),claude.use("dictation")]);
+      else{sampleFn=makeAI();dict=makeRec()}
       if(dict){
         dict.onPartial(({text})=>{if(micSink){micSink(text,0);return}const i=$("#chat-input");if(i)i.value=(C.draft?C.draft+" ":"")+text});
         dict.onFinal(({text})=>{if(micSink){micSink(text,1);return}C.draft=(C.draft?C.draft+" ":"")+text;const i=$("#chat-input");if(i)i.value=C.draft});
-        dict.onState(({state})=>{const m=$("#mic");if(m)m.classList.toggle("on",state==="listening"||state==="starting");micOn=state!=="idle";if(state==="idle"&&CALL.on&&CALL.hf&&(CALL.state==="listen"||CALL.state==="speak")){if(CALL.state==="listen")callSet("idle","Mikrofon to'xtadi. Davom etish uchun yuzni bosing");else CALL.hf=false}});
+        dict.onState(({state})=>{const m=$("#mic");if(m)m.classList.toggle("on",state==="listening"||state==="starting");micOn=state!=="idle";if(state==="idle"&&CALL.on&&CALL.hf&&(CALL.state==="listen"||CALL.state==="speak")){if(CALL.state==="listen")callSet("idle","Mikrofon to'xtadi. Davom etish uchun yuzni bosing");else if(!dict.native)CALL.hf=false}});
       }
     }
   }catch(e){}
@@ -3850,6 +3906,7 @@ function render(keepScroll){
   if(!keepScroll){window.scrollTo(0,0);const v=$("#app").firstElementChild;if(v)v.classList.add("enter");const c=$('#nav a[aria-current]');if(c&&c.scrollIntoView)c.scrollIntoView({block:"nearest",inline:"center"})}
 }
 addEventListener("hashchange",()=>{flip=false;A.err="";if(CALL.on)callEnd();stopGame();if(G.on&&!G.over)G.on="";drawer(false);render()});
+if(SOLO)$("#nav").insertAdjacentHTML("beforeend",'<a href="#sozlama"><i>⚙</i>Sozlamalar</a>');
 function drawer(o){$("#drawer").hidden=!o;$("#scrim").hidden=!o;$("#burger").setAttribute("aria-expanded",o)}
 addEventListener("keydown",e=>{if(CALL.on&&e.code==="Space"&&!/INPUT|TEXTAREA/.test(e.target.tagName)){e.preventDefault();callOrb()}if(CALL.on&&e.key==="Escape"){callEnd();render(true)}});
 $("#burger").addEventListener("click",()=>drawer(true));$("#dclose").addEventListener("click",()=>drawer(false));$("#scrim").addEventListener("click",()=>drawer(false));
@@ -3860,6 +3917,11 @@ $("#app").addEventListener("click",e=>{
   if("play" in d){playP(d.play||"listen");return}
   if(d.show){PZ[d.show].show=!PZ[d.show].show;render(true);return}
   if(d.pm){const st=PZ[d.pm];if(st.pick[d.pq]===undefined){st.pick[d.pq]=d.po;if(d.po===st.p.qs[d.pq].ans)gain(10);render(true)}return}
+  if(d.set){const out=$("#set-out");
+    if(d.set==="save"){const k=$("#set-key").value.trim(),m=$("#set-model").value.trim();try{if(k)localStorage.setItem("hm_key",k);if(m)localStorage.setItem("hm_model",m)}catch(e){toast("Saqlab bo'lmadi");return}sampleFn=makeAI();render(true);toast(sampleFn?"Saqlandi":"Avval kalitni kiriting");return}
+    if(d.set==="clear"){try{localStorage.removeItem("hm_key")}catch(e){}sampleFn=null;render(true);toast("Kalit o'chirildi");return}
+    if(d.set==="test"&&sampleFn){out.textContent="Tekshirilmoqda…";sampleFn.json('Return ONLY this JSON: {"ok":true}').then(r=>{out.textContent=r&&r.ok?"Ishlayapti. AI bo'limlari tayyor.":"Javob keldi, lekin kutilgan ko'rinishda emas."},e=>{out.textContent=aiErr(e)});return}
+    return}
   if(d.call==="start"){callStart();return}
   if(d.call==="end"){callEnd();render(true);return}
   if(d.call==="orb"){callOrb();return}
