@@ -183,18 +183,67 @@ const TOPICS={
  "Fe'llar 2":[["만나다","mannada","uchrashmoq"],["말하다","malhada","gapirmoq"],["듣다","deutda","tinglamoq"],["주다","juda","bermoq"],["받다","batda","qabul qilib olmoq"],["앉다","anda","o'tirmoq"],["일어나다","ireonada","o'rnidan turmoq"],["기다리다","gidarida","kutmoq"],["좋아하다","joahada","yoqtirmoq"],["알다","alda","bilmoq"],["모르다","moreuda","bilmaslik"],["살다","salda","yashamoq"],["공부하다","gongbuhada","dars qilmoq"],["요리하다","yorihada","ovqat pishirmoq"],["운동하다","undonghada","sport bilan shug'ullanmoq"],["전화하다","jeonhwahada","qo'ng'iroq qilmoq"]]
 };
 const PHRASES=[["이름이 뭐예요?","ireumi mwoyeyo?","Ismingiz nima?"],["저는 학생입니다.","jeoneun haksaengimnida","Men talabaman."],["어디에서 왔어요?","eodieseo wasseoyo?","Qayerdan keldingiz?"],["우즈베키스탄에서 왔어요.","ujeubekiseutaneseo wasseoyo","O'zbekistondan keldim."],["이거 얼마예요?","igeo eolmayeyo?","Bu qancha turadi?"],["화장실이 어디예요?","hwajangsiri eodiyeyo?","Hojatxona qayerda?"],["한국어를 공부해요.","hangugeoreul gongbuhaeyo","Koreys tilini o'rganyapman."],["다시 말해 주세요.","dasi malhae juseyo","Yana bir marta ayting, iltimos."],["잘 모르겠어요.","jal moreugesseoyo","Yaxshi tushunmadim."],["도와주세요.","dowajuseyo","Yordam bering."],["만나서 반갑습니다.","mannaseo bangapseumnida","Tanishganimdan xursandman."],["몇 살이에요?","myeot sarieyo?","Yoshingiz nechada?"],["한국말을 조금 해요.","hangungmareul jogeum haeyo","Koreyschani ozgina bilaman."],["천천히 말해 주세요.","cheoncheonhi malhae juseyo","Sekinroq gapiring, iltimos."],["영어 할 수 있어요?","yeongeo hal su isseoyo?","Inglizcha gapira olasizmi?"],["이거 주세요.","igeo juseyo","Shuni bering."],["메뉴 좀 주세요.","menyu jom juseyo","Menyuni bering, iltimos."],["계산해 주세요.","gyesanhae juseyo","Hisobni keltiring."],["맛있어요!","masisseoyo","Mazali!"],["지하철역이 어디예요?","jihacheollyeogi eodiyeyo?","Metro stansiyasi qayerda?"],["지금 몇 시예요?","jigeum myeot siyeyo?","Hozir soat necha?"],["오늘 날씨가 좋아요.","oneul nalssiga joayo","Bugun havo yaxshi."],["생일 축하합니다!","saengil chukhahamnida","Tug'ilgan kuningiz bilan!"],["잘 먹겠습니다.","jal meokgetseumnida","Ovqat uchun rahmat (ovqatdan oldin aytiladi)."]];
-const GRAM=[
- ["저는 학생___.","입니다",["입니다","을","에서","하고"],"«입니다» — «...man/...dir» ma'nosidagi rasmiy bog'lama."],
- ["저는 물___ 마셔요.","을",["을","를","이","에"],"Tushum kelishigi: undosh bilan tugasa «을», unli bilan tugasa «를»."],
- ["저는 커피___ 좋아해요.","를",["를","을","은","에서"],"«커피» unli bilan tugaydi, shuning uchun «를»."],
- ["저는 학교___ 가요.","에",["에","을","가","하고"],"Yo'nalish bildirganda «에» qo'shiladi: maktabga."],
- ["도서관___ 책을 읽어요.","에서",["에서","에","를","이"],"Ish-harakat sodir bo'ladigan joy «에서» bilan keladi: kutubxonada."],
- ["친구___ 와요.","가",["가","이","을","에서"],"Ega qo'shimchasi: unlidan keyin «가», undoshdan keyin «이»."],
- ["«가다» fe'lining hozirgi zamon (hurmat) shakli qaysi?","가요",["가요","갔어요","갈 거예요","가고"],"가다 → 가요 (boraman/boradi)."],
- ["«먹다» fe'lining o'tgan zamon shakli qaysi?","먹었어요",["먹었어요","먹어요","먹을 거예요","먹고"],"O'tgan zamon: -았/었어요. 먹다 → 먹었어요 (yedim)."],
- ["내일 한국에 ___.  (kelasi zamon)","갈 거예요",["갈 거예요","갔어요","가요","가고"],"Kelasi zamon: -(으)ㄹ 거예요. Ertaga Koreyaga boraman."],
- ["사과 세 ___ 주세요.","개",["개","명","권","마리"],"«개» — narsalar uchun sanoq so'zi. 명 — odamlar, 권 — kitoblar, 마리 — hayvonlar uchun."]
-];
+const GRAM=[["저___ 학생이에요.","는",["는","은","를","에"],"Mavzu qo'shimchasi: unlidan keyin «는», undoshdan keyin «은».","Kelishiklar"],
+ ["선생님___ 한국 사람이에요.","은",["은","는","를","에서"],"«선생님» undosh bilan tugaydi, shuning uchun «은».","Kelishiklar"],
+ ["친구___ 와요.","가",["가","이","을","에서"],"Ega qo'shimchasi: unlidan keyin «가», undoshdan keyin «이».","Kelishiklar"],
+ ["저는 물___ 마셔요.","을",["을","를","이","에"],"Tushum kelishigi: undosh bilan tugasa «을», unli bilan tugasa «를».","Kelishiklar"],
+ ["저는 커피___ 좋아해요.","를",["를","을","은","에서"],"«커피» unli bilan tugaydi, shuning uchun «를».","Kelishiklar"],
+ ["저는 학교___ 가요.","에",["에","을","가","하고"],"Yo'nalish bildirganda «에» qo'shiladi: maktabga.","Kelishiklar"],
+ ["도서관___ 책을 읽어요.","에서",["에서","에","를","이"],"Ish-harakat sodir bo'ladigan joy «에서» bilan keladi: kutubxonada.","Kelishiklar"],
+ ["이것은 친구___ 책이에요.","의",["의","을","에","도"],"«의» — qaratqich kelishigi: do'stimning kitobi.","Kelishiklar"],
+ ["저___ 학생이에요.  (men ham)","도",["도","는","를","에"],"«도» — «ham» ma'nosini beradi va 은/는 o'rniga keladi.","Kelishiklar"],
+ ["친구___ 선물을 줘요.","에게",["에게","에서","을","이"],"Kimgadir berilganda «에게» ishlatiladi: do'stimga.","Kelishiklar"],
+ ["저는 학생___.","입니다",["입니다","을","에서","하고"],"«입니다» — «...man/...dir» ma'nosidagi rasmiy bog'lama.","Bog'lama va inkor"],
+ ["저는 의사___.","예요",["예요","이에요","을","에서"],"Unlidan keyin «예요», undoshdan keyin «이에요».","Bog'lama va inkor"],
+ ["이것은 책___.","이에요",["이에요","예요","를","가"],"«책» undosh bilan tugaydi, shuning uchun «이에요».","Bog'lama va inkor"],
+ ["저는 학생이 ___.  (emasman)","아니에요",["아니에요","없어요","안 해요","못해요"],"«이/가 아니에요» — «... emas».","Bog'lama va inkor"],
+ ["집에 고양이가 ___.  (bor)","있어요",["있어요","이에요","아니에요","해요"],"«있어요» — bor, mavjud.","Bog'lama va inkor"],
+ ["지금 시간이 ___.  (yo'q)","없어요",["없어요","아니에요","있어요","안 해요"],"«없어요» — yo'q, mavjud emas.","Bog'lama va inkor"],
+ ["저는 고기를 ___ 먹어요.  (yemayman)","안",["안","아니","없","는"],"Fe'l oldidan «안» qo'yilsa inkor bo'ladi: yemayman.","Bog'lama va inkor"],
+ ["저는 수영을 ___ 해요.  (qila olmayman)","못",["못","아니","없","도"],"«못» — qila olmaslikni bildiradi.","Bog'lama va inkor"],
+ ["«Bu nima?» koreyscha qanday bo'ladi?","이것은 뭐예요?",["이것은 뭐예요?","여기는 어디예요?","누구예요?","얼마예요?"],"이것 — bu, 뭐 — nima.","Bog'lama va inkor"],
+ ["여기는 ___예요?  (qayer)","어디",["어디","누구","언제","얼마"],"어디 — qayer, 누구 — kim, 언제 — qachon, 얼마 — qancha.","Bog'lama va inkor"],
+ ["«가다» fe'lining hozirgi zamon (hurmat) shakli qaysi?","가요",["가요","갔어요","갈 거예요","가고"],"가다 → 가요 (boraman/boradi).","Zamonlar"],
+ ["«하다» fe'lining hozirgi zamon shakli qaysi?","해요",["해요","하요","했어요","할 거예요"],"하다 alohida o'zgaradi: 하다 → 해요.","Zamonlar"],
+ ["«마시다» fe'lining hozirgi zamon shakli qaysi?","마셔요",["마셔요","마시요","마셨어요","마실 거예요"],"ㅣ + 어요 = ㅕ요: 마시다 → 마셔요.","Zamonlar"],
+ ["«먹다» fe'lining o'tgan zamon shakli qaysi?","먹었어요",["먹었어요","먹어요","먹을 거예요","먹고"],"O'tgan zamon: -았/었어요. 먹다 → 먹었어요 (yedim).","Zamonlar"],
+ ["«보다» fe'lining o'tgan zamon shakli qaysi?","봤어요",["봤어요","봐요","볼 거예요","보고"],"보다 → 봤어요 (ko'rdim).","Zamonlar"],
+ ["«하다» fe'lining o'tgan zamon shakli qaysi?","했어요",["했어요","해요","할 거예요","하고"],"하다 → 했어요 (qildim).","Zamonlar"],
+ ["어제 친구를 ___.","만났어요",["만났어요","만나요","만날 거예요","만나고"],"«어제» — kecha, shuning uchun o'tgan zamon: 만났어요.","Zamonlar"],
+ ["내일 한국에 ___.  (kelasi zamon)","갈 거예요",["갈 거예요","갔어요","가요","가고"],"Kelasi zamon: -(으)ㄹ 거예요. Ertaga Koreyaga boraman.","Zamonlar"],
+ ["«먹다» fe'lining kelasi zamon shakli qaysi?","먹을 거예요",["먹을 거예요","먹었어요","먹어요","먹고"],"Undoshdan keyin -을 거예요: 먹을 거예요 (yeyman).","Zamonlar"],
+ ["지금 책을 읽고 ___.  (o'qiyapman)","있어요",["있어요","없어요","해요","이에요"],"«-고 있어요» — hozir davom etayotgan harakat.","Zamonlar"],
+ ["사과 세 ___ 주세요.","개",["개","명","권","마리"],"«개» — narsalar uchun sanoq so'zi.","Sonlar va sanoq"],
+ ["학생 두 ___ 있어요.","명",["명","개","권","마리"],"«명» — odamlar uchun sanoq so'zi.","Sonlar va sanoq"],
+ ["책 한 ___ 샀어요.","권",["권","명","마리","병"],"«권» — kitoblar uchun sanoq so'zi.","Sonlar va sanoq"],
+ ["고양이 세 ___ 있어요.","마리",["마리","명","권","장"],"«마리» — hayvonlar uchun sanoq so'zi.","Sonlar va sanoq"],
+ ["물 한 ___ 주세요.","병",["병","명","권","마리"],"«병» — shisha (idish) uchun sanoq so'zi.","Sonlar va sanoq"],
+ ["커피 두 ___ 주세요.","잔",["잔","명","권","마리"],"«잔» — piyola yoki stakan uchun sanoq so'zi.","Sonlar va sanoq"],
+ ["저는 스무 ___이에요.  (yosh)","살",["살","개","명","시"],"Yosh «살» bilan va koreys sonlari bilan aytiladi: 스무 살 — 20 yosh.","Sonlar va sanoq"],
+ ["지금 세 ___예요.  (soat)","시",["시","분","살","개"],"Soat «시» va koreys sonlari bilan: 세 시 — soat uch. Daqiqa — «분».","Sonlar va sanoq"],
+ ["«5 000 von» qanday aytiladi?","오천 원",["오천 원","다섯천 원","오백 원","다섯 원"],"Pul sino-koreys sonlari bilan aytiladi: 오 (5) + 천 (1 000).","Sonlar va sanoq"],
+ ["«Uchta olma» qanday aytiladi?","사과 세 개",["사과 세 개","사과 삼 개","사과 셋 개","사과 세 명"],"Sanashda koreys sonlari ishlatiladi; 셋 sanoq so'zi oldidan «세» bo'ladi.","Sonlar va sanoq"],
+ ["밥을 먹___ 커피를 마셔요.  (yeb, keyin)","고",["고","지만","서","면"],"«-고» — ikki harakatni ketma-ket bog'laydi: «va».","Bog'lovchilar"],
+ ["한국어는 어렵___ 재미있어요.  (lekin)","지만",["지만","고","면","러"],"«-지만» — «lekin, ammo».","Bog'lovchilar"],
+ ["비가 오___ 집에 있어요.  (agar)","면",["면","고","지만","러"],"«-(으)면» — shart: «agar ... bo'lsa».","Bog'lovchilar"],
+ ["배가 고파___ 밥을 먹어요.  (sababli)","서",["서","고","면","지만"],"«-아/어서» — sabab: qornim och bo'lgani uchun.","Bog'lovchilar"],
+ ["책을 사___ 서점에 가요.  (olish uchun)","러",["러","고","면","지만"],"«-(으)러 가다» — biror ish qilgani bormoq.","Bog'lovchilar"],
+ ["저는 사과___ 바나나를 좋아해요.  (va)","하고",["하고","에서","을","는"],"Otlarni bog'lashda «하고» ishlatiladi: olma va banan.","Bog'lovchilar"],
+ ["집___ 학교까지 걸어가요.","에서",["에서","에게","을","도"],"Joy: «...에서 ...까지» — «...dan ...gacha».","Bog'lovchilar"],
+ ["아홉 시___ 다섯 시까지 일해요.","부터",["부터","에게","을","도"],"Vaqt: «...부터 ...까지» — «...dan ...gacha».","Bog'lovchilar"],
+ ["Koreys gapida fe'l qayerda turadi?","Gap oxirida",["Gap oxirida","Gap boshida","Egadan keyin","Istalgan joyda"],"O'zbek tilidagi kabi: ega — to'ldiruvchi — fe'l.","Bog'lovchilar"],
+ ["«Men non yeyman» qaysi gapda to'g'ri yozilgan?","저는 빵을 먹어요.",["저는 빵을 먹어요.","저는 먹어요 빵을.","먹어요 저는 빵을.","빵을 저는을 먹어요."],"Tartib: 저는 (men) + 빵을 (nonni) + 먹어요 (yeyman).","Bog'lovchilar"],
+ ["여기 앉___.  (o'tiring)","으세요",["으세요","세요","고","면"],"Hurmatli iltimos: undoshdan keyin «-으세요», unlidan keyin «-세요».","Iltimos va istak"],
+ ["이쪽으로 오___.  (keling)","세요",["세요","으세요","을","는"],"«오다» unli bilan tugaydi: 오세요.","Iltimos va istak"],
+ ["한국에 가고 ___.  (bormoqchiman)","싶어요",["싶어요","있어요","없어요","해요"],"«-고 싶어요» — xohish: bormoqchiman.","Iltimos va istak"],
+ ["같이 영화를 ___?  (ko'ramizmi)","볼까요",["볼까요","봤어요","보고","봐서"],"«-(으)ㄹ까요?» — taklif: «...mizmi?»","Iltimos va istak"],
+ ["저는 한국어를 ___ 수 있어요.  (gapira olaman)","할",["할","하는","한","해"],"«-(으)ㄹ 수 있어요» — qila olish.","Iltimos va istak"],
+ ["여기에서 사진을 찍___ 돼요?  (mumkinmi)","어도",["어도","고는","지만","으러"],"«-아/어도 돼요» — ruxsat: «...sam maylimi?»","Iltimos va istak"],
+ ["내일 일찍 일어나___ 해요.  (kerak)","야",["야","도","고","면"],"«-아/어야 해요» — majburiyat: turishim kerak.","Iltimos va istak"],
+ ["물 좀 ___.  (bering)","주세요",["주세요","줬어요","주고","줄 거예요"],"«주세요» — «bering, iltimos».","Iltimos va istak"],
+ ["도서관에서 떠들___ 마세요.  (shovqin qilmang)","지",["지","고","면","서"],"«-지 마세요» — taqiq: «...mang».","Iltimos va istak"],
+ ["«Yana bir marta ayting, iltimos» qanday bo'ladi?","다시 말해 주세요.",["다시 말해 주세요.","천천히 가세요.","잘 먹겠습니다.","안녕히 계세요."],"다시 — yana, 말해 주세요 — aytib bering.","Iltimos va istak"]];
+const GCATS=["Hammasi",...new Set(GRAM.map(g=>g[4]))];let gcat="Hammasi";
 const ALL=Object.values(TOPICS).flat();
 
 let sampleFn=null,ttsNs=null,dict=null,capsReady=false;
@@ -251,7 +300,7 @@ V.bosh=()=>`<section class="view">
   <li><a href="#sozlar"><span class="n">2</span><span class="t"><b>So'zlar</b><span>${Object.keys(TOPICS).length} mavzu bo'yicha kartochkalar</span></span><span class="p">${knownCount()} / ${ALL.length}</span></a></li>
   <li><a href="#iboralar"><span class="n">3</span><span class="t"><b>Iboralar</b><span>Kundalik suhbat uchun tayyor gaplar</span></span><span class="p">${PHRASES.length} ta</span></a></li>
   <li><a href="#suhbat"><span class="n">AI</span><span class="t"><b>AI bilan suhbat</b><span>Kafeda, do'konda, tanishuvda koreyscha gaplashish mashqi</span></span><span class="p">4 vaziyat</span></a></li>
-  <li><a href="#grammatika"><span class="n">4</span><span class="t"><b>Grammatika</b><span>Qo'shimchalar va zamonlar, TOPIK I uslubida</span></span><span class="p">eng yaxshi: ${S.gram} / ${GRAM.length}</span></a></li>
+  <li><a href="#grammatika"><span class="n">4</span><span class="t"><b>Grammatika</b><span>${GRAM.length} savol: kelishiklar, zamonlar, sanoq so'zlari, bog'lovchilar</span></span><span class="p">eng yaxshi: ${S.gram} / 10</span></a></li>
   <li><a href="#test"><span class="n">5</span><span class="t"><b>Test</b><span>10 savol, har to'g'ri javob uchun 10 XP</span></span><span class="p">eng yaxshi: ${S.quiz} / 10</span></a></li>
  </ol>
 </section>`;
@@ -368,17 +417,18 @@ let micOn=false;
 let Q=null;
 function newQuiz(kind){
   let items;
-  if(kind==="gram") items=shuffle(GRAM).map(g=>({ask:"Bo'sh joyga mos javobni tanlang",word:g[0],ko:true,ans:g[1],opts:shuffle(g[2]),why:g[3]}));
+  if(kind==="gram") items=shuffle(GRAM.filter(g=>gcat==="Hammasi"||g[4]===gcat)).slice(0,10).map(g=>({ask:"Bo'sh joyga mos javobni tanlang",word:g[0],ko:true,ans:g[1],opts:shuffle(g[2]),why:g[3]}));
   else items=shuffle(ALL).slice(0,10).map(w=>{const rev=Math.random()<.4,pool=shuffle(ALL.filter(x=>x[2]!==w[2]&&x[0]!==w[0])).slice(0,3);
     return rev?{ask:"Koreyscha qanday bo'ladi?",word:w[2],ko:false,ans:w[0],opts:shuffle([w,...pool].map(x=>x[0])),why:w[0]+" — "+w[1],optKo:true}
               :{ask:"Tarjimasini toping",word:w[0],ko:true,say:w[0],ans:w[2],opts:shuffle([w,...pool].map(x=>x[2])),why:w[1]}});
   Q={kind,items,i:0,score:0,picked:null};
 }
-function quizView(kind,title,intro){
+function quizView(kind,title,intro0){
+  const intro=intro0+(kind==="gram"?`</p><div class="chips">${GCATS.map(c=>`<button class="chip" data-gcat="${esc(c)}" aria-pressed="${c===gcat}">${esc(c)}</button>`).join("")}</div><p hidden>`:"");
   if(!Q||Q.kind!==kind)newQuiz(kind);
   const n=Q.items.length;
   if(Q.i>=n){const best=kind==="gram"?"gram":"quiz";
-    return `<section class="view"><h2>${title}</h2><div class="q"><div class="word">${Q.score} / ${n}</div>
+    return `<section class="view"><h2>${title}</h2><p class="lead">${intro}</p><div class="q"><div class="word">${Q.score} / ${n}</div>
     <p>${Q.score===n?"Hammasi to'g'ri. Barakalla!":Q.score>=n*.7?"Yaxshi natija. Xato qilgan joylaringizni yana bir ko'rib chiqing.":"Mavzuni takrorlab, yana urinib ko'ring."}</p>
     <p class="muted">Eng yaxshi natijangiz: ${S[best]} / ${n} · +${Q.score*10} XP</p>
     <div class="row"><button class="btn" data-restart="${kind}">Qaytadan</button><a class="btn ghost" href="#bosh">Bosh sahifa</a></div></div></section>`}
@@ -394,7 +444,7 @@ function quizView(kind,title,intro){
   </div></section>`;
 }
 V.test=()=>quizView("vocab","So'z testi","10 ta tasodifiy so'z. Har to'g'ri javob 10 XP beradi.");
-V.grammatika=()=>quizView("gram","Grammatika mashqi","TOPIK I uslubidagi savollar: qo'shimchalar, zamonlar va sanoq so'zlari. Har javobdan keyin qoida izohi chiqadi.");
+V.grammatika=()=>quizView("gram","Grammatika mashqi",GRAM.length+" savol, 6 mavzu. Har urinishda 10 ta tasodifiy savol chiqadi, javobdan keyin qoida izohi ko'rsatiladi.");
 
 /* ---------- router & events ---------- */
 function route(){const h=(location.hash||"#bosh").slice(1);return V[h]?h:"bosh"}
@@ -412,6 +462,7 @@ $("#app").addEventListener("click",e=>{
     if(micOn){dict.stop().catch(()=>{})}
     else dict.start({language:"ko"}).catch(e=>{if(e&&e.code==="not_granted"){dict=null;b.hidden=true;toast("Mikrofonga ruxsat berilmadi. Yozib javob bering.")}else if(!e||e.code!=="dismissed")toast("Ovozni tanib bo'lmadi. Yozib javob bering.")});
     return}
+  if(d.gcat){gcat=d.gcat;newQuiz("gram");render(true);return}
   if(d.scn!==undefined){chatReset(+d.scn);render(true);return}
   if(d.seen){if(!S.seen[d.seen]){S.seen[d.seen]=1;gain(2)}b.classList.add("seen");render(true);return}
   if(d.topic){topic=d.topic;ci=0;flip=false;render(true)}
