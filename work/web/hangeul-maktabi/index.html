@@ -564,7 +564,7 @@ let micOn=false;
 const PZ={read:{lv:0,p:null,pick:{},show:false},listen:{lv:0,p:null,pick:{},show:false}};
 function prepP(p){return {title:p.title,lines:p.lines,uz:p.uz,qs:p.qs.map(q=>({q:q[0],ans:q[1][0],opts:shuffle(q[1])}))}}
 function loadP(mode){const st=PZ[mode];if(st.lv!==S.lvl||!st.p){st.lv=S.lvl;st.p=prepP((mode==="read"?READ:LISTEN)[S.lvl-1]);st.pick={};st.show=false}return st}
-function playP(){const p=PZ.listen.p;if(!p)return;const r=S.lvl<3?.85:1;
+function playP(mode){const p=PZ[mode].p;if(!p)return;const r=S.lvl<3?.85:1;
   if(ttsNs)ttsNs.speak(p.lines.map(l=>({text:l[1],language:"ko",voice:l[0]?"airy":"buttery",rate:r}))).catch(e=>{if(e&&(e.code==="busy"||e.code==="rate_limited"))toast("Biroz kutib, qayta bosing")});
   else speakLocal(p.lines.map(l=>l[1]).join(" "))}
 function passView(mode){
@@ -577,7 +577,7 @@ function passView(mode){
   <div class="panel"><h3>${esc(p.title)}<small>TOPIK ${S.lvl}</small></h3>
    ${L?`<div class="center"><button class="say big" data-play aria-label="Tinglash">${ICON}</button><span class="muted">Bosing va tinglang. Istagancha qayta eshitish mumkin.</span></div>${st.show?text:""}`:text}
    ${st.show?`<p class="muted">${esc(p.uz)}</p>`:""}
-   <div class="row"><button class="btn ghost" data-show="${mode}">${st.show?"Yashirish":L?"Matn va tarjimani ko'rsatish":"Tarjimani ko'rsatish"}</button></div>
+   <div class="row">${L?"":`<button class="say" data-play="read" aria-label="Matnni eshitish">${ICON}</button>`}<button class="btn ghost" data-show="${mode}">${st.show?"Yashirish":L?"Matn va tarjimani ko'rsatish":"Tarjimani ko'rsatish"}</button></div>
    ${p.qs.map((q,i)=>`<div class="qq"><b>${i+1}. ${esc(q.q)}</b><div class="opts">${q.opts.map(o=>`<button class="opt${st.pick[i]!==undefined&&o===q.ans?" ok":""}${st.pick[i]===o&&o!==q.ans?" bad":""}" data-pm="${mode}" data-pq="${i}" data-po="${esc(o)}"${st.pick[i]!==undefined?" disabled":""}>${esc(o)}</button>`).join("")}</div></div>`).join("")}
    ${done===p.qs.length?`<p class="fb ok">Natija: ${right} / ${p.qs.length}</p>`:""}
   </div>
@@ -623,7 +623,7 @@ function quizView(kind,title,intro0){
    <div class="word${it.ko?" ko":""}">${esc(it.word)} ${it.say?`<button class="say" style="display:inline-grid;vertical-align:middle" data-say="${it.say}" aria-label="Eshitish">${ICON}</button>`:""}</div>
    <div class="opts">${it.opts.map(o=>`<button class="opt${it.optKo||kind==="gram"?" ko":""}${done&&o===it.ans?" ok":""}${done&&o===Q.picked&&o!==it.ans?" bad":""}" data-pick="${esc(o)}"${done?" disabled":""}>${esc(o)}</button>`).join("")}</div>
    <div class="fb ${done?(Q.picked===it.ans?"ok":"bad"):""}">${done?(Q.picked===it.ans?"To'g'ri. ":"Noto'g'ri. To'g'ri javob: "+esc(it.ans)+". ")+esc(it.why):""}</div>
-   <div class="row"><button class="btn" data-go ${done?"":"disabled"}>${Q.i+1===n?"Natijani ko'rish":"Keyingi savol"}</button></div>
+   <div class="row">${(()=>{if(!done)return "";const t=kind==="gram"&&it.word.includes("___")&&HANGUL.test(it.word)?it.word.replace(/\(.*?\)/g,"").replace(/_+/,it.ans).trim():it.say||it.ans;return HANGUL.test(t)?`<button class="say" data-say="${esc(t)}" aria-label="To'g'ri javobni eshitish">${ICON}</button>`:""})()}<button class="btn" data-go ${done?"":"disabled"}>${Q.i+1===n?"Natijani ko'rish":"Keyingi savol"}</button></div>
   </div></section>`;
 }
 V.test=()=>quizView("vocab","So'z testi","Tanlangan TOPIK darajasidagi so'zlardan 10 ta savol. Har to'g'ri javob 10 XP beradi.");
@@ -641,7 +641,7 @@ addEventListener("hashchange",()=>{flip=false;A.err="";render()});
 $("#app").addEventListener("click",e=>{
   const b=e.target.closest("button");if(!b)return;const d=b.dataset;
   if(b.classList.contains("say")){b.classList.remove("ping");void b.offsetWidth;b.classList.add("ping");try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}}
-  if("play" in d){playP();return}
+  if("play" in d){playP(d.play||"listen");return}
   if(d.show){PZ[d.show].show=!PZ[d.show].show;render(true);return}
   if(d.pm){const st=PZ[d.pm];if(st.pick[d.pq]===undefined){st.pick[d.pq]=d.po;if(d.po===st.p.qs[d.pq].ans)gain(10);render(true)}return}
   if(d.ai==="read"||d.ai==="listen"){aiPass(d.ai);return}
