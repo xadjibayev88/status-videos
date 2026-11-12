@@ -1,0 +1,317 @@
+<title>Hangeul Maktabi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700&family=Onest:wght@400;500;600;700&family=Unbounded:wght@600;800&display=swap">
+<style>
+/* Layout: sticky tab bar on top, one working view at a time; big Hangul glyphs are the only ornament. */
+:root{
+  --bg:#f1f4f7; --surface:#ffffff; --ink:#14213a; --muted:#56627a; --line:#d7dde7;
+  --jade:#0d7566; --jade-soft:#dff1ed; --red:#c2352b; --red-soft:#fae4e1; --gold:#b97f08; --gold-soft:#fbf0d4;
+  --on-accent:#ffffff;
+  --f-display:"Unbounded","Onest",system-ui,sans-serif;
+  --f-body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-ko:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-glyph:"Black Han Sans","Noto Sans KR","Malgun Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0e1420; --surface:#18202f; --ink:#e9edf5; --muted:#9ba7bd; --line:#2b364c;
+  --jade:#45c4b0; --jade-soft:#14362f; --red:#f2776c; --red-soft:#40201d; --gold:#f0bd4a; --gold-soft:#3a2f12;
+  --on-accent:#0e1420; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0e1420; --surface:#18202f; --ink:#e9edf5; --muted:#9ba7bd; --line:#2b364c;
+  --jade:#45c4b0; --jade-soft:#14362f; --red:#f2776c; --red-soft:#40201d; --gold:#f0bd4a; --gold-soft:#3a2f12;
+  --on-accent:#0e1420; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h2{font-size:1.25rem}
+p{margin:0}
+.ko{font-family:var(--f-ko)}
+.muted{color:var(--muted)}
+
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--surface);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;padding-block:10px}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-weight:800;font-size:.95rem;white-space:nowrap}
+.brand b{font-family:var(--f-glyph);font-weight:400;font-size:1.5rem;color:var(--red);line-height:1}
+nav{display:flex;gap:4px;overflow-x:auto;min-width:0;flex:1;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{padding:8px 12px;border-radius:999px;color:var(--muted);text-decoration:none;font-weight:600;font-size:.9rem;white-space:nowrap}
+nav a[aria-current="page"]{background:var(--ink);color:var(--bg)}
+.xp{font-weight:700;font-size:.9rem;white-space:nowrap;color:var(--gold);font-variant-numeric:tabular-nums}
+
+main{padding-block:24px 56px}
+section.view{display:flex;flex-direction:column;gap:20px}
+.lead{max-width:62ch;color:var(--muted)}
+
+/* Home */
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:center}
+.hero h1{font-size:clamp(1.7rem,5vw,2.7rem);font-weight:800}
+.hero h1 em{font-style:normal;color:var(--jade)}
+.hero .txt{display:flex;flex-direction:column;gap:16px;min-width:0}
+.glyphs{font-family:var(--f-glyph);font-size:clamp(5rem,17vw,9.5rem);line-height:.95;text-align:center;color:var(--ink);user-select:none}
+.glyphs span:nth-child(1){color:var(--red)}
+.glyphs span:nth-child(2){color:var(--jade)}
+.glyphs small{display:block;font-family:var(--f-body);font-size:.85rem;color:var(--muted);letter-spacing:.08em;margin-top:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:12px 20px;font-weight:700;background:var(--jade);color:var(--on-accent);text-decoration:none}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.btn.red{background:var(--red)}
+.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;min-width:0}
+.stat b{display:block;font-family:var(--f-display);font-size:1.5rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:.82rem;color:var(--muted)}
+.path{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.path li{border-bottom:1px solid var(--line)}
+.path a{display:grid;grid-template-columns:2.2rem 1fr auto;gap:12px;align-items:center;padding:14px 4px;text-decoration:none;color:inherit}
+.path .n{font-family:var(--f-display);font-weight:800;color:var(--red)}
+.path .t{min-width:0}
+.path .t b{display:block}
+.path .t span{font-size:.88rem;color:var(--muted)}
+.path .p{font-size:.85rem;font-weight:700;color:var(--jade);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* Alphabet */
+.letters{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px}
+.letter{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 6px 10px;text-align:center;display:flex;flex-direction:column;gap:2px}
+.letter i{font-style:normal;font-family:var(--f-glyph);font-size:2.4rem;line-height:1.1}
+.letter b{font-size:.95rem}
+.letter span{font-size:.72rem;color:var(--muted)}
+.letter.seen{border-color:var(--jade);background:var(--jade-soft)}
+.note{background:var(--gold-soft);border-radius:12px;padding:12px 14px;font-size:.92rem}
+
+/* Chips */
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.chip{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:7px 14px;font-weight:600;font-size:.88rem;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* Flashcard */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px 20px;min-height:250px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;width:100%}
+.card .big{font-family:var(--f-ko);font-weight:700;font-size:clamp(2.4rem,9vw,3.6rem);line-height:1.2;overflow-wrap:anywhere}
+.card .rom{color:var(--muted);font-size:1rem}
+.card .uz{font-size:1.35rem;font-weight:700;color:var(--jade)}
+.card .hint{font-size:.82rem;color:var(--muted)}
+.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--jade);border-radius:99px;transition:width .3s}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+.meta{display:flex;justify-content:space-between;gap:12px;font-size:.88rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* Quiz */
+.q{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px 18px;display:flex;flex-direction:column;gap:16px}
+.q .ask{font-size:.9rem;color:var(--muted)}
+.q .word{font-size:clamp(1.6rem,7vw,2.4rem);font-weight:700;overflow-wrap:anywhere}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{border:1.5px solid var(--line);background:var(--bg);border-radius:12px;padding:13px 12px;font-weight:600;text-align:left;min-width:0;overflow-wrap:anywhere}
+.opt.ok{background:var(--jade-soft);border-color:var(--jade)}
+.opt.bad{background:var(--red-soft);border-color:var(--red)}
+.fb{font-weight:600;min-height:1.5em}
+.fb.ok{color:var(--jade)} .fb.bad{color:var(--red)}
+
+/* Phrases */
+.phr{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.phr li{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:14px 4px;border-bottom:1px solid var(--line)}
+.phr .k{font-family:var(--f-ko);font-weight:700;font-size:1.2rem;overflow-wrap:anywhere}
+.phr .r{font-size:.85rem;color:var(--muted)}
+.say{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);display:grid;place-items:center}
+.say svg{width:20px;height:20px;fill:var(--jade)}
+
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:.9rem;font-weight:600;max-width:calc(100% - 32px);z-index:20}
+footer{border-top:1px solid var(--line);font-size:.82rem;color:var(--muted)}
+footer .wrap{padding-block:16px 24px}
+
+@media (max-width:640px){
+  .hero{grid-template-columns:1fr}
+  .hero .glyphs{order:-1}
+  .brand span{display:none}
+  .opts{grid-template-columns:1fr}
+  .stat b{font-size:1.2rem}
+}
+</style>
+
+<header class="top"><div class="wrap">
+  <div class="brand"><b>한</b><span>Hangeul Maktabi</span></div>
+  <nav id="nav" aria-label="Bo'limlar">
+    <a href="#bosh">Bosh sahifa</a><a href="#alifbo">Alifbo</a><a href="#sozlar">So'zlar</a><a href="#iboralar">Iboralar</a><a href="#grammatika">Grammatika</a><a href="#test">Test</a>
+  </nav>
+  <div class="xp" id="xp" title="Tajriba ballari">0 XP</div>
+</div></header>
+
+<main><div class="wrap" id="app"></div></main>
+<footer><div class="wrap">Natijalaringiz faqat shu qurilmada saqlanadi. Talaffuzni eshitish qurilmangizdagi koreys ovoziga bog'liq.</div></footer>
+<div id="toast" hidden role="status"></div>
+
+<script>
+const CONS=[["ㄱ","g / k","가"],["ㄴ","n","나"],["ㄷ","d / t","다"],["ㄹ","r / l","라"],["ㅁ","m","마"],["ㅂ","b / p","바"],["ㅅ","s","사"],["ㅇ","– / ng","아"],["ㅈ","j","자"],["ㅊ","ch","차"],["ㅋ","k (nafasli)","카"],["ㅌ","t (nafasli)","타"],["ㅍ","p (nafasli)","파"],["ㅎ","h","하"]];
+const VOWS=[["ㅏ","a","아"],["ㅑ","ya","야"],["ㅓ","eo — ochiq «o»","어"],["ㅕ","yeo","여"],["ㅗ","o — «o'»ga yaqin","오"],["ㅛ","yo","요"],["ㅜ","u","우"],["ㅠ","yu","유"],["ㅡ","eu — «ы»ga yaqin","으"],["ㅣ","i","이"]];
+const TOPICS={
+ "Salomlashish":[["안녕하세요","annyeonghaseyo","Assalomu alaykum"],["감사합니다","gamsahamnida","Rahmat"],["죄송합니다","joesonghamnida","Kechirasiz"],["네","ne","Ha"],["아니요","aniyo","Yo'q"],["안녕히 가세요","annyeonghi gaseyo","Xayr (ketayotgan kishiga)"],["안녕히 계세요","annyeonghi gyeseyo","Xayr (qolayotgan kishiga)"],["반갑습니다","bangapseumnida","Tanishganimdan xursandman"],["괜찮아요","gwaenchanayo","Hechqisi yo'q"],["주세요","juseyo","Bering, iltimos"]],
+ "Raqamlar":[["일","il","bir (1)"],["이","i","ikki (2)"],["삼","sam","uch (3)"],["사","sa","to'rt (4)"],["오","o","besh (5)"],["육","yuk","olti (6)"],["칠","chil","yetti (7)"],["팔","pal","sakkiz (8)"],["구","gu","to'qqiz (9)"],["십","sip","o'n (10)"]],
+ "Oila":[["어머니","eomeoni","ona"],["아버지","abeoji","ota"],["형","hyeong","aka (o'g'il bola aytadi)"],["누나","nuna","opa (o'g'il bola aytadi)"],["동생","dongsaeng","uka yoki singil"],["할머니","halmeoni","buvi"],["할아버지","harabeoji","bobo"],["친구","chingu","do'st"],["가족","gajok","oila"],["아이","ai","bola"]],
+ "Ovqat":[["물","mul","suv"],["밥","bap","pishgan guruch, ovqat"],["빵","ppang","non"],["고기","gogi","go'sht"],["사과","sagwa","olma"],["우유","uyu","sut"],["차","cha","choy"],["커피","keopi","qahva"],["김치","gimchi","kimchi"],["계란","gyeran","tuxum"]],
+ "Vaqt va joy":[["오늘","oneul","bugun"],["내일","naeil","ertaga"],["어제","eoje","kecha"],["지금","jigeum","hozir"],["학교","hakgyo","maktab"],["집","jip","uy"],["회사","hoesa","kompaniya, ishxona"],["시장","sijang","bozor"],["병원","byeongwon","shifoxona"],["한국","hanguk","Koreya"]],
+ "Fe'llar":[["가다","gada","bormoq"],["오다","oda","kelmoq"],["먹다","meokda","yemoq"],["마시다","masida","ichmoq"],["보다","boda","ko'rmoq"],["하다","hada","qilmoq"],["자다","jada","uxlamoq"],["읽다","ikda","o'qimoq"],["쓰다","sseuda","yozmoq"],["배우다","baeuda","o'rganmoq"],["일하다","ilhada","ishlamoq"],["사다","sada","sotib olmoq"]]
+};
+const PHRASES=[["이름이 뭐예요?","ireumi mwoyeyo?","Ismingiz nima?"],["저는 학생입니다.","jeoneun haksaengimnida","Men talabaman."],["어디에서 왔어요?","eodieseo wasseoyo?","Qayerdan keldingiz?"],["우즈베키스탄에서 왔어요.","ujeubekiseutaneseo wasseoyo","O'zbekistondan keldim."],["이거 얼마예요?","igeo eolmayeyo?","Bu qancha turadi?"],["화장실이 어디예요?","hwajangsiri eodiyeyo?","Hojatxona qayerda?"],["한국어를 공부해요.","hangugeoreul gongbuhaeyo","Koreys tilini o'rganyapman."],["다시 말해 주세요.","dasi malhae juseyo","Yana bir marta ayting, iltimos."],["잘 모르겠어요.","jal moreugesseoyo","Yaxshi tushunmadim."],["도와주세요.","dowajuseyo","Yordam bering."]];
+const GRAM=[
+ ["저는 학생___.","입니다",["입니다","을","에서","하고"],"«입니다» — «...man/...dir» ma'nosidagi rasmiy bog'lama."],
+ ["저는 물___ 마셔요.","을",["을","를","이","에"],"Tushum kelishigi: undosh bilan tugasa «을», unli bilan tugasa «를»."],
+ ["저는 커피___ 좋아해요.","를",["를","을","은","에서"],"«커피» unli bilan tugaydi, shuning uchun «를»."],
+ ["저는 학교___ 가요.","에",["에","을","가","하고"],"Yo'nalish bildirganda «에» qo'shiladi: maktabga."],
+ ["도서관___ 책을 읽어요.","에서",["에서","에","를","이"],"Ish-harakat sodir bo'ladigan joy «에서» bilan keladi: kutubxonada."],
+ ["친구___ 와요.","가",["가","이","을","에서"],"Ega qo'shimchasi: unlidan keyin «가», undoshdan keyin «이»."],
+ ["«가다» fe'lining hozirgi zamon (hurmat) shakli qaysi?","가요",["가요","갔어요","갈 거예요","가고"],"가다 → 가요 (boraman/boradi)."],
+ ["«먹다» fe'lining o'tgan zamon shakli qaysi?","먹었어요",["먹었어요","먹어요","먹을 거예요","먹고"],"O'tgan zamon: -았/었어요. 먹다 → 먹었어요 (yedim)."],
+ ["내일 한국에 ___.  (kelasi zamon)","갈 거예요",["갈 거예요","갔어요","가요","가고"],"Kelasi zamon: -(으)ㄹ 거예요. Ertaga Koreyaga boraman."],
+ ["사과 세 ___ 주세요.","개",["개","명","권","마리"],"«개» — narsalar uchun sanoq so'zi. 명 — odamlar, 권 — kitoblar, 마리 — hayvonlar uchun."]
+];
+const ALL=Object.values(TOPICS).flat();
+
+let S={xp:0,streak:0,last:"",known:{},seen:{},gram:0,quiz:0};
+try{const r=JSON.parse(localStorage.getItem("hm1")||"null");if(r)S=Object.assign(S,r)}catch(e){}
+const save=()=>{try{localStorage.setItem("hm1",JSON.stringify(S))}catch(e){}};
+const day=d=>d.toISOString().slice(0,10);
+function gain(n){
+  const t=day(new Date()),y=day(new Date(Date.now()-864e5));
+  if(S.last!==t){S.streak=S.last===y?S.streak+1:1;S.last=t}
+  S.xp+=n;save();drawXp();
+}
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function drawXp(){$("#xp").textContent=S.xp+" XP"}
+let tt;function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2600)}
+function speak(text){
+  try{
+    if(!("speechSynthesis" in window))return toast("Bu brauzerda ovoz chiqarish ishlamaydi");
+    const u=new SpeechSynthesisUtterance(text);u.lang="ko-KR";u.rate=.85;
+    const v=speechSynthesis.getVoices().find(v=>/^ko/i.test(v.lang));
+    if(v)u.voice=v; else if(speechSynthesis.getVoices().length)toast("Qurilmada koreys ovozi topilmadi");
+    speechSynthesis.cancel();speechSynthesis.speak(u);
+  }catch(e){toast("Ovozni chiqarib bo'lmadi")}
+}
+const ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>';
+const knownCount=()=>ALL.filter(w=>S.known[w[0]]).length;
+const seenCount=()=>CONS.concat(VOWS).filter(l=>S.seen[l[0]]).length;
+
+/* ---------- views ---------- */
+const V={};
+V.bosh=()=>`<section class="view">
+ <div class="hero">
+  <div class="txt">
+   <h1>Koreys tilini <em>noldan</em> o'rganing</h1>
+   <p class="lead">Alifbodan boshlab TOPIK I darajasidagi so'z va grammatikagacha. Har kuni 10 daqiqa: harf, so'z, ibora va qisqa test.</p>
+   <div class="row"><a class="btn" href="#${seenCount()<24?"alifbo":"sozlar"}">${S.xp?"Davom etish":"Boshlash"}</a><a class="btn ghost" href="#test">Bilimni tekshirish</a></div>
+  </div>
+  <div class="glyphs" aria-hidden="true"><span>한</span><span>글</span><small>HAN · GEUL</small></div>
+ </div>
+ <div class="stats">
+  <div class="stat"><b>${S.xp}</b><span>tajriba balli</span></div>
+  <div class="stat"><b>${S.streak} kun</b><span>ketma-ket mashg'ulot</span></div>
+  <div class="stat"><b>${knownCount()} / ${ALL.length}</b><span>o'rganilgan so'z</span></div>
+ </div>
+ <h2>O'quv yo'li</h2>
+ <ol class="path">
+  <li><a href="#alifbo"><span class="n">1</span><span class="t"><b>Alifbo</b><span>14 undosh va 10 unli harf, talaffuzi bilan</span></span><span class="p">${seenCount()} / 24</span></a></li>
+  <li><a href="#sozlar"><span class="n">2</span><span class="t"><b>So'zlar</b><span>6 mavzu bo'yicha kartochkalar</span></span><span class="p">${knownCount()} / ${ALL.length}</span></a></li>
+  <li><a href="#iboralar"><span class="n">3</span><span class="t"><b>Iboralar</b><span>Kundalik suhbat uchun tayyor gaplar</span></span><span class="p">${PHRASES.length} ta</span></a></li>
+  <li><a href="#grammatika"><span class="n">4</span><span class="t"><b>Grammatika</b><span>Qo'shimchalar va zamonlar, TOPIK I uslubida</span></span><span class="p">eng yaxshi: ${S.gram} / ${GRAM.length}</span></a></li>
+  <li><a href="#test"><span class="n">5</span><span class="t"><b>Test</b><span>10 savol, har to'g'ri javob uchun 10 XP</span></span><span class="p">eng yaxshi: ${S.quiz} / 10</span></a></li>
+ </ol>
+</section>`;
+
+const letterBtn=l=>`<button class="letter${S.seen[l[0]]?" seen":""}" data-say="${l[2]}" data-seen="${l[0]}"><i>${l[0]}</i><b>${l[1].split(" — ")[0]}</b><span>${l[1].includes(" — ")?esc(l[1].split(" — ")[1]):"«"+l[2]+"»"}</span></button>`;
+V.alifbo=()=>`<section class="view">
+ <h2>Koreys alifbosi — hangeul</h2>
+ <p class="lead">Harfni bosing: talaffuzini eshitasiz va u o'rganilgan deb belgilanadi. Harflar bo'g'in ichida yoziladi, masalan ㅎ + ㅏ + ㄴ = <span class="ko">한</span>.</p>
+ <div class="meta"><span>O'rganildi</span><span>${seenCount()} / 24</span></div>
+ <div class="bar"><i style="width:${seenCount()/24*100}%"></i></div>
+ <h3>Undoshlar</h3><div class="letters">${CONS.map(letterBtn).join("")}</div>
+ <h3>Unlilar</h3><div class="letters">${VOWS.map(letterBtn).join("")}</div>
+ <p class="note"><b>ㅇ</b> bo'g'in boshida o'qilmaydi, oxirida esa «ng» bo'lib eshitiladi: <span class="ko">아</span> — a, <span class="ko">강</span> — gang.</p>
+</section>`;
+
+let topic=Object.keys(TOPICS)[0],ci=0,flip=false;
+V.sozlar=()=>{const L=TOPICS[topic],w=L[ci%L.length],k=L.filter(x=>S.known[x[0]]).length;
+ return `<section class="view">
+ <h2>So'z kartochkalari</h2>
+ <div class="chips">${Object.keys(TOPICS).map(t=>`<button class="chip" data-topic="${esc(t)}" aria-pressed="${t===topic}">${esc(t)}</button>`).join("")}</div>
+ <div class="meta"><span>${ci%L.length+1} / ${L.length}</span><span>Bilaman: ${k} / ${L.length}</span></div>
+ <div class="bar"><i style="width:${k/L.length*100}%"></i></div>
+ <button class="card" data-flip aria-label="Kartochkani aylantirish">
+  <span class="big">${w[0]}</span><span class="rom">${w[1]}</span>
+  ${flip?`<span class="uz">${esc(w[2])}</span>`:`<span class="hint">Tarjimasini ko'rish uchun bosing</span>`}
+ </button>
+ <div class="row">
+  <button class="btn ghost" data-say="${w[0]}">${ICON.replace("<svg","<svg width='18' height='18' style='fill:currentColor'")} Eshitish</button>
+  <button class="btn ghost" data-next>Yana takrorlayman</button>
+  <button class="btn" data-know="${w[0]}">${S.known[w[0]]?"Bilaman ✓":"Bilaman"}</button>
+ </div>
+</section>`};
+
+V.iboralar=()=>`<section class="view">
+ <h2>Kundalik iboralar</h2>
+ <p class="lead">Hammasi hurmat shaklida, notanish odam bilan gaplashishga mos.</p>
+ <ul class="phr">${PHRASES.map(p=>`<li><div><div class="k">${p[0]}</div><div class="r">${p[1]}</div><div>${esc(p[2])}</div></div><button class="say" data-say="${p[0]}" aria-label="Eshitish">${ICON}</button></li>`).join("")}</ul>
+</section>`;
+
+/* quiz engine shared by Test and Grammatika */
+let Q=null;
+function newQuiz(kind){
+  let items;
+  if(kind==="gram") items=shuffle(GRAM).map(g=>({ask:"Bo'sh joyga mos javobni tanlang",word:g[0],ko:true,ans:g[1],opts:shuffle(g[2]),why:g[3]}));
+  else items=shuffle(ALL).slice(0,10).map(w=>{const rev=Math.random()<.4,pool=shuffle(ALL.filter(x=>x[2]!==w[2]&&x[0]!==w[0])).slice(0,3);
+    return rev?{ask:"Koreyscha qanday bo'ladi?",word:w[2],ko:false,ans:w[0],opts:shuffle([w,...pool].map(x=>x[0])),why:w[0]+" — "+w[1],optKo:true}
+              :{ask:"Tarjimasini toping",word:w[0],ko:true,say:w[0],ans:w[2],opts:shuffle([w,...pool].map(x=>x[2])),why:w[1]}});
+  Q={kind,items,i:0,score:0,picked:null};
+}
+function quizView(kind,title,intro){
+  if(!Q||Q.kind!==kind)newQuiz(kind);
+  const n=Q.items.length;
+  if(Q.i>=n){const best=kind==="gram"?"gram":"quiz";
+    return `<section class="view"><h2>${title}</h2><div class="q"><div class="word">${Q.score} / ${n}</div>
+    <p>${Q.score===n?"Hammasi to'g'ri. Barakalla!":Q.score>=n*.7?"Yaxshi natija. Xato qilgan joylaringizni yana bir ko'rib chiqing.":"Mavzuni takrorlab, yana urinib ko'ring."}</p>
+    <p class="muted">Eng yaxshi natijangiz: ${S[best]} / ${n} · +${Q.score*10} XP</p>
+    <div class="row"><button class="btn" data-restart="${kind}">Qaytadan</button><a class="btn ghost" href="#bosh">Bosh sahifa</a></div></div></section>`}
+  const it=Q.items[Q.i],done=Q.picked!==null;
+  return `<section class="view"><h2>${title}</h2><p class="lead">${intro}</p>
+  <div class="meta"><span>Savol ${Q.i+1} / ${n}</span><span>To'g'ri: ${Q.score}</span></div>
+  <div class="bar"><i style="width:${Q.i/n*100}%"></i></div>
+  <div class="q"><div class="ask">${it.ask}</div>
+   <div class="word${it.ko?" ko":""}">${esc(it.word)} ${it.say?`<button class="say" style="display:inline-grid;vertical-align:middle" data-say="${it.say}" aria-label="Eshitish">${ICON}</button>`:""}</div>
+   <div class="opts">${it.opts.map(o=>`<button class="opt${it.optKo||kind==="gram"?" ko":""}${done&&o===it.ans?" ok":""}${done&&o===Q.picked&&o!==it.ans?" bad":""}" data-pick="${esc(o)}"${done?" disabled":""}>${esc(o)}</button>`).join("")}</div>
+   <div class="fb ${done?(Q.picked===it.ans?"ok":"bad"):""}">${done?(Q.picked===it.ans?"To'g'ri. ":"Noto'g'ri. To'g'ri javob: "+esc(it.ans)+". ")+esc(it.why):""}</div>
+   <div class="row"><button class="btn" data-go ${done?"":"disabled"}>${Q.i+1===n?"Natijani ko'rish":"Keyingi savol"}</button></div>
+  </div></section>`;
+}
+V.test=()=>quizView("vocab","So'z testi","10 ta tasodifiy so'z. Har to'g'ri javob 10 XP beradi.");
+V.grammatika=()=>quizView("gram","Grammatika mashqi","TOPIK I uslubidagi savollar: qo'shimchalar, zamonlar va sanoq so'zlari. Har javobdan keyin qoida izohi chiqadi.");
+
+/* ---------- router & events ---------- */
+function route(){const h=(location.hash||"#bosh").slice(1);return V[h]?h:"bosh"}
+function render(keepScroll){
+  const r=route();
+  $("#app").innerHTML=V[r]();
+  document.querySelectorAll("#nav a").forEach(a=>{if(a.getAttribute("href")==="#"+r)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  if(!keepScroll)window.scrollTo(0,0);
+}
+addEventListener("hashchange",()=>{flip=false;render()});
+$("#app").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;const d=b.dataset;
+  if(d.say)speak(d.say);
+  if(d.seen){if(!S.seen[d.seen]){S.seen[d.seen]=1;gain(2)}b.classList.add("seen");render(true);return}
+  if(d.topic){topic=d.topic;ci=0;flip=false;render(true)}
+  else if("flip" in d){flip=!flip;render(true)}
+  else if("next" in d){ci++;flip=false;render(true)}
+  else if(d.know){if(!S.known[d.know]){S.known[d.know]=1;gain(5)}ci++;flip=false;render(true)}
+  else if(d.pick&&Q&&Q.picked===null){Q.picked=d.pick;if(d.pick===Q.items[Q.i].ans){Q.score++;gain(10)}render(true)}
+  else if("go" in d&&Q){Q.i++;Q.picked=null;
+    if(Q.i>=Q.items.length){const k=Q.kind==="gram"?"gram":"quiz";if(Q.score>S[k]){S[k]=Q.score;save()}}
+    render(true)}
+  else if(d.restart){newQuiz(d.restart);render(true)}
+});
+try{speechSynthesis.getVoices()}catch(e){}
+drawXp();render();
+</script>
