@@ -15,7 +15,7 @@ print("ok", (out / "index.html").stat().st_size)
 
 import json, hashlib
 (out / "manifest.webmanifest").write_text(json.dumps({
-    "name": "Hangeul Maktabi", "short_name": "Hangeul", "lang": "uz", "start_url": "./", "scope": "./",
+    "name": "Go Topic", "short_name": "Go Topic", "lang": "uz", "start_url": "./", "scope": "./",
     "display": "standalone", "orientation": "portrait", "background_color": "#0d1226", "theme_color": "#0d1226",
     "description": "Koreys tilini noldan TOPIK 5 gacha o'rganish",
     "icons": [{"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
