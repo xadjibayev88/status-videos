@@ -7,6 +7,7 @@ head = ('<!doctype html><html lang="uz"><head><meta charset="utf-8">'
         '<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0d1226">'
         '<link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">'
         '<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">'
+        '<script src="firebase-config.js"></script>'
         '<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>')
 out = pathlib.Path(sys.argv[1]); out.mkdir(parents=True, exist_ok=True)
 (out / "index.html").write_text(head + src + "</body></html>", encoding="utf-8")
@@ -29,3 +30,7 @@ self.addEventListener("fetch",e=>{const u=new URL(e.request.url);if(e.request.me
  e.respondWith(fetch(e.request).then(r=>{const cp=r.clone();caches.open(C).then(c=>c.put(e.request,cp));return r}).catch(()=>caches.match(e.request).then(r=>r||caches.match("./"))))});
 """ % ver, encoding="utf-8")
 print("pwa files written", ver)
+
+cfgf = out / "firebase-config.js"
+if not cfgf.exists():
+    cfgf.write_text("// Firebase loyihangiz sozlamasini shu yerga qo'ying (bu ochiq ma'lumot, maxfiy kalit emas).\n// Namuna: window.HM_FIREBASE={apiKey:\"...\",authDomain:\"...\",projectId:\"...\",appId:\"...\"};\nwindow.HM_FIREBASE=null;\n", encoding="utf-8")
