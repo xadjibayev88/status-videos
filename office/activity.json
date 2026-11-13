@@ -1,5 +1,40 @@
 [
  {
+  "agent": "data-analyst",
+  "text": "kanal statistikasini yig'di",
+  "when": "13.11 03:26"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "12.11 21:42"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "12.11 19:23"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "12.11 18:35"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "12.11 17:19"
+ },
+ {
+  "agent": "social-publishing-publisher",
+  "text": "YouTube/Instagram'ga video joyladi",
+  "when": "12.11 14:18"
+ },
+ {
+  "agent": "frontend-dev",
+  "text": "3D ofisni yangiladi",
+  "when": "12.11 07:53"
+ },
+ {
   "agent": "chief-of-staff",
   "text": "xotiraga yangi qoida yozdi",
   "when": "12.11 07:44"
@@ -113,40 +148,5 @@
   "agent": "social-publishing-publisher",
   "text": "YouTube/Instagram'ga video joyladi",
   "when": "10.11 19:12"
- },
- {
-  "agent": "social-media-manager",
-  "text": "Telegram kanaliga post joyladi",
-  "when": "10.11 18:51"
- },
- {
-  "agent": "social-publishing-publisher",
-  "text": "YouTube/Instagram'ga video joyladi",
-  "when": "10.11 18:18"
- },
- {
-  "agent": "backend-dev",
-  "text": "xatoni tuzatdi",
-  "when": "10.11 17:57"
- },
- {
-  "agent": "engineering-lead",
-  "text": "yangi imkoniyat qo'shdi",
-  "when": "10.11 17:56"
- },
- {
-  "agent": "engineering-lead",
-  "text": "yangi imkoniyat qo'shdi",
-  "when": "10.11 17:47"
- },
- {
-  "agent": "engineering-lead",
-  "text": "yangi imkoniyat qo'shdi",
-  "when": "10.11 17:44"
- },
- {
-  "agent": "social-media-manager",
-  "text": "Telegram kanaliga post joyladi",
-  "when": "10.11 17:42"
  }
 ]
