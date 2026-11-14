@@ -97,8 +97,8 @@ export class World {
     for (let x = -30; x <= 30; x += 10) {
       const t = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.2, 2.2, 8), toon("#6b4a32")); t.position.set(x + 4, 1.1, 12.2); r.add(t);
       const c = new THREE.Mesh(new THREE.IcosahedronGeometry(1.3, 1), toon("#5f9a45")); c.position.set(x + 4, 3.1, 12.2); r.add(c);
-      const lp = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.09, 3.4, 8), toon("#2e3440")); lp.position.set(x - 1, 1.7, 2.9); r.add(lp);
-      const lh = new THREE.Mesh(new THREE.SphereGeometry(0.22, 12, 8), toon("#fff3c4")); lh.position.set(x - 1, 3.5, 2.9); r.add(lh);
+      const lp = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.09, 3.4, 8), toon("#2e3440")); lp.position.set(x - 1, 1.7, 0.55); r.add(lp);
+      const lh = new THREE.Mesh(new THREE.SphereGeometry(0.22, 12, 8), toon("#fff3c4")); lh.position.set(x - 1, 3.5, 0.55); r.add(lh);
     }
     // the table, cushion, rock, box, manual
     const top = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.08, 0.85), toon("#a5683c")); top.position.set(TABLE[0], TABLE[1] - 0.04, TABLE[2]); r.add(top);
