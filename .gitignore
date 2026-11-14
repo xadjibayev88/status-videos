@@ -17,3 +17,4 @@ office/events.jsonl
 .swarm/
 .claude/proven-config.json
 .claude/.proven-config-version
+tools/external/*/
