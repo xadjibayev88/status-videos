@@ -1,0 +1,36 @@
+name: Ovoz yaratish (Edge TTS, o'zbekcha)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "voices/**/script.txt"
+      - "voices/**/voice.json"
+      - "tools/voice/**"
+      - ".github/workflows/voice.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: voice-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  voice:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install edge-tts==7.2.8
+      - run: python tools/voice/make_voice.py voices
+      - name: Commit voices
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add voices
+          git diff --cached --quiet && exit 0
+          git commit -m "voice: generated audio and word timings"
+          git push
