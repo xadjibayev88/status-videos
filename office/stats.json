@@ -1,17 +1,53 @@
 {
- "fetched_at": "2026-11-12T22:26:16+00:00",
+ "fetched_at": "2026-11-17T00:28:20+00:00",
  "channels": {
   "bilarmidingiz": {
    "subscribers": 6,
-   "views": 4419,
-   "videos": 43,
+   "views": 4544,
+   "videos": 47,
    "recent": [
+    {
+     "id": "jrKrt9PNz9M",
+     "title": "Ochiq kosmosda 10 kun bo'lib, tirik qaytgan hayvon qaysi? #shorts",
+     "published": "2026-11-16T13:15:02Z",
+     "duration": "PT19S",
+     "views": 4,
+     "likes": 0,
+     "comments": 0
+    },
+    {
+     "id": "7fZXuu3ZLZs",
+     "title": "Markaziy Osiyodagi ilk metro 1977 yilda Toshkentda ochilgan #shorts",
+     "published": "2026-11-15T13:49:58Z",
+     "duration": "PT19S",
+     "views": 10,
+     "likes": 0,
+     "comments": 0
+    },
+    {
+     "id": "RxSANKcYBNM",
+     "title": "30 metrgacha yetadigan, dinozavrdan og'ir bu hayvon qaysi? #shorts",
+     "published": "2026-11-15T13:27:19Z",
+     "duration": "PT19S",
+     "views": 5,
+     "likes": 0,
+     "comments": 0
+    },
+    {
+     "id": "CyIFBKmLrus",
+     "title": "8849 metrli Everest okean tubiga sig'adimi? #shorts",
+     "published": "2026-11-13T13:02:36Z",
+     "duration": "PT19S",
+     "views": 16,
+     "likes": 0,
+     "comments": 0
+    },
     {
      "id": "jUbuSPXZ_70",
      "title": "Chaqaloq taxminan 270 ta suyak bilan tug'iladi #shorts",
      "published": "2026-11-12T13:35:29Z",
      "duration": "PT17S",
-     "views": 1,
+     "views": 22,
      "likes": 0,
      "comments": 0
     },
@@ -20,8 +56,8 @@
      "title": "Bir choy qoshiq neytron yulduz taxminan 1 milliard tonna #shorts",
      "published": "2026-11-11T12:36:44Z",
      "duration": "PT15S",
-     "views": 0,
-     "likes": 0,
+     "views": 4,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -38,7 +74,7 @@
      "title": "Oydagi krater farg'onalik olim nomi bilan atalgan #shorts",
      "published": "2026-11-09T13:41:48Z",
      "duration": "PT15S",
-     "views": 1,
+     "views": 6,
      "likes": 0,
      "comments": 0
     },
@@ -47,7 +83,7 @@
      "title": "Beruniy Yer radiusini 1 foizdan kam xato bilan topgan #shorts",
      "published": "2026-11-08T11:46:00Z",
      "duration": "PT13S",
-     "views": 23,
+     "views": 36,
      "likes": 1,
      "comments": 0
     },
@@ -56,7 +92,7 @@
      "title": "Kosmosdan qaytgan astronavt yurishni qayta o'rganadi #shorts",
      "published": "2026-11-07T16:47:32Z",
      "duration": "PT15S",
-     "views": 3,
+     "views": 13,
      "likes": 0,
      "comments": 0
     },
@@ -65,7 +101,7 @@
      "title": "Chuqur dengizda qizil hayvonlar qoramtir ko'rinadi #shorts",
      "published": "2026-11-07T04:48:44Z",
      "duration": "PT14S",
-     "views": 42,
+     "views": 54,
      "likes": 0,
      "comments": 0
     },
@@ -74,7 +110,7 @@
      "title": "Orol dengizi dunyodagi 4-katta ko'l bo'lgan #shorts",
      "published": "2026-11-05T18:30:01Z",
      "duration": "PT14S",
-     "views": 24,
+     "views": 34,
      "likes": 1,
      "comments": 0
     },
@@ -92,7 +128,7 @@
      "title": "Tuya o'rkachida suv emas, yog' saqlanadi #shorts",
      "published": "2026-11-03T18:12:50Z",
      "duration": "PT12S",
-     "views": 61,
+     "views": 73,
      "likes": 0,
      "comments": 0
     },
@@ -200,7 +236,7 @@
      "title": "Okean SUYIDAGI Qora Tog' Emasmi? #shorts",
      "published": "2026-10-29T18:40:07Z",
      "duration": "PT23S",
-     "views": 26,
+     "views": 27,
      "likes": 0,
      "comments": 0
     },
@@ -254,7 +290,7 @@
      "title": "Qizil qalampirda 127 mg C vitamini – sog'liq uchun ajoyib! #shorts",
      "published": "2026-10-28T14:15:17Z",
      "duration": "PT26S",
-     "views": 16,
+     "views": 17,
      "likes": 2,
      "comments": 0
     },
@@ -290,7 +326,7 @@
      "title": "Meduza qanday qilib YOSHLANISHi mumkin? #shorts",
      "published": "2026-10-27T13:31:40Z",
      "duration": "PT27S",
-     "views": 1562,
+     "views": 1568,
      "likes": 15,
      "comments": 0
     },
@@ -371,7 +407,7 @@
      "title": "Mariana chuqurligida 1,100 bar bosim – hayratlanarli haqiqat #shorts",
      "published": "2026-10-26T10:05:04Z",
      "duration": "PT40S",
-     "views": 1812,
+     "views": 1814,
      "likes": 8,
      "comments": 0
     },
@@ -396,17 +432,98 @@
    ]
   },
   "apex_wealths": {
-   "subscribers": 8,
-   "views": 8820,
-   "videos": 36,
+   "subscribers": 9,
+   "views": 11293,
+   "videos": 45,
    "recent": [
+    {
+     "id": "Cs9wGEfuYR8",
+     "title": "538 dollar bilan boshlangan ishning birinchi yirik #shorts",
+     "published": "2026-11-16T17:34:53Z",
+     "duration": "PT29S",
+     "views": 1,
+     "likes": 0,
+     "comments": 0
+    },
+    {
+     "id": "D6AG6YV-CFk",
+     "title": "42 km yalangoyoq yugurib oltin olgan sportchi kim? #shorts",
+     "published": "2026-11-16T12:13:47Z",
+     "duration": "PT28S",
+     "views": 2,
+     "likes": 0,
+     "comments": 0
+    },
+    {
+     "id": "7pHtCBMOKDE",
+     "title": "Buffett har kuni 500 bet o'qiydi – bu nima uchun? #shorts",
+     "published": "2026-11-15T15:03:06Z",
+     "duration": "PT25S",
+     "views": 2,
+     "likes": 0,
+     "comments": 0
+    },
+    {
+     "id": "MfeNC7Rk1AY",
+     "title": "Duradgorning yog'och o'yinchoqlari nimaga aylandi? #shorts",
+     "published": "2026-11-15T13:44:08Z",
+     "duration": "PT29S",
+     "views": 3,
+     "likes": 0,
+     "comments": 0
+    },
+    {
+     "id": "reHgqlyHkDY",
+     "title": "Raketasi 3 marta orbitaga chiqmagan kompaniya nima qildi? #shorts",
+     "published": "2026-11-15T13:20:14Z",
+     "duration": "PT28S",
+     "views": 2,
+     "likes": 0,
+     "comments": 0
+    },
+    {
+     "id": "1MUfcTHSQfQ",
+     "title": "Birinchi yili atigi 51 ta ustara sotgan kompaniya #shorts",
+     "published": "2026-11-15T10:25:21Z",
+     "duration": "PT50S",
+     "views": 4,
+     "likes": 1,
+     "comments": 0
+    },
+    {
+     "id": "y-y03Kof9TY",
+     "title": "1,5 million tosh sotgan odam hikoyasi #qiziqarli #biznes #shorts",
+     "published": "2026-11-15T05:52:09Z",
+     "duration": "PT47S",
+     "views": 16,
+     "likes": 2,
+     "comments": 0
+    },
+    {
+     "id": "HZXQ03r3ej0",
+     "title": "Bu kompaniya 1889 yilda qog'oz o'yin kartalari yasagan... #shorts",
+     "published": "2026-11-13T15:57:47Z",
+     "duration": "PT27S",
+     "views": 4,
+     "likes": 1,
+     "comments": 0
+    },
+    {
+     "id": "ALm0tuq1OfI",
+     "title": "Masayoshi Son 2000 yilda Alibaba'ga 20 million dollar tikkan #shorts",
+     "published": "2026-11-13T11:59:13Z",
+     "duration": "PT25S",
+     "views": 13,
+     "likes": 1,
+     "comments": 0
+    },
     {
      "id": "U4VaY4TXqqs",
      "title": "Ronald Ueyn Apple ulushini 1976 yilda 800 dollarga sotgan #shorts",
      "published": "2026-11-12T16:41:32Z",
      "duration": "PT25S",
-     "views": 107,
-     "likes": 1,
+     "views": 779,
+     "likes": 5,
      "comments": 0
     },
     {
@@ -414,8 +531,8 @@
      "title": "1 million dollarlik aksiya evaziga nimani ko'rsatishgan? #shorts",
      "published": "2026-11-12T12:19:16Z",
      "duration": "PT27S",
-     "views": 5,
-     "likes": 0,
+     "views": 12,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -423,8 +540,8 @@
      "title": "1 million dollarga ham olinmagan sayt... #shorts",
      "published": "2026-11-11T11:51:39Z",
      "duration": "PT24S",
-     "views": 2289,
-     "likes": 8,
+     "views": 3098,
+     "likes": 10,
      "comments": 0
     },
     {
@@ -432,8 +549,8 @@
      "title": "1997 yil: Microsoft Apple'ga 150 million dollar kiritdi #shorts",
      "published": "2026-11-10T16:03:39Z",
      "duration": "PT23S",
-     "views": 2,
-     "likes": 0,
+     "views": 3,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -441,8 +558,8 @@
      "title": "2012 yil: 13 xodimli Instagram 1 milliard dollarga sotildi #shorts",
      "published": "2026-11-10T12:11:40Z",
      "duration": "PT21S",
-     "views": 2,
-     "likes": 0,
+     "views": 10,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -450,8 +567,8 @@
      "title": "2000 yil: Blockbuster Netflix'ni 50 million dollarga olmadi #shorts",
      "published": "2026-11-09T18:06:10Z",
      "duration": "PT26S",
-     "views": 3,
-     "likes": 0,
+     "views": 5,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -459,8 +576,8 @@
      "title": "Post-it yelimi 1968 yilda muvaffaqiyatsiz tajriba edi #shorts",
      "published": "2026-11-09T12:29:55Z",
      "duration": "PT28S",
-     "views": 1,
-     "likes": 0,
+     "views": 2,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -468,8 +585,8 @@
      "title": "Disney 1928 yilda Osvaldni yo'qotib, Mikki Mausni yaratgan #shorts",
      "published": "2026-11-08T18:51:42Z",
      "duration": "PT22S",
-     "views": 69,
-     "likes": 0,
+     "views": 72,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -478,7 +595,7 @@
      "published": "2026-11-08T17:49:43Z",
      "duration": "PT24S",
      "views": 4,
-     "likes": 0,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -486,8 +603,8 @@
      "title": "Julia Child birinchi kitobini 49 yoshida chiqargan #shorts",
      "published": "2026-11-08T16:47:33Z",
      "duration": "PT22S",
-     "views": 235,
-     "likes": 0,
+     "views": 237,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -495,8 +612,8 @@
      "title": "Fleming 1928 yilda penitsillinni bitta idishda payqagan #shorts",
      "published": "2026-11-08T14:52:10Z",
      "duration": "PT26S",
-     "views": 9,
-     "likes": 0,
+     "views": 13,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -504,8 +621,8 @@
      "title": "Ford 1914 yilda Model T shassisini 93 daqiqada yig'gan #shorts",
      "published": "2026-11-08T13:58:41Z",
      "duration": "PT21S",
-     "views": 2,
-     "likes": 0,
+     "views": 3,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -513,8 +630,8 @@
      "title": "Coca-Cola 1886 yilda kuniga o'rtacha 9 stakan sotilgan #shorts",
      "published": "2026-11-08T11:02:01Z",
      "duration": "PT24S",
-     "views": 7,
-     "likes": 1,
+     "views": 11,
+     "likes": 2,
      "comments": 0
     },
     {
@@ -522,8 +639,8 @@
      "title": "2008 yil: Airbnb asoschilari nonushta yormasi sotgan #shorts",
      "published": "2026-11-07T16:18:58Z",
      "duration": "PT21S",
-     "views": 1,
-     "likes": 0,
+     "views": 3,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -531,8 +648,8 @@
      "title": "Murakkab foizni tushun: 1% haftalik vs kunlik #shorts",
      "published": "2026-11-06T20:27:54Z",
      "duration": "PT23S",
-     "views": 8,
-     "likes": 0,
+     "views": 15,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -540,8 +657,8 @@
      "title": "Biznesni Sinash va Rejalashtirish O'rtasidagi Farq #shorts",
      "published": "2026-11-06T17:19:28Z",
      "duration": "PT22S",
-     "views": 8,
-     "likes": 0,
+     "views": 10,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -550,7 +667,7 @@
      "published": "2026-11-05T21:08:28Z",
      "duration": "PT19S",
      "views": 4,
-     "likes": 0,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -558,8 +675,8 @@
      "title": "Telefon qaramligidan qutulish uchun bitta oddiy qadam #shorts",
      "published": "2026-11-05T17:58:42Z",
      "duration": "PT20S",
-     "views": 36,
-     "likes": 0,
+     "views": 45,
+     "likes": 2,
      "comments": 0
     },
     {
@@ -567,8 +684,8 @@
      "title": "To'qqiz ming ta xato va buyuk muvaffaqiyat #shorts",
      "published": "2026-11-05T12:17:21Z",
      "duration": "PT19S",
-     "views": 3,
-     "likes": 0,
+     "views": 4,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -577,7 +694,7 @@
      "published": "2026-11-05T12:07:36Z",
      "duration": "PT25S",
      "views": 7,
-     "likes": 1,
+     "likes": 2,
      "comments": 0
     },
     {
@@ -586,7 +703,7 @@
      "published": "2026-11-04T20:49:33Z",
      "duration": "PT16S",
      "views": 1,
-     "likes": 0,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -594,8 +711,8 @@
      "title": "Biznesdagi eng katta xato: ikkilanib turish #shorts",
      "published": "2026-11-04T06:06:24Z",
      "duration": "PT19S",
-     "views": 1,
-     "likes": 0,
+     "views": 2,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -604,7 +721,7 @@
      "published": "2026-11-03T20:33:46Z",
      "duration": "PT18S",
      "views": 15,
-     "likes": 0,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -613,7 +730,7 @@
      "published": "2026-11-03T17:43:41Z",
      "duration": "PT21S",
      "views": 11,
-     "likes": 0,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -621,8 +738,8 @@
      "title": "1943 yil: 17 yoshli Kamprad Ikea kompaniyasini ochgan #shorts",
      "published": "2026-11-02T22:49:49Z",
      "duration": "PT24S",
-     "views": 3,
-     "likes": 0,
+     "views": 4,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -630,8 +747,8 @@
      "title": "1954 yil: Bannister 4 daqiqa to'sig'ini buzgan #shorts",
      "published": "2026-11-02T20:12:11Z",
      "duration": "PT21S",
-     "views": 1,
-     "likes": 0,
+     "views": 2,
+     "likes": 1,
      "comments": 0
     },
     {
@@ -639,7 +756,7 @@
      "title": "Dayson 5127 ta prototip yasaganini aytgan #shorts",
      "published": "2026-11-01T18:54:34Z",
      "duration": "PT22S",
-     "views": 1969,
+     "views": 1970,
      "likes": 10,
      "comments": 0
     },
@@ -657,7 +774,7 @@
      "title": "Baffet 11 yoshida xato qilgan: 38 dollarlik saboq #shorts",
      "published": "2026-11-01T11:17:41Z",
      "duration": "PT26S",
-     "views": 5,
+     "views": 3,
      "likes": 1,
      "comments": 0
     },
@@ -666,7 +783,7 @@
      "title": "Ikki daqiqa qoidasi: kichik ishlar to'planmasin #shorts",
      "published": "2026-10-31T18:02:21Z",
      "duration": "PT25S",
-     "views": 13,
+     "views": 15,
      "likes": 1,
      "comments": 0
     },
@@ -675,7 +792,7 @@
      "title": "80/20 qoidasi: oz ishdan katta natija #shorts",
      "published": "2026-10-31T13:13:10Z",
      "duration": "PT29S",
-     "views": 10,
+     "views": 9,
      "likes": 1,
      "comments": 0
     },
@@ -693,7 +810,7 @@
      "title": "U olov shari ichida edi... va baribir qaytib keldi #shorts",
      "published": "2026-10-28T08:38:02Z",
      "duration": "PT39S",
-     "views": 1327,
+     "views": 1330,
      "likes": 8,
      "comments": 0
     },
@@ -711,7 +828,7 @@
      "title": "Qo'rqishimiz kerak bo'lgan yagona narsa - qo'rquvning o'zi #shorts",
      "published": "2026-10-27T09:26:13Z",
      "duration": "PT36S",
-     "views": 1467,
+     "views": 1469,
      "likes": 11,
      "comments": 0
     },
@@ -720,7 +837,7 @@
      "title": "Hamma \"imkonsiz\" degan va'da 7 yil o'tib tarixga aylandi #shorts",
      "published": "2026-10-27T09:22:51Z",
      "duration": "PT24S",
-     "views": 1689,
+     "views": 1692,
      "likes": 19,
      "comments": 0
     }
