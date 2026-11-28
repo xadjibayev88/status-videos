@@ -27,7 +27,7 @@
       "Edit(brain/**)",
       "WebSearch",
       "WebFetch",
-      "mcp__memory",
+      "mcp__brain",
       "Bash(python3 office/build.py:*)",
       "Bash(python3 office/serve.py:*)",
       "Edit(office/agents.json)"

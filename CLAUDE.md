@@ -24,7 +24,7 @@ Active skills: `cartoon-reel` (2D cartoon reels), `ffmpeg-skill`, `humanizer` (e
 - **apex-signal-bot** (owner's phone, Termux): signal dry-run bot + channel copier with ad filter.
 
 ## The shared brain
-`brain/memory.jsonl` (memory MCP): entities **"Company"** and **"Brand rules"**. Read them before content work; save the owner's stated preferences there right away.
+`brain/memory.jsonl` (MCP server "brain"): entities **"Company"** and **"Brand rules"**. Read them before content work; save the owner's stated preferences there right away.
 
 ## Folders
 `inbox/` raw clips · `out/<name>/` finished video work · `done/` edited raw clips · `work/<team>/<task>/` other deliverables · `tools/` video tools · `office/` the 2D/3D office page (`python3 office/build.py`).
